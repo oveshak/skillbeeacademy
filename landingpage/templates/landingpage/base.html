@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ theme.title }}</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Apply dynamic CSS -->
+    {% if theme.css_code %}
+        <style>
+            {{ theme.css_code|safe }}
+        </style>
+    {% endif %}
+</head>
+<body>
+    <!-- Dynamic Content -->
+    <div>
+        {{ theme.body_content|safe }}
+    </div>
+
+    <!-- Dynamic JS -->
+    <!-- WhatsApp Float Button -->
+    <a href="https://wa.me/+8801771231477" class="whatsapp-float">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/WhatsApp.svg/100px-WhatsApp.svg.png" alt="WhatsApp">
+    </a>
+
+    <script>
+        // Fake order notification system
+        const notifications = [
+    {
+        name: "মনির নীলফামারী",
+        location: "নীলফামারী সদর",
+        time: "২ মিনিট আগে"
+    },
+    {
+        name: "রাজু ঢাকা",
+        location: "মিরপুর-১০",
+        time: "৫ মিনিট আগে"
+    },
+    {
+        name: "কামাল খুলনা",
+        location: "দৌলতপুর",
+        time: "৮ মিনিট আগে"
+    },
+    {
+        name: "শাহীন চট্টগ্রাম",
+        location: "চান্দগাঁও",
+        time: "১০ মিনিট আগে"
+    },
+    {
+        name: "মিতু সিলেট",
+        location: "জিন্দাবাজার",
+        time: "১২ মিনিট আগে"
+    },
+    {
+        name: "জুবায়ের বরিশাল",
+        location: "নাটোরপাড়া",
+        time: "১৫ মিনিট আগে"
+    },
+    {
+        name: "শফিক রাজশাহী",
+        location: "বনগ্রাম",
+        time: "২০ মিনিট আগে"
+    },
+    {
+        name: "তৌহিদ রংপুর",
+        location: "পায়রা চত্বর",
+        time: "২৫ মিনিট আগে"
+    },
+    {
+        name: "আলম নারায়ণগঞ্জ",
+        location: "শহর রেলগেট",
+        time: "৩০ মিনিট আগে"
+    }
+];
+
+        function showNotification(notification) {
+            const notificationElement = document.createElement('div');
+            notificationElement.className = 'notification';
+            notificationElement.innerHTML = `
+                <img src="https://images.unsplash.com/photo-1485955900006-10f4d324d411?auto=format&fit=crop&w=100" alt="Plant">
+                <div class="notification-content">
+                    <p class="mb-1"><strong>${notification.name}</strong> থেকে ইনসুলিন প্লান্ট গাছটি কিনেছেন।</p>
+                    <small class="text-muted">${notification.time}</small>
+                </div>
+                <button class="close-btn" onclick="this.parentElement.remove()">✕</button>
+            `;
+            document.body.appendChild(notificationElement);
+
+            setTimeout(() => {
+                notificationElement.remove();
+            }, 5000);
+        }
+
+        function showRandomNotification() {
+            const randomIndex = Math.floor(Math.random() * notifications.length);
+            showNotification(notifications[randomIndex]);
+            
+            // Schedule next notification
+            const nextTimeout = Math.random() * (30000 - 15000) + 15000; // Between 15-30 seconds
+            setTimeout(showRandomNotification, nextTimeout);
+        }
+
+        // Start showing notifications after page load
+        setTimeout(showRandomNotification, 3000);
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+  // Set the countdown target date and time
+  const targetDate = new Date("2025-02-05T00:00:00").getTime();
+
+  // Countdown function
+  function updateCountdown() {
+    const now = new Date().getTime();
+    const difference = targetDate - now;
+
+    // Calculate days, hours, minutes, and seconds
+    const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+
+    // Update the countdown display
+    document.getElementById("days").innerText = String(days).padStart(2, '0');
+    document.getElementById("hours").innerText = String(hours).padStart(2, '0');
+    document.getElementById("minutes").innerText = String(minutes).padStart(2, '0');
+    document.getElementById("seconds").innerText = String(seconds).padStart(2, '0');
+
+    // If the countdown is complete, show a message
+    if (difference <= 0) {
+      clearInterval(countdownInterval);
+      document.querySelector(".timer").innerHTML = "Offer expired!";
+    }
+  }
+
+  // Update the countdown every second
+  const countdownInterval = setInterval(updateCountdown, 1000);
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const paymentMethods = document.querySelectorAll('input[name="payment_method"]');
+        const checkoutButton = document.getElementById('checkout-btn');
+
+        // Function to update button text
+        const updateButtonText = () => {
+            const selectedPaymentMethod = document.querySelector('input[name="payment_method"]:checked');
+            if (selectedPaymentMethod) {
+                if (selectedPaymentMethod.value === 'advance_delivery_charge') {
+                    checkoutButton.textContent = 'অগ্রিম ডেলিভারি(Steadfast) চার্জ দিয়ে কিনুন {{extra_charges_total}}';
+                } else if (selectedPaymentMethod.value === 'advance_full_payment') {
+                    checkoutButton.textContent = 'সম্পূর্ণ পেমেন্ট দিয়ে কিনুন';
+                }
+                else if (selectedPaymentMethod.value === 'cash_on_delivery') {
+                    checkoutButton.textContent = 'এখনই কিনুন';
+                }
+            }
+        };
+
+        // Add event listeners to all radio buttons
+        paymentMethods.forEach((radio) => {
+            radio.addEventListener('change', updateButtonText);
+        });
+
+        // Initialize button text on page load
+        updateButtonText();
+    });
+</script>
+<script>
+    fetch("/facebook-conversion-api/", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            event_name: "TEST87806",
+            
+        }),
+    }).then(response => response.json())
+      .then(data => console.log("Meta Conversion API Response:", data));
+</script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+    const productRadios = document.querySelectorAll(".product-radio");
+    const subtotalElement = document.getElementById("subtotal");
+    const grandTotalElement = document.getElementById("grand-total");
+    const checkoutTotalElement = document.getElementById("checkout-total");
+    const purchaseProductNameElement = document.getElementById("purchase-product-name");
+    const purchaseProductPriceElement = document.getElementById("purchase-product-subtotal");
+    
+
+    // Function to update totals and selected product details
+    function updateTotal() {
+        let selectedProduct = document.querySelector(".product-radio:checked");
+
+        if (!selectedProduct) {
+            console.log("No product selected!"); // Debugging
+            return;
+        }
+
+        // Extract product details
+        let productPrice = parseFloat(selectedProduct.getAttribute("data-price")) || 0;
+        let productName = selectedProduct.getAttribute("data-name") || "Unknown";
+        let productQuantity = selectedProduct.getAttribute("data-quantity") || "N/A";
+
+        console.log("Updating: ", productName, productQuantity, productPrice); // Debugging
+
+        // Calculate extra charges
+        let extraCharges = 0;
+        document.querySelectorAll(".extra-charge").forEach(charge => {
+            extraCharges += parseFloat(charge.getAttribute("data-charge-amount")) || 0;
+        });
+
+        // Calculate the total
+        let total = productPrice + extraCharges;
+        
+        // Update the selected product name and quantity in the purchase section
+        purchaseProductNameElement.textContent = `${productName} × ${productQuantity}`;
+        purchaseProductPriceElement.textContent = `${productPrice}`;
+        // Update subtotal, grand total, and checkout total
+        subtotalElement.textContent = productPrice + "৳";
+        grandTotalElement.textContent = total + "৳";
+        checkoutTotalElement.textContent = total + "৳";
+
+        
+
+    }
+
+    // Attach event listeners to all product radios
+    productRadios.forEach(radio => {
+        radio.addEventListener("change", updateTotal);
+    });
+
+    // Call updateTotal on page load to display the initially selected product
+    updateTotal();
+});
+</script>
+    {% if theme.js_code %}
+        
+            {{ theme.js_code|safe }}
+        
+    {% endif %}
+    
+</body>
+</html>

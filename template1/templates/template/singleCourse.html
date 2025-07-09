@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+    {% load static %}
+    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learning Platform</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/alpinejs/3.12.0/cdn.min.js" defer></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+<link rel="stylesheet" href="{% static 'template/assets/css/headerfooter.css' %}">
+<script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'keeron-blue': '#0A2044',
+            'keeron-green': '#10B981',
+            'custom-green': '#00b246',
+            'custom-blue': '#0a2540'
+          }
+        }
+      }
+    }
+</script>
+
+<style>
+    .profile-banner {
+        background: linear-gradient(90deg, #0e4686 0%, #1976d2 100%);
+    }
+    
+    /* Responsive iframe container */
+    .responsive-iframe-container {
+        position: relative;
+        overflow: hidden;
+        padding-top: 56.25%; /* 16:9 Aspect Ratio */
+        width: 100%;
+    }
+    
+    .responsive-iframe-container iframe {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border: 0;
+    }
+</style>
+  
+</head>
+<body class="bg-white text-gray-800" x-data="{ 
+    activeModule: null,
+    activeLesson: null,
+    activeMilestone: null,
+    videoVisible: true,
+    isMobileMenuOpen: false,
+    contentOrder: [],
+    currentIndex: 0,
+    
+    // Improved method to stop all videos
+    stopAllVideos() {
+        // Find all video iframes on the page
+        const videoIframes = document.querySelectorAll('.responsive-iframe-container iframe');
+        
+        videoIframes.forEach(iframe => {
+            const currentSrc = iframe.src;
+            if (currentSrc && currentSrc.trim() !== '') {
+                // Set src to empty string to stop the video
+                iframe.src = '';
+                
+                // Restore the source after a brief delay
+                setTimeout(() => {
+                    iframe.src = currentSrc;
+                }, 50);
+            }
+        });
+    },
+    
+    // Navigation methods
+    goToNextContent() {
+        if (this.currentIndex < this.contentOrder.length - 1) {
+            // Stop all videos first
+            this.stopAllVideos();
+            
+            // Turn off video visibility before switching
+            this.videoVisible = false;
+            
+            // Update index
+            this.currentIndex++;
+            
+            // Set new active content
+            const nextContent = this.contentOrder[this.currentIndex];
+            this.activeLesson = nextContent.contentId;
+            this.activeModule = nextContent.moduleId;
+            this.activeMilestone = nextContent.milestoneId;
+            
+            // Re-enable video after a brief delay
+            setTimeout(() => {
+                this.videoVisible = true;
+            }, 300);
+        }
+    },
+    
+    goToPrevContent() {
+        if (this.currentIndex > 0) {
+            // Stop all videos first
+            this.stopAllVideos();
+            
+            // Turn off video visibility before switching
+            this.videoVisible = false;
+            
+            // Update index
+            this.currentIndex--;
+            
+            // Set new active content
+            const prevContent = this.contentOrder[this.currentIndex];
+            this.activeLesson = prevContent.contentId;
+            this.activeModule = prevContent.moduleId;
+            this.activeMilestone = prevContent.milestoneId;
+            
+            // Re-enable video after a brief delay
+            setTimeout(() => {
+                this.videoVisible = true;
+            }, 300);
+        }
+    },
+    
+    setActiveContent(contentId, moduleId, milestoneId) {
+        // Stop all videos first
+        this.stopAllVideos();
+        
+        // Turn off video visibility before switching
+        this.videoVisible = false;
+        
+        // Set new active content
+        this.activeLesson = contentId;
+        this.activeModule = moduleId;
+        this.activeMilestone = milestoneId;
+        
+        // Find the index of this content in our ordered list
+        for (let i = 0; i < this.contentOrder.length; i++) {
+            if (this.contentOrder[i].contentId === contentId) {
+                this.currentIndex = i;
+                break;
+            }
+        }
+        
+        // Re-enable video after a brief delay
+        setTimeout(() => {
+            this.videoVisible = true;
+        }, 300);
+    },
+    
+    toggleMilestone(milestoneId) {
+        // Stop all videos when toggling milestones
+        this.stopAllVideos();
+        this.activeMilestone = this.activeMilestone === milestoneId ? null : milestoneId;
+    },
+    
+    toggleModule(moduleId) {
+        // Stop all videos when toggling modules
+        this.stopAllVideos();
+        this.activeModule = this.activeModule === moduleId ? null : moduleId;
+    },
+    
+    toggleMobileMenu() {
+        // Stop all videos if mobile menu is being opened
+        if (!this.isMobileMenuOpen) {
+            this.stopAllVideos();
+        }
+        this.isMobileMenuOpen = !this.isMobileMenuOpen;
+    }
+}" 
+x-init="
+    // Build a flat list of all content in proper sequential order
+    contentOrder = [];
+    let index = 0;
+    
+    {% for milestone in course.milestones.all %}
+        {% for module in milestone.modules.all %}
+            {% for content in module.contents.all %}
+                contentOrder.push({
+                    contentId: '{{ content.id }}',
+                    moduleId: '{{ module.id }}',
+                    milestoneId: '{{ milestone.id }}',
+                    index: index++
+                });
+            {% endfor %}
+        {% endfor %}
+    {% endfor %}
+    
+    // Initialize with first milestone, module, and lesson if available
+    {% if course.milestones.all %}
+        activeMilestone = '{{ course.milestones.all.0.id }}';
+        {% with first_milestone=course.milestones.all.0 %}
+            {% if first_milestone.modules.all %}
+                activeModule = '{{ first_milestone.modules.all.0.id }}';
+                {% with first_module=first_milestone.modules.all.0 %}
+                    {% if first_module.contents.all %}
+                        activeLesson = '{{ first_module.contents.all.0.id }}';
+                        // Set current index to 0 initially
+                        currentIndex = 0;
+                    {% endif %}
+                {% endwith %}
+            {% endif %}
+        {% endwith %}
+    {% endif %}
+
+    // Add event listener for page visibility changes (for auto-pause when switching tabs)
+    document.addEventListener('visibilitychange', function() {
+        if (document.visibilityState === 'hidden') {
+            // User switched away from the page, stop videos
+            stopAllVideos();
+        }
+    });
+">
+
+  <div class="flex flex-col lg:flex-row min-h-screen">
+      <!-- Left Sidebar -->
+      <div class="w-full lg:w-1/6 bg-indigo-700 text-white p-4 lg:block shadow-lg" :class="{'hidden': !isMobileMenuOpen, 'block': isMobileMenuOpen}">
+          <aside class="text-white w-full md:w-64 md:min-h-screen p-4">
+              <div class="flex items-center justify-between mb-6">
+                  <div class="flex items-center">
+                      <i class="fas fa-cube text-2xl mr-3"></i>
+                      <h1 class="font-bold text-xl">{{ course.title }}</h1>
+                  </div>
+                  <button id="mobile-menu-button" class="md:hidden">
+                      <i class="fas fa-bars"></i>
+                  </button>
+              </div>
+  
+              <nav id="sidebar-menu" class="hidden md:block">
+                  <ul>
+                      <li class="mb-2">
+                          <a href="#" class="flex items-center p-2 rounded hover:bg-indigo-700 bg-indigo-900">
+                              <i class="fas fa-tachometer-alt mr-3"></i>
+                              <span>Dashboard</span>
+                          </a>
+                      </li>
+                      <li class="mb-2">
+                          <a href="#" class="flex items-center p-2 rounded hover:bg-indigo-700">
+                              <i class="fas fa-users mr-3"></i>
+                              <span>Users</span>
+                          </a>
+                      </li>
+                      <li class="mb-2">
+                        <a href="{% url 'enroll_course' %}" class="flex items-center p-2 rounded hover:bg-indigo-700">
+                            <i class="fas fa-graduation-cap mr-3"></i>
+                            <span>Enroll Course</span>
+                        </a>
+                    </li>
+                      <li class="mb-2">
+                          <a href="#" class="flex items-center p-2 rounded hover:bg-indigo-700">
+                              <i class="fas fa-chart-bar mr-3"></i>
+                              <span>Analytics</span>
+                          </a>
+                      </li>
+                      <li class="mb-2">
+                          <a href="#" class="flex items-center p-2 rounded hover:bg-indigo-700">
+                              <i class="fas fa-cog mr-3"></i>
+                              <span>Settings</span>
+                          </a>
+                      </li>
+                      <li class="mb-2">
+                        <a href="{% url 'logout' %}" class="flex items-center p-2 rounded hover:bg-indigo-700">
+                            <i class="fas fa-sign-out-alt mr-3"></i>
+                            <span>Logout</span>
+                        </a>
+                    </li>
+                  </ul>
+              </nav>
+          </aside>
+      </div>
+
+      <!-- Mobile Header -->
+      <div class="lg:hidden bg-white border-b p-3 flex items-center justify-between shadow-sm">
+          <div class="flex items-center space-x-3">
+              <div class="h-9 w-9 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold shadow">{{ course.title|slice:":2" }}</div>
+              <div class="text-gray-700 font-medium">{{ course.title }}</div>
+          </div>
+          <button @click="toggleMobileMenu()" class="p-2 rounded-md hover:bg-gray-100">
+              <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"></path>
+              </svg>
+          </button>
+      </div>
+
+      <!-- Main Content Area -->
+      <div class="w-full lg:w-3/5 bg-white overflow-hidden shadow-md order-2 lg:order-1" x-show="!isMobileMenuOpen || window.innerWidth >= 1024">
+          <!-- Top Navigation Bar -->
+          <div class="hidden lg:flex bg-white border-b p-3 items-center shadow-sm">
+              <div class="flex items-center space-x-3">
+                  <div class="h-9 w-9 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold shadow">{{ course.title|slice:":2" }}</div>
+                  <div class="text-gray-700 font-medium">{{ course.title }}</div>
+              </div>
+          </div>
+
+          <!-- Dynamic Content Areas for Each Lesson -->
+          {% for milestone in course.milestones.all %}
+              {% for module in milestone.modules.all %}
+                  {% for content in module.contents.all %}
+                  <div class="bg-gray-50 p-4 relative border-b" 
+                       x-show="activeLesson === '{{ content.id }}'" 
+                       style="min-height: 400px;">
+                      <div class="text-gray-500 text-sm mb-2">
+                          {{ milestone.title }} > {{ module.title }} > {{ content.title }}
+                      </div>
+                      
+                      <!-- Video Player -->
+                      {% if content.content_type == 'video' %}
+                      <div class="mb-4 responsive-iframe-container" x-show="videoVisible">
+                        <iframe 
+                        width="100%" 
+                        height="315" 
+                        src="{{ content.source }}"
+                        title="{{ content.title }}" 
+                        frameborder="0"
+                        sandbox="allow-same-origin allow-scripts allow-forms allow-popups allow-popups-to-escape-sandbox allow-presentation"
+                        loading="lazy" 
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                        referrerpolicy="strict-origin-when-cross-origin" 
+                        allowfullscreen
+                        style="max-width: 100%;"
+                        @load="isVideoLoading = false">
+                    </iframe>
+                      </div>
+                      {% elif content.content_type == 'quiz' %}
+                      <div class="mb-4 p-4 bg-white rounded-lg shadow">
+                          <h3 class="text-lg font-medium mb-4">{{ content.title }}</h3>
+                          <div class="prose">{{ content.description|safe }}</div>
+                          <div class="mt-4">
+                              <a href="{{ content.source }}" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-md shadow-sm transition-colors">
+                                  Start Quiz
+                              </a>
+                          </div>
+                      </div>
+                      {% endif %}
+
+                      {% if content.description %}
+                      <div class="mt-4 bg-white p-4 rounded-lg shadow-sm">
+                          <h3 class="text-lg font-medium mb-2">Description</h3>
+                          <div class="prose">{{ content.description|safe }}</div>
+                      </div>
+                      {% endif %}
+                  </div>
+                  {% endfor %}
+              {% endfor %}
+          {% endfor %}
+
+          <!-- Bottom Controls -->
+          <div class="bg-white p-4 flex justify-between border-b">
+              <div class="flex space-x-2">
+                <button @click="goToPrevContent()" 
+                        :disabled="currentIndex === 0"
+                        :class="{'bg-gray-200 hover:bg-gray-300 text-gray-700': currentIndex > 0, 'bg-gray-100 text-gray-400 cursor-not-allowed': currentIndex === 0}"
+                        class="px-4 py-2 rounded-md shadow-sm transition-colors flex items-center">
+                    <svg class="h-4 w-4 mr-1" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 19l-7-7 7-7 1.41 1.41L7.83 12l5.58 5.59L12 19z"/>
+                    </svg>
+                    Previous
+                </button>
+              </div>
+              <div class="flex space-x-2">
+                <button @click="goToNextContent()" 
+                        :disabled="currentIndex === contentOrder.length - 1"
+                        :class="{'bg-indigo-600 hover:bg-indigo-700 text-white': currentIndex < contentOrder.length - 1, 'bg-indigo-300 text-white cursor-not-allowed': currentIndex === contentOrder.length - 1}"
+                        class="px-4 py-2 rounded-md shadow-sm transition-colors flex items-center">
+                    Next
+                    <svg class="h-4 w-4 ml-1" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 5l7 7-7 7-1.41-1.41L16.17 12l-5.58-5.59L12 5z"/>
+                    </svg>
+                </button>
+              </div>
+          </div>
+
+          <!-- Notes Section -->
+          <div class="bg-white p-4">
+              <div class="text-gray-700 mb-2 font-medium">Note</div>
+              <textarea class="bg-gray-50 w-full border border-gray-300 p-3 rounded-lg text-gray-700 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all" placeholder="Enter your notes"></textarea>
+          </div>
+      </div>
+
+      <!-- Right Sidebar - Modules and Progress -->
+      <div class="w-full lg:w-2/5 bg-gray-50 p-4 overflow-y-auto border-l order-3 lg:order-2" x-show="!isMobileMenuOpen || window.innerWidth >= 1024">
+          <!-- Progress Bar -->
+          <div class="mb-6 bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+              <div class="flex justify-between mb-2">
+                  <span class="text-sm font-medium text-gray-700">Your Study Progress</span>
+                  <span class="text-sm font-medium text-indigo-600" x-text="`${currentIndex + 1}/${contentOrder.length}`">0/{{ course.video_count|add:course.quiz_count }}</span>
+              </div>
+              <div class="w-full bg-gray-200 rounded-full h-2.5">
+                  <div class="bg-gradient-to-r from-indigo-500 to-purple-600 h-2.5 rounded-full" 
+                       :style="`width: ${((currentIndex + 1) / contentOrder.length) * 100}%`"></div>
+              </div>
+              <p class="text-sm text-gray-600 mt-3">Great job! 👍 You're on the path to becoming certified. Your application to learning is impressive. Finish strong!</p>
+          </div>
+
+          <!-- Modules List -->
+          <div class="space-y-3">
+              <!-- Dynamic Milestones -->
+              {% for milestone in course.milestones.all %}
+              <div @click="toggleMilestone('{{ milestone.id }}')" 
+                   class="cursor-pointer bg-indigo-50 p-3 rounded-lg transition-all hover:bg-gray-100 border border-indigo-200 shadow-sm"
+                   :class="{'bg-indigo-100': activeMilestone === '{{ milestone.id }}'}">
+                  <div class="flex justify-between items-center">
+                      <div>
+                          <span class="text-indigo-600 font-medium">Milestone {{ forloop.counter }}:</span>
+                          <span class="text-gray-800">{{ milestone.title }}</span>
+                      </div>
+                      <div class="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded-full">
+                          <!-- Calculate total duration for milestone -->
+                          {% with module_count=milestone.modules.count %}{{ module_count }} module{{ module_count|pluralize }}{% endwith %}
+                      </div>
+                  </div>
+              </div>
+              
+              <!-- Milestone Content -->
+              <div x-show="activeMilestone === '{{ milestone.id }}'" class="bg-white p-3 border-l-2 border-indigo-500 rounded-lg mb-2 space-y-4 shadow-sm ml-2">
+                  <!-- Dynamic Modules -->
+                  {% for module in milestone.modules.all %}
+                  <div @click="toggleModule('{{ module.id }}')" 
+                       class="cursor-pointer p-2 rounded transition-all hover:bg-gray-100"
+                       :class="{'bg-indigo-50': activeModule === '{{ module.id }}'}">
+                      <div class="flex justify-between items-center">
+                          <div>
+                              <span class="text-indigo-600 font-medium">Module {{ forloop.counter }}:</span>
+                              <span class="text-gray-800">{{ module.title }}</span>
+                          </div>
+                          <div class="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded-full">
+                              {% with content_count=module.contents.count %}{{ content_count }} content{{ content_count|pluralize }}{% endwith %}
+                          </div>
+                      </div>
+                  </div>
+              
+                  <!-- Module Content -->
+                  <div x-show="activeModule === '{{ module.id }}'" class="bg-white p-3 border-l-2 border-indigo-500 rounded-lg mb-2 space-y-2 shadow-sm ml-4">
+                      <!-- Dynamic Contents/Lessons -->
+                      {% for content in module.contents.all %}
+                      <div @click="setActiveContent('{{ content.id }}', '{{ module.id }}', '{{ milestone.id }}')" 
+                           class="cursor-pointer p-2 rounded flex items-center justify-between" 
+                           :class="{'bg-indigo-50': activeLesson === '{{ content.id }}', 'hover:bg-gray-100': activeLesson !== '{{ content.id }}'}">
+                          <div class="flex items-center">
+                              <div class="h-6 w-6 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-full flex items-center justify-center mr-2 text-white shadow-sm">
+                                  <span class="text-xs">{{ forloop.counter }}</span>
+                              </div>
+                              <span :class="{'text-indigo-700 font-medium': activeLesson === '{{ content.id }}', 'text-gray-700': activeLesson !== '{{ content.id }}'}">
+                                  {{ content.title }}
+                                  {% if content.content_type == 'quiz' %}
+                                  <span class="ml-2 text-xs bg-yellow-200 text-yellow-800 px-2 py-0.5 rounded-full">Quiz</span>
+                                  {% endif %}
+                              </span>
+                          </div>
+                          <div class="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded-full">
+                              {% if content.content_type == 'video' %}Video{% else %}Quiz{% endif %}
+                          </div>
+                      </div>
+                      {% endfor %}
+                  </div>
+                  {% endfor %}
+              </div>
+              {% endfor %}
+          </div>
+      </div>
+  </div>
+
+  <!-- Global event listeners for handling video stops when user leaves the page -->
+  <script>
+    window.addEventListener('beforeunload', function() {
+      // Find all video iframes on the page
+      const videoIframes = document.querySelectorAll('.responsive-iframe-container iframe');
+      
+      // Set src to empty string to stop videos before page unload
+      videoIframes.forEach(iframe => {
+        if(iframe.src && iframe.src.trim() !== '') {
+          iframe.src = '';
+        }
+      });
+    });
+  </script>
+
+  <!-- Add this at the top of your HTML, just after the opening <body> tag -->
+<script>
+  // This will intercept and silence CORS errors from YouTube ads
+  window.addEventListener('error', function(e) {
+    // Check if the error is related to YouTube ad services
+    if (e.message && (
+        e.message.includes('googleads.g.doubleclick.net') || 
+        e.message.includes('CORS policy') ||
+        e.message.includes('ERR_FAILED')
+      )) {
+      // Prevent the error from showing in console
+      e.stopPropagation();
+      e.preventDefault();
+    }
+  }, true);
+  
+  // Modify the iframe loading approach
+  function createSafeYouTubeEmbed() {
+    const videoContainers = document.querySelectorAll('.responsive-iframe-container');
+    
+    videoContainers.forEach(container => {
+      // Find any existing iframes
+      const existingIframe = container.querySelector('iframe');
+      if (existingIframe) {
+        // Add sandbox attribute to restrict access 
+        // Note: This can affect functionality like fullscreen
+        existingIframe.setAttribute('sandbox', 'allow-same-origin allow-scripts allow-forms allow-popups allow-popups-to-escape-sandbox allow-presentation');
+        
+        // Add loading="lazy" for better performance
+        existingIframe.setAttribute('loading', 'lazy');
+      }
+    });
+  }
+  
+  // Run after DOM loads
+  document.addEventListener('DOMContentLoaded', createSafeYouTubeEmbed);
+</script>
+</body>
+</html>

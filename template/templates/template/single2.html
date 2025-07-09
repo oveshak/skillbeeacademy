@@ -1,0 +1,1336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skillnest - Japanese Language Course</title>
+
+    <!-- google link -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/mdsibgatullah/keeron/assets/css/utils.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/mdsibgatullah/keeron/assets/css/style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/mdsibgatullah/keeron/assets/css/responsive.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
+    <style>
+    .highlighted-text {
+        background-color: yellow;
+        padding: 10px 15px; /* Increased padding */
+        border-radius: 8px;
+        display: inline-block;
+        animation: smooth-shake 1.2s infinite ease-in-out; /* Slower and smoother */
+    }
+
+    @keyframes smooth-shake {
+        0% { transform: translateX(0); }
+        25% { transform: translateX(-3px); }
+        50% { transform: translateX(3px); }
+        75% { transform: translateX(-3px); }
+        100% { transform: translateX(0); }
+    }
+    li{
+        font-weight:bold;
+    }
+</style>
+<!-- Google Tag Manager -->
+ <!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-5VC56W76');</script>
+<!-- End Google Tag Manager -->
+</head>
+<body>
+    <!-- Google Tag Manager (noscript) -->
+        <!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5VC56W76"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+<!-- End Google Tag Manager (noscript) -->
+    <!-- ========== Start Header ========== -->
+    <div class="wraper">
+        <div class="add">
+            <div class="container">
+                <div class="add_text flex">
+                   <h4 class="line2 text" style=" text-align: center; width: 100%;">
+                        ৫০% off এর অফার শেষ হতে আর মাত্র বাকি
+                    </h4>
+                    <ul class="flex timer">
+                        <li>
+                            <h5>01</h5>
+                            <p>Days</p>
+                        </li>
+                        <li>:</li>
+                        <li>
+                            <h5>01</h5>
+                            <p>Hours</p>
+                        </li>
+                        <li>:</li>
+                        <li>
+                            <h5>01</h5>
+                            <p>Minutes</p>
+                        </li>
+                        <li>:</li>
+                        <li>
+                            <h5>01</h5>
+                            <p>Seconds</p>
+                        </li>
+                    </ul>
+                    <a href="{% url 'enroll_form' course.slug %}"><button class="enroll_Now">Enroll Now</button></a>
+                    <button onclick="closeAdd()">Close</button>
+                </div>
+                <h5 style="text-align: center; margin-top: 10px; display: block;">
+                    অফারটি সীমিত সময়ের জন্য
+                </h5>
+            </div>
+        </div>
+        <!-- <header class="header">
+        </header> -->
+    </div>
+    <!-- ========== End Header ========== -->
+    
+    <main>
+        <!-- ========== Start Hero ========== -->
+        <section class="hero">
+            <div class="container">
+                <div class="hero_data">
+                    <div class="hero_text">
+                        <h2>জাপানিজ ভাষা শিখার পরিপূর্ণ কোর্স</h2>
+                        <p class="text">একটি পূর্ণাঙ্গ কোর্স যা আপনাকে জাপানিজ সব প্রধান ক্ষেত্রগুলো সহজে আয়ত্ত করতে সাহায্য করবে – জাপানিজ পড়া, কথা বলা, শোনা এবং লেখা। এই এক কোর্সেই আপনি জাপানিজ সব দক্ষতা ডেভেলপ করতে পারবেন।</p>
+                        <div class="reviews flex">
+                            <p>Avg. Rating : 4.9</p>
+                            <p>★★★★★</p>
+                            <!-- <ul class="flex">
+                                <li>
+                                    <img src="https://cdn.jsdelivr.net/gh/mdsibgatullah/keeron/assets/images/star.svg" alt="star">
+                                </li>
+                                <li>
+                                    <img src="https://cdn.jsdelivr.net/gh/mdsibgatullah/keeron/assets/images/star.svg" alt="star">
+                                </li>
+                                <li>
+                                    <img src="https://cdn.jsdelivr.net/gh/mdsibgatullah/keeron/assets/images/star.svg" alt="star">
+                                </li>
+                                <li>
+                                    <img src="https://cdn.jsdelivr.net/gh/mdsibgatullah/keeron/assets/images/star.svg" alt="star">
+                                </li>
+                                <li>
+                                    <img src="https://cdn.jsdelivr.net/gh/mdsibgatullah/keeron/assets/images/star.svg" alt="star">
+                                </li>
+                            </ul> -->
+                        </div>
+                        
+                        <div class="flex teacher">
+                                <!-- <span><img src="https://cdn.jsdelivr.net/gh/mdsibgatullah/keeron/assets/images/Elta-Karim.jpg" alt="EltaKarim"></span> -->
+                            <div>
+                                <h4>SANTO AHMED</h4>
+                                <p>JLPT Certified</p>
+                                <p>Certified Japanese language Teacher,</p>
+                                <p>Arts and Entertainment</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="hero_video">
+                        <iframe src="https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2Fwatch%2F%3Fv%3D9201015606647812%26rdid%3DQg9TfjcNLPWFjTSE&width=500&show_text=false&appId=2742789426014533&height=283" width="100%" height="300" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share" allowFullScreen="true"></iframe>
+                    </div>
+                </div>
+            </div>
+        <div class="category">
+            <div class="container">
+                <ul class="flex">
+                    <li> <a href="#overview">Course Overview</a></li>
+                    <li>Curriculum</li>
+                    <li>Mentor</li>
+                    <li>Course Reviews</li>
+                    <li>FAQ</li>
+                </ul>
+            </div>
+        </div>
+        </section>
+        <!-- ========== End Hero ========== -->
+         <section class="all_course">
+            <div class="container">
+                <ul class="class_details">
+                    <li>
+                        <div>
+                            <h3>৫০+ টি</h3>
+                            <h6>ভিডিও</h6>
+                        </div>
+                    </li>
+                    <li>
+                        <div>
+                            <h3>১০+</h3>
+                            <h6>নোটস</h6>
+                        </div>
+                    </li>
+                    <li>
+                        <div>
+                            <h3>ChatGPT</h3>
+                            <h6>JLPT learn Method</h6>
+                        </div>
+                    </li>
+                    <li>
+                        <div>
+                            <h3>Special</h3>
+                            <h6>Sheets</h6>
+                        </div>
+                    </li>
+                </ul>
+                <br><br>
+                <div class="section_header">
+                    <h3>জাপানিজ ভাষা শিখার পরিপূর্ণ কোর্স</h3>
+                    <br>
+                    <p>
+                        আপনি যদি উচ্চ শিক্ষা, চাকরি কিংবা ব্যাবসার জন্য জাপানে যেতে চান তবে জাপানি ভাষা জানা আপনার জন্য আবশ্যক।
+                        ☑জাপানিজ ভাষা শিখে খুব সহজে জাপান যেতে পারবেন,Ielts ছাড়াই জাপান যেতে পারবেন,বাংলাদেশে জাপানের বহু সংস্থা থাকায় সহজেই বাংলাদেশে জাপানের সংস্থা গুলোতে কাজ করতে পারবেন।
+                    </p>
+                </div>
+                <div class="course_dtl">
+                    <div>
+                        <div class="ja_shikben">
+                            <h4>Skill Academy নিয়ে এসেছে অনলাইন জাপানিজ ল্যাঙ্গুয়েজ কোর্স।
+                            </h4>
+                            <br>
+                            <ul>
+                                <li><p>N4 এবং  N5 লেভেলের কোর্স</p></li>
+                                <li><p>আপনি এই ভাষার অনুবাদক কিংবা ভাষান্তরিক হিসেবে কাজ করতে পারবেন</p></li>
+                                <li><p>জব হোল্ডারদের জন্য রয়েছে বিশেষ ক্লাসের ব্যবস্থা।</p></li>
+                                <li><p>দক্ষ এবং অভিজ্ঞ শিক্ষকমন্ডলী দ্বারা ক্লাস পরিচালনা করা হয়।
+                                </p></li>
+                                <li><p>প্রয়োজনীয় শিট প্রদান করা হয়।</p></li>
+                                <li><p>লিসেনিং, স্পিকিং , রিডিং এর জন্য আলাদা গুরুত্বারুপ দেয়া হয়।</p></li>
+                                <li><p>সর্বোপরি NAT-TEST/JLPT এর জন্য সম্পূর্ণ প্রস্তুতি প্রদান করা হবে।</p></li>
+                                <li><p>ক্লাসের বাইরে অনলাইন গ্রুপের মাধ্যমে সার্বক্ষণিক সমস্যার সমাধান দেয়া হবে।</p></li>
+                                <li><p>বই এবং অন্যান্য কোর্স ম্যাটেরিয়ালস সম্পূর্ণ ফ্রী।</p></li>
+                                <br>
+                                <div class="flex" style="color: red;">
+                                    <h3><del>৫০০০৳</del></h3>
+                                    <a href="{% url 'enroll_form' course.slug %}"><button class="enroll_Now">Apply Now</button></a>
+                                </div>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="skills">
+                        <div>
+                            <h4>Skills You will Gain</h4>
+                            <br>
+                            <ul>
+                                <li><small>জাপানিতে লেখার দক্ষতা</small></li>
+                                <li><small>জাপানিতে পড়ার দক্ষতা</small></li>
+                                <li><small>জাপানিতে কথা বলার দক্ষতা</small></li>
+                                <li><small>জাপানিতে শোনার দক্ষতা</small></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+         </section>
+         <section class="video_reviews">
+            <div class="container">
+                <div class="section_header">
+                    <h3>দেখুন কোর্সটি থেকে শেখা স্টুডেন্টরা কি বলছে-</h3>
+                </div>
+                <br>
+                <!-- Swiper Slider -->
+                <div class="swiper videoSwiper">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide">
+                            <div class="review_video">
+                                <iframe src="https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2Fwatch%2F%3Fv%3D1362440094655019%26rdid%3Da0sfIJPmETyRTHpA&width=500&show_text=false&appId=2742789426014533&height=889" width="100%" height="800px" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share" allowFullScreen="true"></iframe>
+                            </div>
+                        </div>
+                        <div class="swiper-slide">
+                            <div class="review_video">
+                                <iframe src="https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2Fwatch%2F%3Fv%3D2010547846092264%26rdid%3D0Fpt9wA9pzCy2TmZ&width=500&show_text=false&appId=2742789426014533&height=889" width="100%" height="800px" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share" allowFullScreen="true"></iframe>
+                            </div>
+                        </div>
+                        <div class="swiper-slide">
+                            <div class="review_video">
+                                <iframe src="https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2Fwatch%2F%3Fv%3D686737943927707%26rdid%3DALRSW7FKhlCrLJQs&width=500&show_text=false&appId=2742789426014533&height=891" width="100%" height="800px" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share" allowFullScreen="true"></iframe>
+                            </div>
+                        </div>
+                        <div class="swiper-slide">
+                            <div class="review_video">
+                                <iframe src="https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2Fwatch%2F%3Fv%3D1169763924552403%26rdid%3DZWN4MLLZBv9SfdQw&width=500&show_text=false&appId=2742789426014533&height=889" width="100%" height="800px" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share" allowFullScreen="true"></iframe>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Navigation Buttons -->
+                    <div class="swiper-button-next"></div>
+                    <div class="swiper-button-prev"></div>
+                    <div class="swiper-pagination"></div>
+                </div>
+
+                <br>
+                <div class="flex" style="justify-content: center; color: red;">
+                    <h3><del>৫০০০৳</del></h3>
+                    <a href="{% url 'enroll_form' course.slug %}">
+                        <button class="enroll_Now">Apply Now</button>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+         <section class="students">
+            <div class="container">
+                <div class="section_header">
+                    <h4>আমাদের স্টুডেন্টদেরকে জাপানের যে কোন ধরনের কঠিন সমস্যা সম্মুখীনের ক্ষেত্রে সমাধানের পথ খুঁজে বের করে দেওয়া</h4>
+                    <br>
+                    <p>এই কোর্সটি ভাষার শিখার চারটি দক্ষতা বিকাশের উপর ফোকাস করবে; কথা বলা, শোনা, পড়া এবং লেখা। আপনি শিখবেন কিভাবে বাক্য গঠন করতে হয়, প্রশ্ন জিজ্ঞাসা করতে হয়, ক্রিয়া সংযোজন ব্যবহার করতে হয় এবং মৌলিক বাক্যের প্যাটার্ন তৈরি করতে হয়।</p>
+                </div>
+                <div class="student_dtl">
+                        <br>
+                        <h5>কোর্সটির সাথে যা যা ফ্রী থাকছে</h5>
+                        <br>
+                        <ul>
+                            <li>দক্ষ ও অভিজ্ঞ শিক্ষক দ্বারা পরিচালিত লাইভ ক্লাস</li>
+                            
+                            <li> ChatGPT এর সাথে japanese language প্র্যাকটিস (ChatGPT-এর সাথে japanese ভাষায় সাবলীলভাবে কথা বলার সম্পূর্ণ প্রক্রিয়া)              
+                            </li>
+                            
+                            <li>গুরুত্বপূর্ণ "সর্বাধিক ব্যবহৃত শব্দভাণ্ডার" এর উপর ১০০০ শব্দের ফ্রি PDF (যা জানলে জাপানি ভাষায় কথা বলা হবে আরও সহজ)</li>
+                            <li>সাথে থাকছে ফ্রি গিভঅ্যাওয়ে, যা লাইভ ক্লাসে দেওয়া হবে</li>
+                            <li>জাপানি ভাষার এই কোর্সের মাধ্যমে আপনার সব ভয় ও দুর্বলতা দূর হবে, আপনি জাপানিজ ভাষায় হয়ে উঠবেন আত্মবিশ্বাসী </li>
+                        </ul>
+                        <br>
+                        <br>
+                        <h5>কোর্সটি থেকে আপনি যা যা শিখতে পারবেন</h5>
+                        <br>
+                        <ul>
+                            <li>স্কুল-কলেজ কিংবা আড্ডায়-অফিসে অনায়াসে সঠিক উচ্চারণে Japanese ভাষায় কথা বলা</li>
+                            <li>প্রাত্যহিক জীবনের বিভিন্ন পরিস্থিতিতে স্মার্টলি জাপানিজ ভাষায় কথা বলা</li>
+                            <li>জাপানিজ ভাষায় কথা বলার সংকোচ ও জড়তা দ্রুত কাটিয়ে ওঠা</li>
+                            <li>এতদিন ভুল জানতেন এমন অনেক জাপানিজ শব্দের সঠিক উচ্চারণ</li>
+                            <li>জব ইন্টারভিউ, প্রেজেন্টেশন, ভাইভা, দেশি-বিদেশি ক্লায়েন্ট মিটিং, কলিগদের সাথে আলাপচারিতা, পাবলিক স্পিকিং, অপরিচিত কারো সাথে কথা শুরু করা - ইত্যাদি ক্ষেত্রে জাপানিজ ভাষায় কথা বলা</li>
+                            <li>Japanese Excellence-এর যাত্রা শুরু হোক এখনই!</li>
+                        </ul>
+                        <br>
+                    </div>
+                </div>
+                <div class="flex" style="justify-content: center; color: red;">
+                    <h3><del>৫০০০৳</del></h3>
+                    <a href="{% url 'enroll_form' course.slug %}"><button class="enroll_Now">Apply Now</button></a>
+                </div>
+            </div>
+         </section>
+         
+         <section class="faq" style="font-weight: 600;">
+            <div class="container">
+                <div class="section_header">
+                    <h3>কোর্সটি কেন করবেন?</h3>
+                </div>
+                <br>
+                <div class="faq_data" style="font-size: 16px;">
+                    <ul>
+                        <li>
+                            ✅পড়াশুনা আন্তর্জাতিকমানের (World Class Education)
+                        </li>
+                        <li>
+                            ✅জাপানের অর্থনীতি পৃথিবীর মধ্যে চতুর্থ বৃহত্তম
+                        </li>
+                        <li>
+                            ✅জাপান একটি সুন্দর, পরিষ্কার, সু্শৃঙ্খল নিয়ম-নীতি ও সভ্য মানুষের দেশ।
+                        </li>
+                        <li>
+                            ✅পার্ট টাইম জব পাওয়া সহজ।
+                        </li>
+                        <li>
+                            ✅পার্ট টাইম জব করে প্রতি ঘণ্টায় প্রায় ১১০০ Yen থেকে ১৪০০ Yen বা তারও বেশি আয় করা যায় ।
+                        </li>
+                        <li>
+                            ✅পড়াশোনা শেষে স্টুডেন্ট ভিসা পরিবর্তন করে ফুল টাইম জব ভিসায় যতদিন ইচ্ছা থাকার সুযোগ।
+                        </li>
+                        <li>
+                            ✅যাদের দেশ থেকে গ্রাজুয়েশন করা থাকবে তারা চাইলে জাপানের স্কুলে ল্যাংগুয়েজ কোর্স শেষ করে সরাসরি জব ভিসায় রুপান্তর করার সুযোগ।
+                        </li>
+                        <li>
+                            ✅লেখাপড়া শেষ করে ৩ বছর পর permanent Residency (PR) / নাগরিকত্ব নিয়ে স্থায়ীভাবে বসবাসের সুযোগ।
+                        </li>
+                        <li>
+                            ✅Visa Procedure এবং Admission Procedure অনেক সহজ এবং Visa Ratio অনেক ভালো।
+                        </li>
+                        <li>
+                            ✅খরচ তুলনামূলক কম,১ বছরের টিউশন ফি প্রায় ৫.৫০ লক্ষ টাকা (কম বেশি হতে পারে)
+                        </li>
+                        <li>
+                            ✅জাপানে যাওয়ার পর দেশ থেকে আর টাকা নিতে হয় না।
+                        </li>
+                        <li>
+                            ✅শুধুমাত্র Japanese Language N5 Course শেষ করে আপনিও গ্রহণ করতে পারেন জাপানে উচ্চ শিক্ষা, চাকুরি ও স্থায়ীভাবে বসবাসের সুযোগ
+                        </li>
+                    </ul>
+                </div>
+            </div>
+         </section>
+         <section class="course_curriculum" id="overview">
+            <div class="container">
+                <div class="section_header">
+                    <h3>Course Curriculum</h3>
+                    <h5 class="highlighted-text">কোর্সের সাথে থাকছে Recorded <span style="color: #11a849;">Class+Bonus👉১ মাসের Live Class</span></h5>
+                </div>
+                <div class="flex" style="justify-content: center; color: red;">
+                    <h3><del>৫০০০৳</del></h3>
+                    <a href="{% url 'enroll_form' course.slug %}"><button class="enroll_Now">Apply Now</button></a>
+                </div>
+                <br>
+                <ul>
+                    <li class="module_list">
+                        <div class="modules">
+                            <p><b>Module</b></p>
+                            <h1>1</h1>
+                        </div>
+                        <div>
+                            <div>
+                                <div class="free_demo flex">
+                                    <div class="flex">
+                                        <i><img src="https://cdn.jsdelivr.net/gh/mdsibgatullah/keeron/assets/images/curriculmnDuration.svg" alt="images"></i> 
+                                        <small>1 hour to complete</small>
+                                    </div>
+                                    <small>Unlock</small>
+                                </div>
+                                <br>
+                                <h5>Your Japanese Speaking Goals (আপনার জাপানিজে কথা বলার লক্ষ্যসমূহ)</h5>
+                                <br>
+                                <p class="line3">
+                                    এই মডিউলে আমরা জাপানিজ শিখতে গিয়ে যেসব চ্যালেঞ্জের সম্মুখীন হই, তা নিয়ে আলোচনা করবো। এই মডিউল থেকে আরো জানতে পারবেন জাপানিজ ভাষা কীভাবে বাংলা থেকে আলাদা এবং কোন বিষয়গুলো জাপানিজ বোঝাকে আরো কঠিন করে তোলে। এছাড়াও আপনি জানতে পারবেন কীভাবে আপনি এই কোর্স শুরু করার আগে আপনার ব্যক্তিগত
+                                </p>
+                                <br>
+                                <br>
+                                <div class="free_demo flex">
+                                    <div class="flex">
+                                        <i><img src="https://cdn.jsdelivr.net/gh/mdsibgatullah/keeron/assets/images/curriculmnDuration.svg" alt="images"></i> 
+                                        <small>3 Videos</small>
+                                    </div>
+                                    <div class="seeMore_btn" onclick="allVideo()">
+                                        <button>See More</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <ol id="all_video">
+                                <li class="video_wrapper">
+                                    <div class="free_demo flex">
+                                        <div>
+                                            <h5>JLPT-N5-Vocabulary-lesson 1</h5>
+                                            <div class="flex">
+                                                <small>Video -</small>
+                                                <small>5:21</small>
+                                            </div>
+                                        </div>
+                                        <small class="btn_primary free_video">See More</small>
+                                    </div>
+                                    <div class="course_video">
+                                        <iframe src="https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2Fwatch%2F%3Fv%3D1339512127337713%26rdid%3D9L7ZpD9NhAFvP96Y&width=500&show_text=false&appId=2742789426014533&height=230" width="100%" height="300" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share" allowFullScreen="true"></iframe>
+                                    </div>
+                                </li>
+                                <li class="video_wrapper">
+                                    <div class="free_demo flex">
+                                        <div>
+                                            <h5>JLPT-N5-Vocabulary-lesson 2</h5>
+                                            <div class="flex">
+                                                <small>Video -</small>
+                                                <small>4:04</small>
+                                            </div>
+                                        </div>
+                                        <small class="btn_primary free_video">See More</small>
+                                    </div>
+                                    <div class="course_video">
+                                        <iframe src="https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2Fwatch%2F%3Fv%3D938028361507666%26rdid%3DFOQ6fa1oIQNjKG6D&width=500&show_text=false&appId=2742789426014533&height=230" width="100%" height="300" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share" allowFullScreen="true"></iframe>
+                                    </div>
+                                </li>
+                                <li class="video_wrapper">
+                                    <div class="free_demo flex">
+                                        <div>
+                                            <h5>JLPT-N5-Vocabulary-lesson 3</h5>
+                                            <div class="flex">
+                                                <small>Video -</small>
+                                                <small>4:33</small>
+                                            </div>
+                                        </div>
+                                        <small class="btn_primary free_video">See More</small>
+                                    </div>
+                                    <div class="course_video">
+                                        <iframe src="https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2Fwatch%2F%3Fv%3D663220656158364%26rdid%3Dkf7Q5b6kXZxjPXNh&width=500&show_text=false&appId=2742789426014533&height=281" width="100%" height="300" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share" allowFullScreen="true"></iframe>
+                                    </div>
+                                </li>
+                                
+                            </ol>
+                        </div>
+                    </li>
+                    <li class="module_list">
+                        <div class="modules">
+                            <p><b>Module</b></p>
+                            <h1>2</h1>
+                        </div>
+                        <div>
+                            <div class="free_demo flex">
+                                <div class="flex">
+                                    <i><img src="https://cdn.jsdelivr.net/gh/mdsibgatullah/keeron/assets/images/curriculmnDuration.svg" alt="images"></i> 
+                                    <small>1 hour to complete</small>
+                                </div>
+                                <small>Lock</small>
+                            </div>
+                            <br>
+                            <h5>📌 মডিউল 2: লিপি ও শব্দভাণ্ডার (Kana & Vocabulary)</h5>
+                            <br>
+                            <p class="line3">
+                                এই মডিউলে আমরা হিরাগানা, কাতাকানা এবং কানজি (প্রাথমিক ৫০-১০০টি) শেখার পাশাপাশি, সাধারণ জাপানি শব্দভাণ্ডার (৮০০+ শব্দ) শিখবো। এর মধ্যে রয়েছে সংখ্যা, সময়, তারিখ এবং পরিবার সম্পর্কিত শব্দগুলি। এই মডিউলটি আপনাকে জাপানির লেখা ও শব্দভাণ্ডারের মূল ধারণা প্রদান করবে।
+                            </p>
+                            <br>
+                            <br>
+                            <div class="free_demo flex">
+                                <div class="flex">
+                                    <i><img src="https://cdn.jsdelivr.net/gh/mdsibgatullah/keeron/assets/images/curriculmnDuration.svg" alt="images"></i> 
+                                    <small>3 Videos</small>
+                                </div>
+                                <div class="seeMore_btn">
+                                    <b>See More</b>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="module_list">
+                        <div class="modules">
+                            <p><b>Module</b></p>
+                            <h1>3</h1>
+                        </div>
+                        <div>
+                            <div class="free_demo flex">
+                                <div class="flex">
+                                    <i><img src="https://cdn.jsdelivr.net/gh/mdsibgatullah/keeron/assets/images/curriculmnDuration.svg" alt="images"></i> 
+                                    <small>1 hour to complete</small>
+                                </div>
+                                <small>Lock</small>
+                            </div>
+                            <br>
+                            <h5>📌 মডিউল 3: ব্যাকরণ ও বাক্যগঠন (Grammar & Sentence Structure)</h5>
+                            <br>
+                            <p class="line3">
+                                এই মডিউলে আমরা জাপানি ভাষার বাক্য গঠনের নিয়ম (SOV - Subject Object Verb), গুরুত্বপূর্ণ পার্টিকেলগুলি (は, が, を, に, で, と, も, から, まで), এবং ক্রিয়াপদের রূপান্তর শেখবো। এছাড়া অতীত, বর্তমান ও ভবিষ্যৎ কাল সম্পর্কে জানবো এবং সাধারণ বাক্য তৈরি ও অনুশীলন করবো।
+                            </p>
+                            <br>
+                            <br>
+                            <div class="free_demo flex">
+                                <div class="flex">
+                                    <i><img src="https://cdn.jsdelivr.net/gh/mdsibgatullah/keeron/assets/images/curriculmnDuration.svg" alt="images"></i> 
+                                    <small>3 Videos</small>
+                                </div>
+                                <div class="seeMore_btn">
+                                    <b>See More</b>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="module_list">
+                        <div class="modules">
+                            <p><b>Module</b></p>
+                            <h1>4</h1>
+                        </div>
+                        <div>
+                            <div class="free_demo flex">
+                                <div class="flex">
+                                    <i><img src="https://cdn.jsdelivr.net/gh/mdsibgatullah/keeron/assets/images/curriculmnDuration.svg" alt="images"></i> 
+                                    <small>1 hour to complete</small>
+                                </div>
+                                <small>Lock</small>
+                            </div>
+                            <br>
+                            <h5>📌 মডিউল 4: শ্রবণ ও পাঠ্য বোঝার দক্ষতা (Listening & Reading Comprehension)</h5>
+                            <br>
+                            <p class="line3">
+                                এই মডিউলে আমরা ছোট ছোট প্যাসেজ পড়া ও অনুবাদ, সহজ অডিও ও কথোপকথন অনুশীলন, এবং ব্যক্তিগত পরিচিতি ও সাধারণ কথোপকথন শিখবো। এছাড়া জাপানি ভাষায় প্রশ্ন বোঝা ও উত্তর দেওয়ার দক্ষতা অর্জন করবো।
+                            </p>
+                            <br>
+                            <br>
+                            <div class="free_demo flex">
+                                <div class="flex">
+                                    <i><img src="https://cdn.jsdelivr.net/gh/mdsibgatullah/keeron/assets/images/curriculmnDuration.svg" alt="images"></i> 
+                                    <small>3 Videos</small>
+                                </div>
+                                <div class="seeMore_btn">
+                                    <b>See More</b>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="module_list">
+                        <div class="modules">
+                            <p><b>Module</b></p>
+                            <h1>5</h1>
+                        </div>
+                        <div>
+                            <div class="free_demo flex">
+                                <div class="flex">
+                                    <i><img src="https://cdn.jsdelivr.net/gh/mdsibgatullah/keeron/assets/images/curriculmnDuration.svg" alt="images"></i> 
+                                    <small>1 hour to complete</small>
+                                </div>
+                                <small>Lock</small>
+                            </div>
+                            <br>
+                            <h5>📌 মডিউল 5: পরীক্ষা প্রস্তুতি ও রিভিশন (Exam Preparation & Review)</h5>
+                            <br>
+                            <p class="line3">
+                                এই মডিউলে আমরা JLPT N5 পরীক্ষার প্রশ্নপত্র সমাধান, দুর্বল বিষয় পুনরায় শেখা ও অনুশীলন, স্পিকিং ও রাইটিং অনুশীলন এবং চূড়ান্ত প্রস্তুতি ও পরীক্ষার কৌশল শেখার উপর ফোকাস করবো।
+                            </p>
+                            <br>
+                            <br>
+                            <div class="free_demo flex">
+                                <div class="flex">
+                                    <i><img src="https://cdn.jsdelivr.net/gh/mdsibgatullah/keeron/assets/images/curriculmnDuration.svg" alt="images"></i> 
+                                    <small>3 Videos</small>
+                                </div>
+                                <div class="seeMore_btn">
+                                    <b>See More</b>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+
+
+
+
+                </ul>
+            <div class="btn_div">
+                <button class="btn">Show More</button>
+            </div>
+            </div>
+         </section>
+
+         <section class="mentor_details">
+            <div class="container">
+                <h3>মেন্টর পরিচিতি</h3>
+                <br>
+                    <div class="mentor_img">
+                        <img src="https://skillnest-academy.xyz/upload/images/shanto.jpeg" alt="img">
+                    </div>
+            </div>
+         </section>
+         <section class="saying">
+            <div class="container">
+                <div class="section_header">
+                    <h3>দেখুন কোর্সটি থেকে শেখা স্টুডেন্টরা কি বলছে</h3>
+                </div>
+                <br>
+                <br>
+                <div class="slider">
+                    <div class="slider-container">
+                        <ul>
+                            <li>
+                                <div class="flex">
+                                    <div>
+                                        <img src="https://cdn.jsdelivr.net/gh/mdsibgatullah/keeron/assets/images/user_icon.png" alt="img">
+                                    </div>
+                                    <div>
+                                        <h6>মাহমুদুল আহমেদ</h6>
+                                        <div class="flex">
+                                            ★★★★★ <small>2 year ago</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br>
+                                <p class="line5">
+                                    এই কোর্সটি করে আমি জাপানি ভাষার বেসিক দক্ষতা অর্জন করেছি। একদম সহজ ভাষায় ব্যাখ্যা করা হয়েছে!
+                                </p>
+                            </li>
+                            <li>
+                                <div class="flex">
+                                    <div>
+                                        <img src="https://cdn.jsdelivr.net/gh/mdsibgatullah/keeron/assets/images/user_icon.png" alt="img">
+                                    </div>
+                                    <div>
+                                        <h6>কামরুল খান</h6>
+                                        <div class="flex">
+                                            ★★★★★ <small>1 year ago</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p class="line5">
+                                    শুরুতে কঠিন লাগলেও এই কোর্সের মাধ্যমে জাপানি শেখা মজার হয়ে গেছে!
+                                </p>
+                            </li>
+                            <li>
+                                <div class="flex">
+                                    <div>
+                                        <img src="https://cdn.jsdelivr.net/gh/mdsibgatullah/keeron/assets/images/user_icon.png" alt="img">
+                                    </div>
+                                    <div>
+                                        <h6>আলম খান</h6>
+                                        <div class="flex">
+                                            ★★★★★ <small>3 month ago</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p class="line5">
+                                    অসাধারণ কোর্স! জাপানি ভাষার জটিল নিয়মগুলো এত সুন্দরভাবে বোঝানো হয়েছে যে শেখা সহজ হয়ে গেছে।
+                                </p>
+                            </li>
+                            <li>
+                                <div class="flex">
+                                    <div>
+                                        <img src="https://cdn.jsdelivr.net/gh/mdsibgatullah/keeron/assets/images/user_icon.png" alt="img">
+                                    </div>
+                                    <div>
+                                        <h6>আরিফুজ্জামান খান</h6>
+                                        <div class="flex">
+                                            ★★★★★ <small>6 month ago</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p class="line5">
+                                    জাপানি ভাষার প্রতি আমার আগ্রহ অনেকদিনের, কিন্তু এই কোর্সটি করে বুঝলাম শিখতে এত সহজ!
+                                </p>
+                            </li>
+                            <li>
+                                <div class="flex">
+                                    <div>
+                                        <img src="https://cdn.jsdelivr.net/gh/mdsibgatullah/keeron/assets/images/user_icon.png" alt="img">
+                                    </div>
+                                    <div>
+                                        <h6>মিজানুর জামান</h6>
+                                        <div class="flex">
+                                            ★★★★★ <small>1 year ago</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p class="line5">
+                                    সঠিক পদ্ধতিতে শেখার জন্য কোর্সটি অসাধারণ! শব্দভাণ্ডার ও উচ্চারণ সহজে আয়ত্ত করতে পেরেছি।
+                                </p>
+                            </li>
+                            <li>
+                                <div class="flex">
+                                    <div>
+                                        <img src="https://cdn.jsdelivr.net/gh/mdsibgatullah/keeron/assets/images/user_icon.png" alt="img">
+                                    </div>
+                                    <div>
+                                        <h6>ফারুক আহমেদ</h6>
+                                        <div class="flex">
+                                            ★★★★★ <small>2 year ago</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p class="line5">
+                                    দারুণ অভিজ্ঞতা! খুব সহজ পদ্ধতিতে শেখানো হয়েছে, বিশেষ করে কানজি'র ব্যাখ্যাগুলো দারুণ ছিল।
+                                </p>
+                            </li>
+                            <li>
+                                <div class="flex">
+                                    <div>
+                                        <img src="https://cdn.jsdelivr.net/gh/mdsibgatullah/keeron/assets/images/user_icon.png" alt="img">
+                                    </div>
+                                    <div>
+                                        <h6>Md. Shahinur Islam</h6>
+                                        <div class="flex">
+                                            ★★★★★ <small>24 days ago</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p class="line5">
+                                    কোর্সটি সম্পূর্ণ করার পর আমি সহজে জাপানি বাক্য গঠন করতে পারছি।
+                                </p>
+                            </li>
+                            <li>
+                                <div class="flex">
+                                    <div>
+                                        <img src="https://cdn.jsdelivr.net/gh/mdsibgatullah/keeron/assets/images/user_icon.png" alt="img">
+                                    </div>
+                                    <div>
+                                        <h6>শরিফুল রানা</h6>
+                                        <div class="flex">
+                                            ★★★★★ <small>2 years ago</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p class="line5">
+                                    এই কোর্সটি করার পর জাপানি অক্ষর পড়তে পারছি এবং কিছু বাক্য বলতে পারছি।
+                                </p>
+                            </li>
+                            <li>
+                                <div class="flex">
+                                    <div>
+                                        <img src="https://cdn.jsdelivr.net/gh/mdsibgatullah/keeron/assets/images/user_icon.png" alt="img">
+                                    </div>
+                                    <div>
+                                        <h6>ইমরান আহমেদ</h6>
+                                        <div class="flex">
+                                            ★★★★★ <small>2 months ago</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p class="line5">
+                                    শেখার ধাপগুলো এত সুন্দরভাবে সাজানো যে একদম নতুনদের জন্য পারফেক্ট!
+                                </p>
+                            </li>
+                            <li>
+                                <div class="flex">
+                                    <div>
+                                        <img src="https://cdn.jsdelivr.net/gh/mdsibgatullah/keeron/assets/images/user_icon.png" alt="img">
+                                    </div>
+                                    <div>
+                                        <h6>রফিকুল খান</h6>
+                                        <div class="flex">
+                                            ★★★★★ <small>1 year ago</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p class="line5">
+                                    এই কোর্সটি আমাকে জাপানি ভাষায় কথা বলার আত্মবিশ্বাস দিয়েছে, ধন্যবাদ!
+                                </p>
+                            </li>
+                            <li>
+                                <div class="flex">
+                                    <div>
+                                        <img src="https://cdn.jsdelivr.net/gh/mdsibgatullah/keeron/assets/images/user_icon.png" alt="img">
+                                    </div>
+                                    <div>
+                                        <h6>রাজিব চৌধুরী</h6>
+                                        <div class="flex">
+                                            ★★★★★ <small>3 year ago</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p class="line5">
+                                    প্রতি ক্লাস এত ইন্টারঅ্যাকটিভ যে আমি সহজেই শিখতে পারছি!
+                                </p>
+                            </li>
+                            <li>
+                                <div class="flex">
+                                    <div>
+                                        <img src="https://cdn.jsdelivr.net/gh/mdsibgatullah/keeron/assets/images/user_icon.png" alt="img">
+                                    </div>
+                                    <div>
+                                        <h6>রাজিব চৌধুরী</h6>
+                                        <div class="flex">
+                                            ★★★★★ <small>20 minute ago</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p class="line5">
+                                    আমি এখন জাপানি ভাষায় ছোট ছোট বাক্যে কথা বলতে পারছি, দারুণ একটা কোর্স!
+                                </p>
+                            </li>
+                            <li>
+                                <div class="flex">
+                                    <div>
+                                        <img src="https://cdn.jsdelivr.net/gh/mdsibgatullah/keeron/assets/images/user_icon.png" alt="img">
+                                    </div>
+                                    <div>
+                                        <h6>খালেদ মাহমুদ</h6>
+                                        <div class="flex">
+                                            ★★★★★ <small>1 year ago</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p class="line5">
+                                    ব্যতিক্রমী শিক্ষা পদ্ধতি! শেখার জন্য এটি নিঃসন্দেহে বেস্ট কোর্স।
+                                </p>
+                            </li>
+                            <li>
+                                <div class="flex">
+                                    <div>
+                                        <img src="https://cdn.jsdelivr.net/gh/mdsibgatullah/keeron/assets/images/user_icon.png" alt="img">
+                                    </div>
+                                    <div>
+                                        <h6>Md. Shahinur Islam</h6>
+                                        <div class="flex">
+                                            ★★★★★ <small>6 month ago</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p class="line5">
+                                    শুধু জাপানি শেখা নয়, ভাষাটি কিভাবে ব্যবহার করতে হয় সেটাও পরিষ্কার হয়েছে।
+                                </p>
+                            </li>
+                            <li>
+                                <div class="flex">
+                                    <div>
+                                        <img src="https://cdn.jsdelivr.net/gh/mdsibgatullah/keeron/assets/images/user_icon.png" alt="img">
+                                    </div>
+                                    <div>
+                                        <h6>তানভীর আহমেদ</h6>
+                                        <div class="flex">
+                                            ★★★★★ <small>5 months ago</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p class="line5">
+                                    আমি নিজে চেষ্টা করেও শিখতে পারিনি, কিন্তু এই কোর্সের মাধ্যমে সহজেই শিখতে পেরেছি!
+                                </p>
+                            </li>
+                            <li>
+                                <div class="flex">
+                                    <div>
+                                        <img src="https://cdn.jsdelivr.net/gh/mdsibgatullah/keeron/assets/images/user_icon.png" alt="img">
+                                    </div>
+                                    <div>
+                                        <h6>নাসির উদ্দিন</h6>
+                                        <div class="flex">
+                                            ★★★★★ <small>1 year ago</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p class="line5">
+                                    জাপানি ভাষার উচ্চারণ নিয়ে অনেক সমস্যায় ছিলাম, কিন্তু কোর্সটি সেসব দূর করেছে!
+                                </p>
+                            </li>
+                            <li>
+                                <div class="flex">
+                                    <div>
+                                        <img src="https://cdn.jsdelivr.net/gh/mdsibgatullah/keeron/assets/images/user_icon.png" alt="img">
+                                    </div>
+                                    <div>
+                                        <h6>রাশেদুল খান</h6>
+                                        <div class="flex">
+                                            ★★★★★ <small>2 years ago</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p class="line5">
+                                    প্রথম থেকেই সহজ এবং কার্যকর পদ্ধতিতে শেখানোর জন্য কোর্সটি প্রশংসার যোগ্য! 
+                                </p>
+                            </li>
+                            <li>
+                                <div class="flex">
+                                    <div>
+                                        <img src="https://cdn.jsdelivr.net/gh/mdsibgatullah/keeron/assets/images/user_icon.png" alt="img">
+                                    </div>
+                                    <div>
+                                        <h6>রিদয় খান</h6>
+                                        <div class="flex">
+                                            ★★★★★ <small>1 year ago</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p class="line5">
+                                    আমি জাপানি সংস্কৃতি বুঝতে চাইতাম, এই কোর্সটি সেই পথটাও সহজ করে দিয়েছে। 
+                                </p>
+                            </li>
+                            <li>
+                                <div class="flex">
+                                    <div>
+                                        <img src="https://cdn.jsdelivr.net/gh/mdsibgatullah/keeron/assets/images/user_icon.png" alt="img">
+                                    </div>
+                                    <div>
+                                        <h6>ফাহিম আহমেদ</h6>
+                                        <div class="flex">
+                                            ★★★★★ <small>1 year ago</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p class="line5">
+                                    যারা জাপানি ভাষা শিখতে চান, তাদের জন্য এটি পারফেক্ট কোর্স! 
+                                </p>
+                            </li>
+                            <li>
+                                <div class="flex">
+                                    <div>
+                                        <img src="https://cdn.jsdelivr.net/gh/mdsibgatullah/keeron/assets/images/user_icon.png" alt="img">
+                                    </div>
+                                    <div>
+                                        <h6>সুমন আজাদ</h6>
+                                        <div class="flex">
+                                            ★★★★★ <small>1 year ago</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p class="line5">
+                                    একদম ধাপে ধাপে শেখানোর জন্য কোর্সটি অত্যন্ত উপকারী মনে হয়েছে। 
+                                </p>
+                            </li>
+                            <li>
+                                <div class="flex">
+                                    <div>
+                                        <img src="https://cdn.jsdelivr.net/gh/mdsibgatullah/keeron/assets/images/user_icon.png" alt="img">
+                                    </div>
+                                    <div>
+                                        <h6>রাশেদুল খান</h6>
+                                        <div class="flex">
+                                            ★★★★★ <small>1 year ago</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p class="line5">
+                                    জাপানি ভাষার গ্রামার এত সহজভাবে শেখানো হয়েছে যে এখন আমি নিজে নিজেই অনুশীলন করতে পারছি। 
+                                </p>
+                            </li>
+                            <li>
+                                <div class="flex">
+                                    <div>
+                                        <img src="https://cdn.jsdelivr.net/gh/mdsibgatullah/keeron/assets/images/user_icon.png" alt="img">
+                                    </div>
+                                    <div>
+                                        <h6>নাসির উদ্দিন</h6>
+                                        <div class="flex">
+                                            ★★★★★ <small>1 year ago</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p class="line5">
+                                    কোর্সটি একদম জিরো থেকে শুরু করেছে, তাই নতুনদের জন্য পারফেক্ট!
+                                </p>
+                            </li>
+                            <li>
+                                <div class="flex">
+                                    <div>
+                                        <img src="https://cdn.jsdelivr.net/gh/mdsibgatullah/keeron/assets/images/user_icon.png" alt="img">
+                                    </div>
+                                    <div>
+                                        <h6>নাসির</h6>
+                                        <div class="flex">
+                                            ★★★★★ <small>2 years ago</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p class="line5">
+                                    শুরুতে মনে হয়েছিল কঠিন হবে, কিন্তু কোর্সটির স্টেপ-বাই-স্টেপ গাইডলাইন সব সহজ করে দিয়েছে!
+                                </p>
+                            </li>
+                            <li>
+                                <div class="flex">
+                                    <div>
+                                        <img src="https://cdn.jsdelivr.net/gh/mdsibgatullah/keeron/assets/images/user_icon.png" alt="img">
+                                    </div>
+                                    <div>
+                                        <h6>শরিফুল রানা</h6>
+                                        <div class="flex">
+                                            ★★★★★ <small>1 year ago</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p class="line5">
+                                    এখন আমি জাপানি ভাষা শিখতে আরও আগ্রহী, কারণ এই কোর্সটি শেখাকে মজার করে তুলেছে!
+                                </p>
+                            </li>
+                        </ul>
+                    </div>
+                    <button class="left"><</button>
+                    <button class="right">></button>
+                </div>                
+                <br>
+                <br>
+                <div class="flex" style="justify-content: center; color: red;">
+                    <h3><del>৫০০০৳</del></h3>
+                    <a href="{% url 'enroll_form' course.slug %}"><button class="enroll_Now" >Apply Now</button></a>
+                </div>
+            </div>
+         </section>
+         <div class="modal">
+            <div class="overlay" onclick="closePopup()"></div>
+            <div class="popup popup1">
+                <form action="{% url 'enroll_form' course.slug %}" method="post">
+                    <input type="text" placeholder="Full Name" required>
+                    <input type="email" placeholder="Email" required>
+                    <input type="tel" placeholder="Phone Number" required>
+                    <div class="free_demo flex">
+                        <button onclick="closePopup()">Close</button>
+                        <button type="submit" onclick="submitData()">Submite</button>
+                    </div>
+                </form>
+            </div>
+            <div class="popup popup2">
+                <form action="#" method="post">
+                    <input type="text" placeholder="MD. SIBGATULLAH" readonly>
+                    <input type="email" placeholder="sibgatullah667@gmail.com" readonly>
+                    <input type="number" placeholder="01601706606" readonly>
+                    <input type="text" placeholder="Price 999tk" readonly>
+                    <input type="number" placeholder="Quantity 1" readonly>
+                    <div class="free_demo flex" style="margin-top: 5px;">
+                        <button onclick="closePopup()">Close</button>
+                        <button type="submit">Confirm</button>
+                    </div>
+                </form>
+            </div>
+         </div>
+    </main>
+    <!-- ========== Start Footer ========== -->
+    <footer class="footer">
+        <div class="container">
+
+        </div>
+    </footer>
+    <!-- WhatsApp Float Button -->
+    
+    
+    <!-- ========== End Footer ========== -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+    <script>
+        var swiper = new Swiper(".videoSwiper", {
+            slidesPerView: 1,
+            spaceBetween: 10,
+            navigation: {
+                nextEl: ".swiper-button-next",
+                prevEl: ".swiper-button-prev",
+            },
+            pagination: {
+                el: ".swiper-pagination",
+                clickable: true,
+            },
+            loop: true,
+        });
+    </script>
+
+    <script>
+
+        const all_video = document.getElementById('all_video');
+
+        function allVideo() {
+            if (all_video.style.display === "none" || all_video.style.display === "") {
+                all_video.style.display = "block";
+            } else {
+                all_video.style.display = "none";
+            }
+        }
+
+
+        const modal = document.querySelector('.modal');
+        const popup1 = document.querySelector('.popup1');
+        const popup2 = document.querySelector('.popup2');
+        function submitData(){
+            popup1.style.display = "none";
+            popup2.style.display = "block";
+        }
+        function closePopup(){
+            popup1.style.display = "block";
+            modal.style.display = "none";
+            popup2.style.display = "none";
+        }
+        function showPopup(){
+            modal.style.display = "block";
+        }
+
+    document.querySelectorAll(".free_video").forEach((btn) => {
+        btn.addEventListener("click", () => {
+            const parent = btn.closest(".video_wrapper");
+            const video = parent.querySelector(".course_video");
+            
+            if (video.style.display === "block") {
+            video.style.display = "none";
+            } else {
+            video.style.display = "block";
+            }
+        });
+    });
+
+            document.addEventListener("DOMContentLoaded", function () {
+            const slider = document.querySelector(".slider ul");
+            const leftButton = document.querySelector(".left");
+            const rightButton = document.querySelector(".right");
+            let index = 0;
+            
+            const items = document.querySelectorAll(".slider ul li");
+            const totalSlides = items.length / 2;
+            const firstClone = items[0].cloneNode(true);
+            const lastClone = items[items.length - 1].cloneNode(true);
+
+            slider.appendChild(firstClone);
+            slider.insertBefore(lastClone, slider.firstChild);
+
+            index = 1;
+            slider.style.transform = `translateX(-${index * 100}%)`;
+
+            function updateSlider() {
+                slider.style.transition = "transform 0.5s ease-in-out";
+                slider.style.transform = `translateX(-${index * 100}%)`;
+            }
+
+            function nextSlide() {
+                if (index >= totalSlides) {
+                    slider.style.transition = "none";
+                    index = 0;
+                    slider.style.transform = `translateX(-${index * 100}%)`;
+                    setTimeout(() => {
+                        index++;
+                        updateSlider();
+                    }, 50);
+                } else {
+                    index++;
+                    updateSlider();
+                }
+            }
+
+            function prevSlide() {
+                if (index <= 0) {
+                    slider.style.transition = "none";
+                    index = totalSlides; 
+                    slider.style.transform = `translateX(-${index * 100}%)`;
+                    setTimeout(() => {
+                        index--;
+                        updateSlider();
+                    }, 50);
+                } else {
+                    index--;
+                    updateSlider();
+                }
+            }
+
+            rightButton.addEventListener("click", nextSlide);
+            leftButton.addEventListener("click", prevSlide);
+
+            setInterval(nextSlide, 3000);
+        });
+        function updateCountdownDate() {
+            const currentDate = new Date();  // Get the current date
+            currentDate.setHours(0, 0, 0, 0);  // Reset time to 00:00:00 for consistency
+            
+            // Add 3 days to the current date
+            const countdownDate = new Date(currentDate.getTime() + (3 * 24 * 60 * 60 * 1000)).getTime();
+            
+            return countdownDate;
+        }
+
+        const countdownDate = updateCountdownDate();
+
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const timeLeft = countdownDate - now;
+
+            if (timeLeft <= 0) {
+                document.querySelector(".timer").innerHTML = "<h5>Time's Up!</h5>";
+                clearInterval(timer);
+                return;
+            }
+
+            const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+
+            document.querySelectorAll(".timer h5")[0].innerText = days < 10 ? "0" + days : days;
+            document.querySelectorAll(".timer h5")[1].innerText = hours < 10 ? "0" + hours : hours;
+            document.querySelectorAll(".timer h5")[2].innerText = minutes < 10 ? "0" + minutes : minutes;
+            document.querySelectorAll(".timer h5")[3].innerText = seconds < 10 ? "0" + seconds : seconds;
+        }
+        const timer = setInterval(updateCountdown, 1000);
+        updateCountdown();
+
+        function closeAdd(){
+            document.querySelector(".add").style.display = 'none';
+        }
+
+
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+    // Create anchor element
+    let whatsappBtn = document.createElement("a");
+    whatsappBtn.href = "https://wa.me/8801717763198"; // Use proper format without "+"
+    whatsappBtn.className = "whatsapp-float";
+    whatsappBtn.target = "_blank"; // Open in new tab
+
+    // Create image element
+    let whatsappIcon = document.createElement("img");
+    whatsappIcon.src = "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/WhatsApp.svg/100px-WhatsApp.svg.png";
+    whatsappIcon.alt = "WhatsApp";
+    whatsappIcon.style.width = "50px"; // Adjust size
+    whatsappIcon.style.height = "50px";
+
+    // Append image to anchor
+    whatsappBtn.appendChild(whatsappIcon);
+
+    // Append to body
+    document.body.appendChild(whatsappBtn);
+
+    // Apply styles dynamically
+    let style = document.createElement("style");
+    style.innerHTML = `
+        .whatsapp-float {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #25D366;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+        }
+    `;
+    document.head.appendChild(style);
+});
+
+    </script>
+    <script>
+                // Fake order notification system
+                const notifications = [
+            {
+                name: "মনির নীলফামারী",
+                location: "নীলফামারী সদর",
+                time: "২ মিনিট আগে"
+            },
+            {
+                name: "রাজু ঢাকা",
+                location: "মিরপুর-১০",
+                time: "৫ মিনিট আগে"
+            },
+            {
+                name: "কামাল খুলনা",
+                location: "দৌলতপুর",
+                time: "৮ মিনিট আগে"
+            },
+            {
+                name: "শাহীন চট্টগ্রাম",
+                location: "চান্দগাঁও",
+                time: "১০ মিনিট আগে"
+            },
+            {
+                name: "মিতু সিলেট",
+                location: "জিন্দাবাজার",
+                time: "১২ মিনিট আগে"
+            },
+            {
+                name: "জুবায়ের বরিশাল",
+                location: "নাটোরপাড়া",
+                time: "১৫ মিনিট আগে"
+            },
+            {
+                name: "শফিক রাজশাহী",
+                location: "বনগ্রাম",
+                time: "২০ মিনিট আগে"
+            },
+            {
+                name: "তৌহিদ রংপুর",
+                location: "পায়রা চত্বর",
+                time: "২৫ মিনিট আগে"
+            },
+            {
+                name: "আলম নারায়ণগঞ্জ",
+                location: "শহর রেলগেট",
+                time: "৩০ মিনিট আগে"
+            }
+        ];
+
+                function showNotification(notification) {
+                    const notificationElement = document.createElement('div');
+                    notificationElement.className = 'notification';
+                    notificationElement.innerHTML = `
+                        <img src="https://cdn.jsdelivr.net/gh/mdsibgatullah/keeron/assets/images/Santo-Ahmed.jpg" alt="course">
+                        <div class="notification-content">
+                            <p class="mb-1"><strong>${notification.name}</strong> জাপানিজ ভাষা শিখার পরিপূর্ণ কোর্সটি কিনেছেন।</p>
+                            <small class="text-muted">${notification.time}</small>
+                        </div>
+                        <button class="close-btn" onclick="this.parentElement.remove()">✕</button>
+                    `;
+                    document.body.appendChild(notificationElement);
+
+                    setTimeout(() => {
+                        notificationElement.remove();
+                    }, 5000);
+                }
+
+                function showRandomNotification() {
+                    const randomIndex = Math.floor(Math.random() * notifications.length);
+                    showNotification(notifications[randomIndex]);
+                    
+                    // Schedule next notification
+                    const nextTimeout = Math.random() * (30000 - 15000) + 15000; // Between 15-30 seconds
+                    setTimeout(showRandomNotification, nextTimeout);
+                }
+
+                // Start showing notifications after page load
+                setTimeout(showRandomNotification, 3000);
+    </script>
+    <script>
+  fbq('track', 'Page View - japanese-language-course');
+</script>
+</body>
+</html>

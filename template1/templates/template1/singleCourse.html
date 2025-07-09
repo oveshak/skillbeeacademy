@@ -1,0 +1,758 @@
+
+<!DOCTYPE html>
+<html lang="en">
+    {% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learning Platform</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/alpinejs/3.12.0/cdn.min.js" defer></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'template/assets/css/headerfooter.css' %}">
+  
+</head>
+<body class="bg-white text-gray-800" x-data="{ 
+    activeModule: 'module1',
+    activeLesson: 'lesson1',
+    activeMilestone: 'milestone0',
+    videoVisible: true,
+    modules: {
+        'module1': {
+            lessons: ['lesson1', 'lesson2'],
+            nextModule: 'module2'
+        },
+        'module2': {
+            lessons: ['lesson3', 'lesson4'],
+            nextModule: null
+        }
+    },
+    milestones: {
+        'milestone0': ['module1', 'module2'],
+        'milestone1': ['module3', 'module4']
+    },
+    toggleMilestone(milestoneId) {
+        this.activeMilestone = this.activeMilestone === milestoneId ? null : milestoneId;
+    },
+    toggleModule(moduleId) {
+        this.activeModule = this.activeModule === moduleId ? null : moduleId;
+    },
+    toggleLesson(lessonId) {
+        if (this.activeLesson !== lessonId) {
+            this.activeLesson = lessonId;
+            this.videoVisible = true; // Always show video when changing lessons
+        }
+    },
+    goToNextLesson() {
+        // Find current module's lessons
+        const currentModuleLessons = this.modules[this.activeModule].lessons;
+        const currentLessonIndex = currentModuleLessons.indexOf(this.activeLesson);
+        
+        // If there's another lesson in the module, go to it
+        if (currentLessonIndex < currentModuleLessons.length - 1) {
+            this.toggleLesson(currentModuleLessons[currentLessonIndex + 1]);
+        } 
+        // Otherwise, go to the next module's first lesson if available
+        else {
+            const nextModuleId = this.modules[this.activeModule].nextModule;
+            if (nextModuleId && this.modules[nextModuleId]) {
+                this.activeModule = nextModuleId;
+                this.toggleLesson(this.modules[nextModuleId].lessons[0]);
+            }
+        }
+    },
+    goToPreviousLesson() {
+        // Find current module's lessons
+        const currentModuleLessons = this.modules[this.activeModule].lessons;
+        const currentLessonIndex = currentModuleLessons.indexOf(this.activeLesson);
+        
+        // If there's a previous lesson in the module, go to it
+        if (currentLessonIndex > 0) {
+            this.toggleLesson(currentModuleLessons[currentLessonIndex - 1]);
+        } 
+        // Otherwise, go to the previous module's last lesson if we're not in the first module
+        else if (this.activeModule === 'module2') {
+            this.activeModule = 'module1';
+            const prevModuleLessons = this.modules['module1'].lessons;
+            this.toggleLesson(prevModuleLessons[prevModuleLessons.length - 1]);
+        }
+    },
+    isMobileMenuOpen: false,
+    toggleMobileMenu() {
+        this.isMobileMenuOpen = !this.isMobileMenuOpen;
+    }
+}" x-init="activeMilestone = 'milestone0'; activeModule = 'module1'; activeLesson = 'lesson1'">
+<header class="w-full sticky top-0  bg-white lg:py-4 px-4 md:px-8 lg:px-12  z-40" x-data="{ 
+    mobileMenuOpen: false,
+    activeLink: 'all-courses',
+    language: 'EN',
+    languageOpen: false,
+    languages: [
+        { code: 'EN', name: 'English' },
+        { code: 'ES', name: 'Spanish' },
+        { code: 'FR', name: 'French' },
+        { code: 'DE', name: 'German' }
+    ],
+    sidebarOpen: false
+}" @click.away="mobileMenuOpen = false; languageOpen = false">
+    <div class="max-w-[110rem] mx-auto flex justify-between items-center">
+      <!-- Logo -->
+      <div class="flex">
+        <button @click="mobileMenuOpen = !mobileMenuOpen" class="md:hidden text-gray-700 focus:outline-none">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
+        <div class="flex items-center">
+          <a href="{% url 'index' %}" class="text-green-500 font-bold text-5xl flex w-[180px] items-center">
+            <img src="https://skillbeeacademy.com/upload/images/skillbee.jpeg" alt="skillbee" class="p-2" />
+          </a>
+        </div>
+
+        <!-- Desktop Navigation -->
+        <nav class="hidden md:flex ml-10 items-center space-x-7" id="main-nav">
+          <a href="{% url 'allcourse' %}" 
+             class="text-gray-700 hover:text-green-500 font-medium transition-colors text-[18px] 2xl:text-[22px]  duration-200 nav-link"
+             data-target="all-courses">All Courses</a>
+          
+          {% comment %} <a href="./livecourse.html" 
+             class="text-gray-700 hover:text-green-500 font-medium transition-colors lg:text-[22px] duration-200 nav-link"
+             data-target="live-courses">Live Courses</a>
+          
+          <a href="./freetest.html" 
+             class="text-gray-700 hover:text-green-500 font-medium transition-colors lg:text-[22px] duration-200 nav-link"
+             data-target="free-test">Free Test</a>
+          
+          <a href="./downloadresourse.html" 
+             class="text-gray-700 hover:text-green-500 font-medium transition-colors lg:text-[22px] duration-200 nav-link"
+             data-target="download-resources">Download Resources</a>
+          
+          <a href="./freeevent.html" 
+             class="text-gray-700 hover:text-green-500 font-medium transition-colors lg:text-[22px] duration-200 nav-link"
+             data-target="free-events">Free Events</a> {% endcomment %}
+        </nav>
+        
+        <script>
+      document.addEventListener('DOMContentLoaded', function() {
+  // Get all navigation links
+  const navLinks = document.querySelectorAll('.nav-link');
+  
+  // Add click event listeners to each nav link
+  navLinks.forEach(link => {
+    link.addEventListener('click', function(e) {
+      // Remove active class from all links
+      navLinks.forEach(l => l.classList.remove('text-green-500'));
+      
+      // Add active class to clicked link
+      this.classList.add('text-green-500');
+      
+      // Store active link in localStorage
+      localStorage.setItem('activeNavLink', this.dataset.target);
+    });
+  });
+  
+  // Get all links on the page (not just nav links)
+  const allLinks = document.querySelectorAll('a:not(.nav-link)');
+  
+  // Add click event to all other links to reset active state
+  allLinks.forEach(link => {
+    link.addEventListener('click', function(e) {
+      // Remove active class from all nav links
+      navLinks.forEach(navLink => navLink.classList.remove('text-green-500'));
+      
+      // Also clear localStorage
+      localStorage.removeItem('activeNavLink');
+    });
+  });
+  
+  // On page load, check if we should set an active link
+  const currentPath = window.location.pathname;
+  let activeSet = false;
+  
+  // Try to match based on the current path
+  navLinks.forEach(link => {
+    const href = link.getAttribute('href');
+    const hrefFile = href.split('/').pop();
+    const pathFile = currentPath.split('/').pop();
+    
+    // If current page matches this nav link
+    if (pathFile === hrefFile) {
+      navLinks.forEach(l => l.classList.remove('text-green-500'));
+      link.classList.add('text-green-500');
+      localStorage.setItem('activeNavLink', link.dataset.target);
+      activeSet = true;
+    }
+  });
+  
+  // If no match by URL but we have localStorage, use that
+  if (!activeSet) {
+    const activeLink = localStorage.getItem('activeNavLink');
+    if (activeLink) {
+      const link = document.querySelector(`[data-target="${activeLink}"]`);
+      if (link) {
+        navLinks.forEach(l => l.classList.remove('text-green-500'));
+        link.classList.add('text-green-500');
+      }
+    }
+  }
+});
+        </script>
+      </div>
+      <div class="flex gap-3 lg:gap-6 items-center">
+        <!-- Search bar -->
+        <div class="hidden md:block relative">
+          <input type="text" placeholder="Search for Courses"
+            class="pl-10 pr-4 py-3 rounded-full border text-[20px] focus:outline-none w-[25rem] transition">
+          <div class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+              stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+          </div>
+        </div>
+        <div class="md:hidden flex items-center justify-center relative  ">
+          <button id="searchBtn" class="text-gray-500 hover:text-gray-700 focus:outline-none">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+            </svg>
+          </button>
+
+        </div>
+
+
+        <!-- Language selector -->
+        <div class="block relative rounded-full" @click.away="languageOpen = false">
+          <button @click="languageOpen = !languageOpen"
+            class="hidden md:flex px-8 py-7 lg:rounded-full items-center space-x-1 text-gray-700 hover:text-gray-900 lg:border h-12">
+            <span x-text="language" class="font-large text-[20px] font-bold"></span>
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transition-transform"
+              :class="{'rotate-180': languageOpen}" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+          <button @click="languageOpen = !languageOpen"
+            class="md:hidden flex text-[25px] lg:px-8 lg:py-7 lg:rounded-full items-center space-x-1 text-gray-700 hover:text-gray-900 lg:border h-12">
+            <!-- <span x-text="language" class="font-large text-[20px] font-bold"></span> -->
+            <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 496 512" focusable="false"
+              class="chakra-icon css-1h1ps9q" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M336.5 160C322 70.7 287.8 8 248 8s-74 62.7-88.5 152h177zM152 256c0 22.2 1.2 43.5 3.3 64h185.3c2.1-20.5 3.3-41.8 3.3-64s-1.2-43.5-3.3-64H155.3c-2.1 20.5-3.3 41.8-3.3 64zm324.7-96c-28.6-67.9-86.5-120.4-158-141.6 24.4 33.8 41.2 84.7 50 141.6h108zM177.2 18.4C105.8 39.6 47.8 92.1 19.3 160h108c8.7-56.9 25.5-107.8 49.9-141.6zM487.4 192H372.7c2.1 21 3.3 42.5 3.3 64s-1.2 43-3.3 64h114.6c5.5-20.5 8.6-41.8 8.6-64s-3.1-43.5-8.5-64zM120 256c0-21.5 1.2-43 3.3-64H8.6C3.2 212.5 0 233.8 0 256s3.2 43.5 8.6 64h114.6c-2-21-3.2-42.5-3.2-64zm39.5 96c14.5 89.3 48.7 152 88.5 152s74-62.7 88.5-152h-177zm159.3 141.6c71.4-21.2 129.4-73.7 158-141.6h-108c-8.8 56.9-25.6 107.8-50 141.6zM19.3 352c28.6 67.9 86.5 120.4 158 141.6-24.4-33.8-41.2-84.7-50-141.6h-108z">
+              </path>
+            </svg>
+          </button>
+          <div x-show="languageOpen" x-transition:enter="transition ease-out duration-100"
+            x-transition:enter-start="transform opacity-0 scale-95"
+            x-transition:enter-end="transform opacity-100 scale-100" x-transition:leave="transition ease-in duration-75"
+            x-transition:leave-start="transform opacity-100 scale-100"
+            x-transition:leave-end="transform opacity-0 scale-95"
+            class="absolute -right-12 lg:right-0 mt-2 w-36 bg-white shadow-lg rounded-md py-1 z-10">
+            <template x-for="lang in languages" :key="lang.code">
+              <a href="#" @click.prevent="language = lang.code; languageOpen = false"
+                class="block px-4 py-2 text-base text-gray-700 hover:bg-gray-100"
+                :class="{'bg-gray-50': language === lang.code}" x-text="lang.name"></a>
+            </template>
+          </div>
+        </div>
+        <div class=" block w-[1px] h-12 bg-gray-300"></div>
+
+        <!-- Sign in button -->
+        {% comment %} <a href="#" @click.prevent="sidebarOpen = true"
+          class="hidden  bg-green-500 hover:bg-green-600 text-white px-6 md:px-10 py-4 lg:flex items-center rounded-full text-base md:text-[25px] font-bold transition duration-300">Sign
+          in</a>
+        <a href="#" @click.prevent="sidebarOpen = true"
+          class=" py-4 lg:hidden flex items-center  text-[21px] md:text-[20px] font-bold transition duration-300"><svg
+            stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 496 512" focusable="false"
+            class="chakra-icon css-132u3c" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M248 104c-53 0-96 43-96 96s43 96 96 96 96-43 96-96-43-96-96-96zm0 144c-26.5 0-48-21.5-48-48s21.5-48 48-48 48 21.5 48 48-21.5 48-48 48zm0-240C111 8 0 119 0 256s111 248 248 248 248-111 248-248S385 8 248 8zm0 448c-49.7 0-95.1-18.3-130.1-48.4 14.9-23 40.4-38.6 69.6-39.5 20.8 6.4 40.6 9.6 60.5 9.6s39.7-3.1 60.5-9.6c29.2 1 54.7 16.5 69.6 39.5-35 30.1-80.4 48.4-130.1 48.4zm162.7-84.1c-24.4-31.4-62.1-51.9-105.1-51.9-10.2 0-26 9.6-57.6 9.6-31.5 0-47.4-9.6-57.6-9.6-42.9 0-80.6 20.5-105.1 51.9C61.9 339.2 48 299.2 48 256c0-110.3 89.7-200 200-200s200 89.7 200 200c0 43.2-13.9 83.2-37.3 115.9z">
+            </path> {% endcomment %}
+          </svg></a>
+
+        <!-- Mobile menu button -->
+        <!-- <button @click="mobileMenuOpen = !mobileMenuOpen" class="md:hidden text-gray-700 focus:outline-none">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+    </button> -->
+      </div>
+    </div>
+
+    <!-- Mobile Navigation -->
+    <div x-show="mobileMenuOpen" x-transition:enter="transition ease-out duration-200"
+      x-transition:enter-start="opacity-0 -translate-y-2" x-transition:enter-end="opacity-100 translate-y-0"
+      x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100 translate-y-0"
+      x-transition:leave-end="opacity-0 -translate-y-2" class="md:hidden mt-4 pb-4">
+      <div class="flex flex-col space-y-4">
+        <a href="{% url 'allcourse' %}" @click.prevent="activeLink = 'all-courses'"
+          :class="{'text-green-500 font-semibold': activeLink === 'all-courses'}"
+          class="text-gray-700 hover:text-green-500 font-medium px-4 py-2 transition-colors duration-200">All
+          Courses</a>
+
+
+        <!-- Search bar -->
+      
+
+
+      </div>
+    </div>
+
+    <!-- Sidebar for Sign In -->
+    <div x-show="sidebarOpen" class="fixed inset-0 z-50 overflow-hidden">
+      <!-- Overlay -->
+      <div x-show="sidebarOpen" x-transition:enter="transition-opacity ease-linear duration-300"
+        x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
+        x-transition:leave="transition-opacity ease-linear duration-300" x-transition:leave-start="opacity-100"
+        x-transition:leave-end="opacity-0" class="fixed inset-0 bg-black bg-opacity-50" @click="sidebarOpen = false">
+      </div>
+
+      <!-- Sidebar Panel -->
+      <div x-show="sidebarOpen" x-transition:enter="transition ease-in-out duration-300 transform"
+        x-transition:enter-start="translate-x-full" x-transition:enter-end="translate-x-0"
+        x-transition:leave="transition ease-in-out duration-300 transform" x-transition:leave-start="translate-x-0"
+        x-transition:leave-end="translate-x-full"
+        class="fixed inset-y-0 right-0 max-w-[54rem] w-full bg-white shadow-xl overflow-y-auto">
+
+        <!-- Sidebar Header -->
+        <div class="keeron-gradient p-8 ">
+          <div class=" py-5">
+            <div class="text-green-400 font-bold text-3xl p-4">Skillbee</div>
+          </div>
+          <button @click="sidebarOpen = false"
+            class="absolute top-3 right-3 text-white hover:text-gray-300 focus:outline-none">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+              stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+          <!-- <button >
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button> -->
+        </div>
+
+
+        <div class="flex flex-col justify-between min-h-[75vh] px-4 ">
+          <div class="bg-white mt-4 lg:mt-[5rem]  flex justify-center items-center ">
+            <div id="phone-screen" class="max-w-md w-full flex flex-col ">
+              <h1 class="text-[24px] lg:text-[36px] font-bold text-gray-800 mb-2 lg:mb-4">Welcome to Skillbee!</h1>
+              <p class="text-gray-600 mb-4 lg:mb-8 text-[18px] lg:text-[22px] text-black">Sign in or Register using your
+                mobile number</p>
+
+              <div class="w-full mb-2">
+                <label class="text-gray-700 text-xl font-bold" for="phone">Mobile Number*</label>
+              </div>
+
+              <div class="flex w-full mb-9 relative">
+                <div
+                  class="absolute inset-y-0 left-0 flex items-center pl-3 pr-3 pointer-events-none text-xl text-black">
+                  +88
+                </div>
+                <input type="tel" id="phone-input" placeholder="Your Mobile Number"
+                  class="w-full py-4 pl-14 pr-4 border border-gray-300  rounded-md text-xl" maxlength="11">
+              </div>
+
+              <button id="continue-btn"
+                class="w-full py-5 bg-gray-100 text-gray-400 rounded-md disabled cursor-not-allowed mb-6">
+                Continue
+              </button>
+
+              <p class="text-base lg:text-[18px] mt-[17px] text-gray-600 text-center">
+                By continuing, you agree to the
+                <a href="#" class="text-gray-800 font-medium">Terms of use</a>,
+                <a href="#" class="text-gray-800 font-medium">Privacy Policy</a>
+                and
+                <a href="#" class="text-gray-800 font-medium">Community Standards</a>
+                of Skillbee
+              </p>
+
+              <!-- Purple circle in bottom right -->
+              <!-- <div class="fixed bottom-4 right-4 w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center">
+                      <span class="text-white text-lg">⋮</span>
+                    </div> -->
+            </div>
+
+            <!-- OTP Verification Screen (Hidden by default) -->
+            <div id="otp-screen" class="max-w-md w-full flex flex-col  hidden">
+              <h1 class="text-[24px] lg:text-[36px] font-bold text-gray-800 mb-2 lg:mb-4">Verify mobile number</h1>
+              <p class="text-gray-600 mb-4 lg:mb-8 text-[18px] lg:text-[22px] text-black">
+                Enter the verification code that we sent to this mobile number
+                <span id="display-number" class="text-green-500 font-medium">+8801794003065</span>
+              </p>
+
+              <div class="flex gap-2 mb-6 justify-center w-full">
+                <input type="text" maxlength="1" class="otp-input" id="otp-1">
+                <input type="text" maxlength="1" class="otp-input" id="otp-2">
+                <input type="text" maxlength="1" class="otp-input" id="otp-3">
+                <input type="text" maxlength="1" class="otp-input" id="otp-4">
+                <input type="text" maxlength="1" class="otp-input" id="otp-5">
+              </div>
+
+              <div class="w-full flex justify-end mb-6">
+                <p class="text-gray-600 text-base">
+                  Resend code in: <span id="timer" class="font-medium">01:54</span>
+                </p>
+              </div>
+
+              <button id="submit-btn"
+                class="w-full py-3 bg-gray-100 text-gray-400 rounded-md disabled cursor-not-allowed mb-6">
+                Submit
+              </button>
+
+              <div class="w-full flex justify-center border-t pt-4">
+                <p class="text-gray-700 lg:text-[20px]">
+                  Not the correct Number?
+                  <a href="#" id="change-number" class="text-green-500 font-medium">Change Mobile Number</a>
+                </p>
+              </div>
+
+              <!-- Purple circle in bottom right -->
+              <div class="fixed bottom-4 right-4 w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center">
+                <span class="text-white text-lg">⋮</span>
+              </div>
+            </div>
+          </div>
+
+
+
+          <!-- Contact Info -->
+          <div class="p-4 text-base text-gray-600 mt-6 flex flex-col justify-center items-center gap-2">
+
+            <p class="text-[18px] font-semibold">For issues, contact us at:<span class="font-bold">01322890096</span>
+            </p>
+
+            <p class="text-[18px] font-semibold">or email <a href="mailto:hello@skillbee.com"
+                class="text-green-600">hello@skillbee.com</a></p>
+          </div>
+        </div>
+        <!-- User Info -->
+
+
+
+
+
+
+
+      </div>
+    </div>
+
+    <!-- WhatsApp Icon (Similar to the one on your login screen) -->
+    <div class="fixed bottom-6 right-6 z-10">
+      <a href="#" class="bg-yellow-400 rounded-full h-12 w-12 flex items-center justify-center shadow-lg">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" viewBox="0 0 24 24" fill="currentColor">
+          <path
+            d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.72.045.419-.1.824z" />
+        </svg>
+      </a>
+    </div>
+
+    <!-- Chat with us button (Similar to login screen) -->
+    <!-- <div class="fixed bottom-6 right-24 z-10">
+      <a href="#"
+        class="bg-white border border-green-500 text-gray-800 rounded-full py-2 px-4 flex items-center space-x-2 shadow-md">
+        <span>Chat with us</span>
+        <div class="bg-black rounded-full h-6 w-6 flex items-center justify-center">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-white" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd"
+              d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+              clip-rule="evenodd" />
+          </svg>
+        </div>
+      </a>
+    </div> -->
+    <!-- HTML Structure -->
+    <div id="searchInputContainer" class="search-input-container">
+      <div class="container">
+        <div class="search-input-wrapper">
+          <svg class="search-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+          </svg>
+          <input type="text" id="searchInput" placeholder="Search for Courses" class="search-input">
+        </div>
+      </div>
+    </div>
+
+    
+   
+    </header>
+
+    <div class="flex flex-col lg:flex-row min-h-screen">
+        <!-- Left Sidebar -->
+        <div class="w-full lg:w-1/6 bg-indigo-700 text-white p-4 lg:block shadow-lg" :class="{'hidden': !isMobileMenuOpen, 'block': isMobileMenuOpen}">
+            <aside class=" text-white w-full md:w-64 md:min-h-screen p-4">
+                <div class="flex items-center justify-between mb-6">
+                    <div class="flex items-center">
+                        <i class="fas fa-cube text-2xl mr-3"></i>
+                        <h1 class="font-bold text-xl">Student Portal</h1>
+                    </div>
+                    <button id="mobile-menu-button" class="md:hidden">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </div>
+    
+                <nav id="sidebar-menu" class="hidden md:block">
+                    <ul>
+                        <li class="mb-2">
+                            <a href="{% url 'dashboard' %}" class="flex items-center p-2 rounded hover:bg-indigo-700 bg-indigo-900">
+                                <i class="fas fa-tachometer-alt mr-3"></i>
+                                <span>Dashboard</span>
+                            </a>
+                        </li>
+                        {% comment %} <li class="mb-2">
+                            <a href="#" class="flex items-center p-2 rounded hover:bg-indigo-700">
+                                <i class="fas fa-users mr-3"></i>
+                                <span>Users</span>
+                            </a>
+                        </li> {% endcomment %}
+                        <li class="mb-2">
+                          <a href="{% url 'enroll_course' %}" class="flex items-center p-2 rounded hover:bg-indigo-700">
+                              <i class="fas fa-graduation-cap mr-3"></i>
+                              <span>Enroll Course</span>
+                          </a>
+                      {% comment %} </li>
+                        <li class="mb-2">
+                            <a href="#" class="flex items-center p-2 rounded hover:bg-indigo-700">
+                                <i class="fas fa-chart-bar mr-3"></i>
+                                <span>Analytics</span>
+                            </a>
+                        </li>
+                        <li class="mb-2">
+                            <a href="#" class="flex items-center p-2 rounded hover:bg-indigo-700">
+                                <i class="fas fa-cog mr-3"></i>
+                                <span>Settings</span>
+                            </a>
+                        </li> {% endcomment %}
+  
+  
+                        <li class="mb-2">
+                          <a href="{% url 'logout' %}" class="flex items-center p-2 rounded hover:bg-indigo-700">
+                              <i class="fas fa-sign-out-alt mr-3"></i>
+                              <span>Logout</span>
+                          </a>
+                      </li>
+                    </ul>
+                </nav>
+            </aside>
+        </div>
+
+        <!-- Mobile Header -->
+        <div class="lg:hidden bg-white border-b p-3 flex items-center justify-between shadow-sm">
+            <div class="flex items-center space-x-3">
+                <div class="h-9 w-9 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold shadow">JS</div>
+                <div class="text-gray-700 font-medium">Course Overview (1/2)</div>
+            </div>
+            <button @click="toggleMobileMenu()" class="p-2 rounded-md hover:bg-gray-100">
+                <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"></path>
+                </svg>
+            </button>
+        </div>
+
+        <!-- Main Content Area -->
+        <div class="flex flex-col lg:flex-row min-h-screen bg-gray-100" x-data="coursePlayer()" x-init="init()">
+          <!-- Left Sidebar - Modules and Progress -->
+          <div class="w-full lg:w-2/5 bg-gray-50 p-4 overflow-y-auto border-r order-1">
+              <!-- Progress Bar -->
+              <div class="mb-6 bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+                  <div class="flex justify-between mb-2">
+                      <span class="text-sm font-medium text-gray-700">Your Study Progress</span>
+                      <span class="text-sm font-medium text-indigo-600">16/239</span>
+                  </div>
+                  <div class="w-full bg-gray-200 rounded-full h-2.5">
+                      <div class="bg-gradient-to-r from-indigo-500 to-purple-600 h-2.5 rounded-full" style="width: 10%"></div>
+                  </div>
+                  <p class="text-sm text-gray-600 mt-3">Great job! 👍 You're on the path to becoming a certified Node.js Frontend Web Developer. Your application to learning is impressive. Finish strong!</p>
+              </div>
+
+              <!-- Modules & Lessons -->
+              {% for enrollment in enrolled_courses %}
+                  {% with course=enrollment.course_id %}
+                      {% for milestone in course.milestones.all %}
+                          <div class="space-y-3 mb-5">
+                              <!-- Milestone -->
+                              <div @click="toggleMilestone('milestone{{ milestone.id }}')" class="cursor-pointer bg-indigo-50 p-3 rounded-lg hover:bg-gray-100 border border-indigo-200 shadow-sm">
+                                  <div class="flex justify-between items-center">
+                                      <div>
+                                          <span class="text-indigo-600 font-medium">Milestone {{ forloop.counter }}:</span>
+                                          <span class="text-gray-800">{{ milestone.title }}</span>
+                                      </div>
+                                      <div class="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded-full">{{ milestone.modules.count }} Modules</div>
+                                  </div>
+                              </div>
+
+                              <!-- Milestone Content -->
+                              <div x-show="activeMilestone === 'milestone{{ milestone.id }}'" class="bg-white p-3 border-l-2 border-indigo-500 rounded-lg mb-2 space-y-4 shadow-sm ml-2">
+                                  {% for module in milestone.modules.all %}
+                                      <div @click="toggleModule('module{{ module.id }}')" class="cursor-pointer p-2 rounded bg-indigo-50 hover:bg-gray-100">
+                                          <div class="flex justify-between items-center">
+                                              <div>
+                                                  <span class="text-indigo-600 font-medium">Module {{ forloop.counter }}:</span>
+                                                  <span class="text-gray-800">{{ module.title }}</span>
+                                              </div>
+                                              <div class="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded-full">{{ module.contents.count }} Lessons</div>
+                                          </div>
+                                      </div>
+
+                                      <!-- Module Lessons -->
+                                      <div x-show="activeModule === 'module{{ module.id }}'" class="bg-white p-3 border-l-2 border-indigo-500 rounded-lg mb-2 space-y-2 shadow-sm ml-4">
+                                          {% for content in module.contents.all %}
+                                              <div @click="toggleLesson('lesson{{ content.id }}', '{{ content.source|escapejs }}')" class="cursor-pointer p-2 rounded flex items-center justify-between"
+                                                  :class="{'bg-indigo-50': activeLesson === 'lesson{{ content.id }}', 'hover:bg-gray-100': activeLesson !== 'lesson{{ content.id }}'}">
+                                                  <div class="flex items-center">
+                                                      <div class="h-6 w-6 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-full flex items-center justify-center mr-2 text-white shadow-sm">
+                                                          <span class="text-xs">{{ forloop.counter }}</span>
+                                                      </div>
+                                                      <span :class="{'text-indigo-700 font-medium': activeLesson === 'lesson{{ content.id }}', 'text-gray-700': activeLesson !== 'lesson{{ content.id }}'}">
+                                                          {{ content.title }}
+                                                      </span>
+                                                  </div>
+                                                  <div class="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded-full">
+                                                      {% if content.content_type == "video" %}Video{% else %}Quiz{% endif %}
+                                                  </div>
+                                              </div>
+                                          {% endfor %}
+                                      </div>
+                                  {% endfor %}
+                              </div>
+                          </div>
+                      {% endfor %}
+                  {% endwith %}
+              {% endfor %}
+          </div>
+
+          <!-- Main Content Area -->
+          <div class="w-full lg:w-3/5 bg-white overflow-hidden shadow-md order-2">
+              <!-- Top Navigation Bar -->
+              <div class="hidden lg:flex bg-white border-b p-3 items-center shadow-sm">
+                  <div class="flex items-center space-x-3">
+                      <div class="h-9 w-9 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold shadow">JS</div>
+                      <div class="text-gray-700 font-medium">Course Player</div>
+                  </div>
+              </div>
+
+              <!-- Dynamic Lesson Display -->
+              <div class="bg-gray-50 p-4 relative border-b min-h-[400px]">
+                  <template x-if="currentLesson">
+                      <div>
+                          <div class="text-gray-500 text-sm mb-2" x-text="breadcrumb"></div>
+
+                          <div class="mb-4 responsive-iframe-container" x-show="videoVisible">
+                              <iframe 
+                                  :src="currentLessonSource" 
+                                  width="100%" 
+                                  height="315" 
+                                  frameborder="0" 
+                                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                                  allowfullscreen
+                                  class="rounded shadow">
+                              </iframe>
+                          </div>
+                      </div>
+                  </template>
+              </div>
+
+              <!-- Bottom Controls -->
+              <div class="bg-white p-4 flex justify-between border-b">
+                  <button @click="goToPreviousLesson()" class="bg-gray-200 hover:bg-gray-300 text-gray-700 px-4 py-2 rounded-md shadow-sm flex items-center">
+                      <svg class="h-4 w-4 mr-1" fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M12 19l-7-7 7-7 1.41 1.41L7.83 12l5.58 5.59L12 19z"/>
+                      </svg>
+                      Previous
+                  </button>
+                  <button @click="goToNextLesson()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-md shadow-sm flex items-center">
+                      Next
+                      <svg class="h-4 w-4 ml-1" fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M12 5l7 7-7 7-1.41-1.41L16.17 12l-5.58-5.59L12 5z"/>
+                      </svg>
+                  </button>
+              </div>
+
+              <!-- Notes -->
+              <div class="bg-white p-4">
+                  <div class="text-gray-700 mb-2 font-medium">Note</div>
+                  <textarea class="bg-gray-50 w-full border border-gray-300 p-3 rounded-lg text-gray-700 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all" placeholder="Enter your notes"></textarea>
+              </div>
+          </div>
+      </div>
+
+    </div>
+ 
+    <style>
+        /* Responsive iframe container */
+        .responsive-iframe-container {
+            position: relative;
+            overflow: hidden;
+            padding-top: 56.25%; /* 16:9 Aspect Ratio */
+            width: 100%;
+        }
+        
+        .responsive-iframe-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+    </style>
+
+<script>
+
+
+</script>
+<script>
+function coursePlayer() {
+    return {
+        activeMilestone: null,
+        activeModule: null,
+        activeLesson: null,
+        currentLessonSource: '',
+        videoVisible: true,
+        lessons: [],
+        currentIndex: 0,
+
+        init() {
+            // preload all lessons if needed
+        },
+
+        toggleMilestone(id) {
+            this.activeMilestone = this.activeMilestone === id ? null : id;
+        },
+
+        toggleModule(id) {
+            this.activeModule = this.activeModule === id ? null : id;
+        },
+
+        toggleLesson(id, source) {
+            this.activeLesson = id;
+            this.currentLessonSource = source;
+        },
+
+        goToPreviousLesson() {
+            // implement lesson navigation logic
+        },
+
+        goToNextLesson() {
+            // implement lesson navigation logic
+        },
+
+        get breadcrumb() {
+            // optionally generate breadcrumb text dynamically
+            return 'Milestone > Module > Lesson';
+        },
+
+        get currentLesson() {
+            return this.activeLesson !== null;
+        }
+    }
+}
+</script>
+
+    
+</body>
+</html>

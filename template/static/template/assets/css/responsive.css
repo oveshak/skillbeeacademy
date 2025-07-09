@@ -1,0 +1,116 @@
+@media screen and (max-width: 992px){
+    /* add */
+    .add_text{
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    .add .text{
+        max-width: 100%;
+    }
+    .hero_data{
+        grid-template-columns: 1fr;
+        height: 100%;
+        padding: 40px 0;
+    }
+    .demo_video{
+        order: 1;
+    }
+    .hero_text{
+        order: 2;
+        text-align: center;
+    }
+    .hero .reviews ul{
+        justify-content: center;
+    }
+    .hero .reviews p{
+        margin-bottom: 10px;
+    }
+    .teacher{
+        display: block;
+    }
+    .courses ul{
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+    }
+    .class_details li{
+        padding: 40px 0;
+    }
+    .class_details li h3{
+        font-size: 30px;
+    }
+    .hero .reviews{
+        justify-content: center;
+    }
+    section{
+        padding: 30px 0;
+    }
+}
+@media screen and (max-width: 768px){
+    .course_dtl {
+        grid-template-columns: 1fr;
+    }
+    .mentor_data {
+        display: block;
+        text-align: center;
+    }
+    .mentor_data .line7{
+        text-align: justify;
+    }
+    .mentor_img{
+        margin: 0 auto;
+    }
+    .courses ul{
+        gap: 20px;
+    }
+    /* .slider ul li {
+        min-width: 97%;
+        margin: 0;
+        border: 1px solid gray;
+        border-radius: 10px;
+        background-color: #fff;
+    } */
+    .class_details{
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .class_details li{
+        padding: 20px 0;
+    }
+    .class_details li h3{
+        font-size: 30px;
+    }
+    .course_curriculum ul .module_list{
+        display: block;
+    }
+    .course_curriculum .modules{
+        width: 100%;
+        text-align: center;
+    }
+    .course_curriculum .modules h1{
+        font-size: 40px;
+    }
+    .course_video video{
+        max-width: 100%;
+    }
+}
+@media screen and (max-width: 576px){
+    .demo_video iframe{
+        width: 400px;
+    }
+    .courses ul{
+        grid-template-columns: 1fr;
+    }
+    .faq_data ul summary h6 {
+        font-size: 14px;
+    }
+    .faq_data ul p {
+        font-size: 14px;
+    }
+    .hero_video video{
+        max-width: 100%;
+    }
+}
+@media screen and (max-width: 425px){
+    .demo_video iframe{
+        width: 320px;
+    }
+}

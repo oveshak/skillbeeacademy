@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="bn">
+{% load hash_filters %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Japanese Language Course</title>
+    <!-- Bootstrap CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<!-- Bootstrap Icons -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    
+  {{ theme.css_code|safe }}
+    <!-- Google Tag Manager -->
+
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-P6LMTXHM');</script>
+<!-- End Google Tag Manager -->
+<!-- End Google Tag Manager -->
+
+</head>
+<body>
+        <!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-P6LMTXHM"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    
+    
+    <div class="container">
+        
+        <!-- Order Form -->
+        <div class="card main-card" id="purchase">
+            <form class="row g-0" method="post">
+                {% csrf_token %}
+                <div class="col-md-8 left-column">
+                    <h5 class="card-title mb-4">Courses</h5>
+                    {% for product in products %}
+                        <label class="product-card d-flex align-items-center" style="cursor: pointer;">
+                            <input type="radio" name="selected_product" value="{{ product.id }}" class="d-none product-radio" data-price="{{ product.price }}" data-name="{{ product.name }}" data-quantity="{{ product.quantity }}" data-image="{{ product.image.url }}" {% if forloop.first %}checked{% endif %}>
+                            <img src="{{ product.image.url }}" alt="{{ product.name }}" class="product-image me-3">
+                            <div>
+                                <p class="mb-0">{{ product.name }} × {{ product.quantity }}</p>
+                                <p class="mb-0 text-muted">{{ product.price }}৳</p>
+                            </div>
+                        </label>
+                    {% endfor %}
+                    <h5 class="mt-4 mb-3">এনরোলের জন্য আপনার তথ্য দিন</h5>
+                    <div class="mb-3">
+                        <label class="form-label required-field">আপনার নাম লিখুন</label>
+                        <input type="text" name="name" class="form-control" placeholder="সম্পূর্ণ নাম লিখুন" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label required-field">আপনার ঠিকানা লিখুন</label>
+                        <input type="text" name="address" class="form-control" placeholder="বাড়ির নাম্বার, রোড, উপজেলা, জেলা" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label required-field">আপনার মোবাইল নাম্বর লিখুন</label>
+                        <input type="tel" name="phone_number" class="form-control" placeholder="১১ ডিজিটের মোবাইল নাম্বার লিখুন" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label required-field">আপনার ইমেইল লিখুন</label>
+                        <input type="email" name="email" class="form-control" placeholder="আপনি যে মেইলে কোর্সের এক্সেস নিবেন সেটি দিন" required>
+                    </div>
+                    {% for charge in extra_charges %}
+                        <div class="form-check" style="display: none">
+                            <input class="form-check-input" type="checkbox" name="extra_charges" value="{{ charge.id }}" id="charge{{ charge.id }}" checked>
+                            <label class="form-check-label" for="charge{{ charge.id }}">
+                                {{ charge.name }} - {{ charge.amount }}৳
+                            </label>
+                        </div>
+                    {% endfor %}
+                </div>
+
+                <div class="col-md-4 right-column">
+                    <h5 class="card-title mb-4">Purchase</h5>
+                    <div class="order-details">
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>Product</span>
+                            <span>Subtotal</span>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <span id="purchase-product-name" style="width:80%;">Name one</span>
+                            <span id="purchase-product-subtotal" style="color:green; font-weight:bold;">Name one</span><span style="color:green; font-weight:bold;">৳</span>
+                        </div>
+                        <hr>
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>Subtotal</span>
+                            <span id="subtotal">{{ total_price }}৳</span>
+                        </div>
+                        {% for charge in extra_charges %}
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>{{charge.name }}</span>
+                            <span class="extra-charge" data-charge-amount="{{ charge.amount }}">{{ charge.amount }}৳</span>
+                        </div>
+                        {% endfor %}
+                        <div class="d-flex justify-content-between mb-4">
+                            <span>Total</span>
+                            <strong id="grand-total">{{ grand_total }}৳</strong>
+                        </div>
+
+                        
+                        <div class="payment-methods mb-4">
+                            <div class="btn-group" role="group" aria-label="Payment methods">
+                                {% comment %} <input type="radio" class="btn-check" name="payment_method" id="cash_on_delivery" value="cash_on_delivery" autocomplete="off" checked>
+                                <label class="btn btn-outline-primary" for="cash_on_delivery">ক্যাশ অন ডেলিভারি <small>(Steadfast)</small></label>
+
+                                {% if pay_status %}
+                                <input type="radio" class="btn-check" name="payment_method" id="advance_delivery_charge" value="advance_delivery_charge" autocomplete="off">
+                                <label class="btn btn-outline-primary" for="advance_delivery_charge">অগ্রিম ডেলিভারি চার্জ <small>(Steadfast)</small></label>
+                                {% endif %} {% endcomment %}
+                                <input type="radio" class="btn-check" name="payment_method" id="advance_full_payment" value="advance_full_payment" autocomplete="off" checked>
+                                <label class="btn btn-outline-primary" for="advance_full_payment" style="display: none;">সম্পূর্ণ পেমেন্ট</label>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="checkout-btn" id="checkout-btn">
+                            এখনই কিনুন  <span id="checkout-total">{{ grand_total }}</span>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+
+
+
+    <!-- WhatsApp Float Button -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+    // Create anchor element
+    let whatsappBtn = document.createElement("a");
+    whatsappBtn.href = "https://wa.me/8801717763198"; // Use proper format without "+"
+    whatsappBtn.className = "whatsapp-float";
+    whatsappBtn.target = "_blank"; // Open in new tab
+
+    // Create image element
+    let whatsappIcon = document.createElement("img");
+    whatsappIcon.src = "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/WhatsApp.svg/100px-WhatsApp.svg.png";
+    whatsappIcon.alt = "WhatsApp";
+    whatsappIcon.style.width = "50px"; // Adjust size
+    whatsappIcon.style.height = "50px";
+
+    // Append image to anchor
+    whatsappBtn.appendChild(whatsappIcon);
+
+    // Append to body
+    document.body.appendChild(whatsappBtn);
+
+    // Apply styles dynamically
+    let style = document.createElement("style");
+    style.innerHTML = `
+        .whatsapp-float {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #25D366;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+        }
+    `;
+    document.head.appendChild(style);
+});
+
+    </script>
+
+    <script>
+                // Fake order notification system
+                const notifications = [
+            {
+                name: "মনির নীলফামারী",
+                location: "নীলফামারী সদর",
+                time: "২ মিনিট আগে"
+            },
+            {
+                name: "রাজু ঢাকা",
+                location: "মিরপুর-১০",
+                time: "৫ মিনিট আগে"
+            },
+            {
+                name: "কামাল খুলনা",
+                location: "দৌলতপুর",
+                time: "৮ মিনিট আগে"
+            },
+            {
+                name: "শাহীন চট্টগ্রাম",
+                location: "চান্দগাঁও",
+                time: "১০ মিনিট আগে"
+            },
+            {
+                name: "মিতু সিলেট",
+                location: "জিন্দাবাজার",
+                time: "১২ মিনিট আগে"
+            },
+            {
+                name: "জুবায়ের বরিশাল",
+                location: "নাটোরপাড়া",
+                time: "১৫ মিনিট আগে"
+            },
+            {
+                name: "শফিক রাজশাহী",
+                location: "বনগ্রাম",
+                time: "২০ মিনিট আগে"
+            },
+            {
+                name: "তৌহিদ রংপুর",
+                location: "পায়রা চত্বর",
+                time: "২৫ মিনিট আগে"
+            },
+            {
+                name: "আলম নারায়ণগঞ্জ",
+                location: "শহর রেলগেট",
+                time: "৩০ মিনিট আগে"
+            }
+        ];
+
+                function showNotification(notification) {
+                    const notificationElement = document.createElement('div');
+                    notificationElement.className = 'notification';
+                    notificationElement.innerHTML = `
+                        <img src="https://cdn.jsdelivr.net/gh/mdsibgatullah/keeron/assets/images/Santo-Ahmed.jpg" alt="course">
+                        <div class="notification-content">
+                            <p class="mb-1"><strong>${notification.name}</strong> জাপানিজ ভাষা শিখার পরিপূর্ণ কোর্সটি কিনেছেন।</p>
+                            <small class="text-muted">${notification.time}</small>
+                        </div>
+                        <button class="close-btn" onclick="this.parentElement.remove()">✕</button>
+                    `;
+                    document.body.appendChild(notificationElement);
+
+                    setTimeout(() => {
+                        notificationElement.remove();
+                    }, 5000);
+                }
+
+                function showRandomNotification() {
+                    const randomIndex = Math.floor(Math.random() * notifications.length);
+                    showNotification(notifications[randomIndex]);
+                    
+                    // Schedule next notification
+                    const nextTimeout = Math.random() * (30000 - 15000) + 15000; // Between 15-30 seconds
+                    setTimeout(showRandomNotification, nextTimeout);
+                }
+
+                // Start showing notifications after page load
+                setTimeout(showRandomNotification, 3000);
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const paymentMethods = document.querySelectorAll('input[name="payment_method"]');
+        const checkoutButton = document.getElementById('checkout-btn');
+
+        // Function to update button text
+        const updateButtonText = () => {
+            const selectedPaymentMethod = document.querySelector('input[name="payment_method"]:checked');
+            if (selectedPaymentMethod) {
+                if (selectedPaymentMethod.value === 'advance_delivery_charge') {
+                    checkoutButton.textContent = 'অগ্রিম ডেলিভারি(Steadfast) চার্জ দিয়ে কিনুন {{extra_charges_total}}';
+                } else if (selectedPaymentMethod.value === 'advance_full_payment') {
+                    checkoutButton.textContent = 'কোর্সটি কিনুন';
+                }
+                else if (selectedPaymentMethod.value === 'cash_on_delivery') {
+                    checkoutButton.textContent = 'এখনই কিনুন';
+                }
+            }
+        };
+
+        // Add event listeners to all radio buttons
+        paymentMethods.forEach((radio) => {
+            radio.addEventListener('change', updateButtonText);
+        });
+
+        // Initialize button text on page load
+        updateButtonText();
+    });
+</script>
+<script>
+    fetch("/facebook-conversion-api/", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            event_name: "TEST87806",
+            
+        }),
+    }).then(response => response.json())
+      .then(data => console.log("Meta Conversion API Response:", data));
+</script>
+<script>
+        document.addEventListener("DOMContentLoaded", function () {
+        const productRadios = document.querySelectorAll(".product-radio");
+        const subtotalElement = document.getElementById("subtotal");
+        const grandTotalElement = document.getElementById("grand-total");
+        const checkoutTotalElement = document.getElementById("checkout-total");
+        const purchaseProductNameElement = document.getElementById("purchase-product-name");
+        const purchaseProductPriceElement = document.getElementById("purchase-product-subtotal");
+        
+
+        // Function to update totals and selected product details
+        function updateTotal() {
+            let selectedProduct = document.querySelector(".product-radio:checked");
+
+            if (!selectedProduct) {
+                console.log("No product selected!"); // Debugging
+                return;
+            }
+
+            // Extract product details
+            let productPrice = parseFloat(selectedProduct.getAttribute("data-price")) || 0;
+            let productName = selectedProduct.getAttribute("data-name") || "Unknown";
+            let productQuantity = selectedProduct.getAttribute("data-quantity") || "N/A";
+
+            console.log("Updating: ", productName, productQuantity, productPrice); // Debugging
+
+            // Calculate extra charges
+            let extraCharges = 0;
+            document.querySelectorAll(".extra-charge").forEach(charge => {
+                extraCharges += parseFloat(charge.getAttribute("data-charge-amount")) || 0;
+            });
+
+            // Calculate the total
+            let total = productPrice + extraCharges;
+            
+            // Update the selected product name and quantity in the purchase section
+            purchaseProductNameElement.textContent = `${productName} × ${productQuantity}`;
+            purchaseProductPriceElement.textContent = `${productPrice}`;
+            // Update subtotal, grand total, and checkout total
+            subtotalElement.textContent = productPrice + "৳";
+            grandTotalElement.textContent = total + "৳";
+            checkoutTotalElement.textContent = total + "৳";
+
+            
+
+        }
+
+        // Attach event listeners to all product radios
+        productRadios.forEach(radio => {
+            radio.addEventListener("change", updateTotal);
+        });
+
+        // Call updateTotal on page load to display the initially selected product
+        updateTotal();
+    });
+</script>
+
+{{ theme.js_code|safe }}
+</body>
+</html>

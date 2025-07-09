@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register | Create Your Account</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/alpinejs/3.12.0/cdn.min.js" defer></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+        .input-focus:focus {
+            box-shadow: 0 0 0 2px rgba(52, 211, 153, 0.3);
+            outline: none;
+        }
+        .animated-gradient {
+            background: linear-gradient(-45deg, #10b981, #059669, #047857, #065f46);
+            background-size: 400% 400%;
+            animation: gradient 15s ease infinite;
+        }
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-gray-50 to-gray-100 min-h-screen flex items-center justify-center p-4" x-data="{ page: 'signup', showToast: false, toastMessage: '' }">
+    <!-- Signup Page -->
+    <div class="max-w-md w-full bg-white rounded-2xl shadow-xl overflow-hidden transition duration-500 ease-in-out transform hover:scale-[1.01]" x-show="page === 'signup'">
+        <div class="animated-gradient px-6 py-10 relative">
+            <div class="absolute top-0 left-0 w-full h-full bg-black opacity-5 pattern-dots"></div>
+            <h1 class="text-white text-center text-3xl font-bold tracking-wide">Create Account</h1>
+            <p class="text-green-100 text-center mt-2 font-light">Join our community today</p>
+        </div>
+        
+        <div class="p-8">
+            <!-- register.html -->
+            <form method="POST" action="{% url 'register_submit' %}" class="space-y-5">
+                {% csrf_token %}
+                <div>
+                    <label class="block text-gray-700 text-sm font-medium mb-2">Full Name</label>
+                    <div class="relative">
+                        <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-400">
+                            <i class="fa fa-user"></i>
+                        </span>
+                        <input name="name" type="text" required placeholder="Enter your full name" class="w-full py-3 pl-10 px-4 border border-gray-200 rounded-xl input-focus transition duration-300 bg-gray-50 hover:bg-white focus:bg-white">
+                    </div>
+                </div>
+               
+                <div>
+                    <label class="block text-gray-700 text-sm font-medium mb-2">Email Address</label>
+                    <div class="relative">
+                        <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-400">
+                            <i class="fa fa-envelope"></i>
+                        </span>
+                        <input name="email" type="email" required placeholder="name@example.com" class="w-full py-3 pl-10 px-4 border border-gray-200 rounded-xl input-focus transition duration-300 bg-gray-50 hover:bg-white focus:bg-white">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-gray-700 text-sm font-medium mb-2">Phone Number</label>
+                    <div class="relative">
+                        <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-400">
+                            <i class="fa fa-phone"></i>
+                        </span>
+                        <input name="phone" type="tel" required placeholder="Your phone number" class="w-full py-3 pl-10 px-4 border border-gray-200 rounded-xl input-focus transition duration-300 bg-gray-50 hover:bg-white focus:bg-white">
+                    </div>
+                </div>
+                
+                <!-- Password Field with Show/Hide -->
+                <div x-data="passwordToggle">
+                    <label class="block text-gray-700 text-sm font-medium mb-2">Password</label>
+                    <div class="relative">
+                        <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-400">
+                            <i class="fa fa-lock"></i>
+                        </span>
+                        <input name="password" :type="type()" required placeholder="Create a strong password" class="w-full py-3 pl-10 px-4 border border-gray-200 rounded-xl pr-10 input-focus transition duration-300 bg-gray-50 hover:bg-white focus:bg-white">
+                        <button type="button" @click="toggle" class="absolute right-3 top-3 text-gray-400 hover:text-gray-600 transition duration-200">
+                            <i :class="show ? 'fa fa-eye-slash' : 'fa fa-eye'"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Confirm Password Field with Show/Hide -->
+                <div x-data="passwordToggle">
+                    <label class="block text-gray-700 text-sm font-medium mb-2">Confirm Password</label>
+                    <div class="relative">
+                        <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-400">
+                            <i class="fa fa-lock"></i>
+                        </span>
+                        <input name="confirm_password" :type="type()" required placeholder="Re-enter your password" class="w-full py-3 pl-10 px-4 border border-gray-200 rounded-xl pr-10 input-focus transition duration-300 bg-gray-50 hover:bg-white focus:bg-white">
+                        <button type="button" @click="toggle" class="absolute right-3 top-3 text-gray-400 hover:text-gray-600 transition duration-200">
+                            <i :class="show ? 'fa fa-eye-slash' : 'fa fa-eye'"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" class="w-full bg-gradient-to-r from-green-500 to-green-600 text-white py-3 rounded-xl hover:from-green-600 hover:to-green-700 transition duration-300 font-medium shadow-md hover:shadow-lg transform hover:-translate-y-0.5">
+                    <i class="fa fa-user-plus mr-2"></i>Create Account
+                </button>
+
+                <!-- Sign In Link -->
+                <p class="text-center mt-6 text-gray-600">Already have an account?
+                    <a href="{% url 'login' %}" class="text-green-600 font-semibold hover:text-green-700 transition duration-300">Sign in</a>
+                </p>
+
+                <!-- Show messages -->
+                {% if messages %}
+                    <div class="mt-4 p-3 bg-red-50 border-l-4 border-red-500 rounded-md">
+                        {% for message in messages %}
+                            <p class="text-red-700 text-sm flex items-center">
+                                <i class="fa fa-exclamation-circle mr-2"></i>
+                                {{ message }}
+                            </p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </form>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div x-show="showToast" 
+         x-transition:enter="transition ease-out duration-300"
+         x-transition:enter-start="opacity-0 transform translate-y-2"
+         x-transition:enter-end="opacity-100 transform translate-y-0"
+         x-transition:leave="transition ease-in duration-300"
+         x-transition:leave-start="opacity-100 transform translate-y-0"
+         x-transition:leave-end="opacity-0 transform translate-y-2"
+         class="fixed bottom-5 left-1/2 transform -translate-x-1/2 bg-green-600 text-white px-6 py-3 rounded-xl shadow-xl flex items-center">
+        <i class="fa fa-check-circle mr-2"></i>
+        <p x-text="toastMessage"></p>
+    </div>
+
+    <!-- Alpine.js Password Toggle Script -->
+    <script>
+        document.addEventListener('alpine:init', () => {
+            Alpine.data('passwordToggle', () => ({
+                show: false,
+                type() {
+                    return this.show ? 'text' : 'password';
+                },
+                toggle() {
+                    this.show = !this.show;
+                }
+            }))
+
+            Alpine.data('toast', () => ({
+                showToast: false,
+                toastMessage: '',
+                triggerToast(message) {
+                    this.toastMessage = message;
+                    this.showToast = true;
+                    setTimeout(() => {
+                        this.showToast = false;
+                    }, 3000); // Hide after 3 seconds
+                }
+            }))
+        });
+    </script>
+</body>
+</html>

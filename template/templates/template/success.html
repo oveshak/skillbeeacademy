@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Purchase Success</title>
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: Arial, sans-serif;
+        }
+        .invoice-box {
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .invoice-header {
+            background-color: #007bff;
+            color: white;
+            padding: 15px;
+            border-radius: 8px 8px 0 0;
+        }
+        .invoice-header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+        .invoice-footer {
+            background-color: #f8f9fa;
+            padding: 10px;
+            text-align: center;
+            border-top: 1px solid #ddd;
+            border-radius: 0 0 8px 8px;
+            font-size: 14px;
+            color: #666;
+        }
+        .table th, .table td {
+            vertical-align: middle;
+        }
+        .total-row {
+            font-weight: bold;
+            color: #007bff;
+        }
+    </style>
+     <!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-5VC56W76');</script>
+<!-- End Google Tag Manager -->
+</head>
+<body>
+    <!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5VC56W76"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+<!-- ✅ NEW: Account Created Message with Login Button -->
+<div class="container text-center mt-4 mb-4 p-4" style="background-color: #e7f3ff; border-left: 6px solid #2196F3; border-radius: 8px;">
+    <h5 class="text-primary fw-bold mb-3">
+        আপনার পারচেজ ইমেইল এবং আপনার ফোন নম্বরকে পাসওয়ার্ড হিসেবে ব্যবহার করে একটি সয়ংক্রিয় একাউন্ট তৈরি করা হয়েছে।
+    </h5>
+    <p class="mb-4">
+        কোর্সের ভিডিও দেখতে <strong>অ্যাকাউন্টে লগইন করুন</strong>।
+    </p>
+    <a href="{% url 'login' %}" class="btn btn-primary">
+        <i class="bi bi-box-arrow-in-right"></i> একাউন্টে লগইন করুন
+    </a>
+</div>
+
+<!-- ✅ Telegram / WhatsApp Join Section -->
+<div class="container text-center mt-4 mb-5 p-4" style="background-color: white; border-radius: 8px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
+    <p class="mb-3">
+        আপনার কোর্সটি সঠিকভাবে এনরোল হয়েছে। সম্পূর্ণ কোর্স করতে 
+        
+        <a href="https://chat.whatsapp.com/L364hvNN65d6WqOKJKjCp3" target="_blank" class="text-success fw-bold">হোয়াটসএপ গ্রুপে</a> জয়েন করুন। 
+        ভবিষ্যৎ সুবিধার জন্য এই পেইজটি বুকমার্ক করে রাখতে পারেন।
+    </p>
+    <div class="d-flex justify-content-center gap-3">
+        <a href="https://chat.whatsapp.com/L364hvNN65d6WqOKJKjCp3" target="_blank" class="btn btn-success">
+            <i class="bi bi-whatsapp"></i> লাইভ ক্লাস
+        </a>
+        
+    </div>
+</div>
+
+<!-- ✅ Invoice Section -->
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="invoice-box">
+                <!-- Invoice Header -->
+                <div class="invoice-header text-center">
+                    <h1>Purchase Complete</h1>
+                    <p>Thank you for your purchase! Below are the details of your purchase.</p>
+                </div>
+
+                <!-- Customer Information -->
+                <div class="py-3">
+                    <h5>Customer Information</h5>
+                    <p><strong>Name:</strong> {{ purchase.name }}</p>
+                    <p><strong>Phone:</strong> {{ purchase.phone_number }}</p>
+                    <p><strong>Address:</strong> {{ purchase.address }}</p>
+                </div>
+
+                <!-- Invoice Details -->
+                <div>
+                    <h5>Invoice Details</h5>
+                    <table class="table table-bordered">
+                        <thead class="table-light">
+                            <tr>
+                                <th>#</th>
+                                <th>Product Name</th>
+                                <th>Quantity</th>
+                                <th>Price (৳)</th>
+                                <th>Subtotal (৳)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for product in products %}
+                            <tr>
+                                <td>{{ forloop.counter }}</td>
+                                <td>{{ product.name }}</td>
+                                <td>{{ product.quantity }}</td>
+                                <td>{{ product.price }}</td>
+                                <td>{{ product.quantity|floatformat:2|add:product.price }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Total Amount -->
+                <div class="text-end">
+                    <p class="total-row">Total Amount: {{ purchase.total_amount }}৳</p>
+                </div>
+
+                <!-- Footer -->
+                <div class="invoice-footer">
+                    <p>We appreciate your business! If you have any questions, feel free to contact us.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+  fbq('track', 'Purchase', {
+    value: 1499.00, // Replace dynamically if needed
+    currency: 'BDT' // Change to BDT if required
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

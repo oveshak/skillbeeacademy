@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+    {% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/alpinejs/3.12.0/cdn.min.js" defer></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center p-4" x-data="{ page: 'signup', showToast: false, toastMessage: '' }">
+    <!-- Signup Page -->
+    <div class="max-w-md w-full bg-white rounded-lg shadow-lg overflow-hidden" x-show="page === 'signup'">
+        <div class="bg-green-600 px-6 py-8">
+            <h1 class="text-white text-center text-3xl font-bold">Create Account</h1>
+            <p class="text-green-200 text-center mt-2">Please fill in your details</p>
+        </div>
+        
+        <div class="p-6">
+            <!-- register.html -->
+            <form method="POST" action="{% url 'register_submit' %}">
+                {% csrf_token %}
+                <div class="mb-4">
+                    <label class="block text-gray-700 text-sm font-bold mb-2">Full Name</label>
+                    <input name="name" type="text" required class="w-full py-3 px-4 border rounded-lg focus:border-green-500">
+                </div>
+               
+                <div class="mb-4">
+                    <label class="block text-gray-700 text-sm font-bold mb-2">Email</label>
+                    <input name="email" type="email" required class="w-full py-3 px-4 border rounded-lg focus:border-green-500">
+                </div>
+                <div class="mb-4">
+                    <label class="block text-gray-700 text-sm font-bold mb-2">Phone Number</label>
+                    <input name="phone" type="tel" required class="w-full py-3 px-4 border rounded-lg focus:border-green-500">
+                </div>
+                
+                <!-- Password Field with Show/Hide -->
+                <div class="mb-4" x-data="passwordToggle">
+                    <label class="block text-gray-700 text-sm font-bold mb-2">Password</label>
+                    <div class="relative">
+                        <input name="password" :type="type()" required class="w-full py-3 px-4 border rounded-lg pr-10 focus:border-green-500">
+                        <button type="button" @click="toggle" class="absolute right-3 top-3 text-gray-500">
+                            <i :class="show ? 'fa fa-eye-slash' : 'fa fa-eye'"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Confirm Password Field with Show/Hide -->
+                <div class="mb-6" x-data="passwordToggle">
+                    <label class="block text-gray-700 text-sm font-bold mb-2">Confirm Password</label>
+                    <div class="relative">
+                        <input name="confirm_password" :type="type()" required class="w-full py-3 px-4 border rounded-lg pr-10 focus:border-green-500">
+                        <button type="button" @click="toggle" class="absolute right-3 top-3 text-gray-500">
+                            <i :class="show ? 'fa fa-eye-slash' : 'fa fa-eye'"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" class="w-full bg-green-600 text-white py-3 rounded-lg hover:bg-green-700">Create Account</button>
+
+                <!-- Sign In Link -->
+                <p class="text-center mt-4 text-sm">Already have an account?
+                    <a href="{% url 'login' %}" class="text-green-600 font-semibold">Sign in</a>
+                </p>
+
+                <!-- Show messages -->
+                {% if messages %}
+                    <div class="mt-4 text-center text-sm text-red-600">
+                        {% for message in messages %}
+                            <p>{{ message }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </form>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div x-show="showToast" class="fixed bottom-5 left-1/2 transform -translate-x-1/2 bg-green-600 text-white px-6 py-3 rounded-lg shadow-lg" x-transition>
+        <p x-text="toastMessage"></p>
+    </div>
+
+    <!-- Alpine.js Password Toggle Script -->
+    <script>
+        document.addEventListener('alpine:init', () => {
+            Alpine.data('passwordToggle', () => ({
+                show: false,
+                type() {
+                    return this.show ? 'text' : 'password';
+                },
+                toggle() {
+                    this.show = !this.show;
+                }
+            }))
+
+            Alpine.data('toast', () => ({
+                showToast: false,
+                toastMessage: '',
+                triggerToast(message) {
+                    this.toastMessage = message;
+                    this.showToast = true;
+                    setTimeout(() => {
+                        this.showToast = false;
+                    }, 3000); // Hide after 3 seconds
+                }
+            }))
+        });
+    </script>
+</body>
+</html>

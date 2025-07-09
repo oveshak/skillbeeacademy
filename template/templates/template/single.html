@@ -1,0 +1,1689 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Keeron</title>
+   <script src="https://cdn.tailwindcss.com"></script> 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/alpinejs/3.12.0/cdn.min.js" defer></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"> 
+  <link rel="stylesheet" href="{% static 'template/assets/css/headerfooter.css' %}">
+    <!-- google link -->
+    <!-- google link -->
+<link rel="stylesheet" href="{% static 'template/assets/css/utils.css' %}">
+<link rel="stylesheet" href="{% static 'template/assets/css/style.css' %}">
+<link rel="stylesheet" href="{% static 'template/assets/css/responsive.css' %}">
+</head>
+<body>
+
+    
+    <header class="w-full sticky top-0  bg-white lg:py-4 px-4 md:px-8 2xl:px-12  z-40" x-data="{ 
+        mobileMenuOpen: false,
+        activeLink: 'all-courses',
+        language: 'EN',
+        languageOpen: false,
+        languages: [
+            { code: 'EN', name: 'English' },
+            { code: 'ES', name: 'Spanish' },
+            { code: 'FR', name: 'French' },
+            { code: 'DE', name: 'German' }
+        ],
+        sidebarOpen: false
+    }" @click.away="mobileMenuOpen = false; languageOpen = false">
+        <div class="max-w-[110rem] 2xl:mx-auto flex justify-between items-center">
+          <!-- Logo -->
+          <div class="flex">
+            <button @click="mobileMenuOpen = !mobileMenuOpen" class="xl:hidden text-gray-700 focus:outline-none">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+              </svg>
+            </button>
+            <div class="flex items-center">
+              <a href="./home.html" class="text-green-500 font-bold text-5xl flex w-[180px] items-center">
+                <h1 style="padding: 14px 10px;">keeron</h1>
+              </a>
+            </div>
+    
+            <!-- Desktop Navigation -->
+            <nav class="hidden xl:flex ml-0 items-center gap-5" id="main-nav">
+              <a href="./allcourse.html" 
+                 class="text-gray-700 hover:text-green-500 font-medium transition-colors text-[18px] 2xl:text-[22px]  duration-200 nav-link"
+                 data-target="all-courses">All Courses</a>
+              
+              <a href="./livecourse.html" 
+                 class="text-gray-700 hover:text-green-500 font-medium transition-colors text-[18px] 2xl:text-[22px] duration-200 nav-link"
+                 data-target="live-courses">Live Courses</a>
+              
+              <a href="./freetest.html" 
+                 class="text-gray-700 hover:text-green-500 font-medium transition-colors text-[18px] 2xl:text-[22px] duration-200 nav-link"
+                 data-target="free-test">Free Test</a>
+              
+              <a href="./downloadresourse.html" 
+                 class="text-gray-700 hover:text-green-500 font-medium transition-colors text-[18px] 2xl:text-[22px] duration-200 nav-link"
+                 data-target="download-resources">Download Resources</a>
+              
+              <a href="./freeevent.html" 
+                 class="text-gray-700 hover:text-green-500 font-medium transition-colors text-[18px] 2xl:text-[22px] duration-200 nav-link"
+                 data-target="free-events">Free Events</a>
+            </nav>
+            
+            <script>
+          document.addEventListener('DOMContentLoaded', function() {
+      // Get all navigation links
+      const navLinks = document.querySelectorAll('.nav-link');
+      
+      // Add click event listeners to each nav link
+      navLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+          // Remove active class from all links
+          navLinks.forEach(l => l.classList.remove('text-green-500'));
+          
+          // Add active class to clicked link
+          this.classList.add('text-green-500');
+          
+          // Store active link in localStorage
+          localStorage.setItem('activeNavLink', this.dataset.target);
+        });
+      });
+      
+      // Get all links on the page (not just nav links)
+      const allLinks = document.querySelectorAll('a:not(.nav-link)');
+      
+      // Add click event to all other links to reset active state
+      allLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+          // Remove active class from all nav links
+          navLinks.forEach(navLink => navLink.classList.remove('text-green-500'));
+          
+          // Also clear localStorage
+          localStorage.removeItem('activeNavLink');
+        });
+      });
+      
+      // On page load, check if we should set an active link
+      const currentPath = window.location.pathname;
+      let activeSet = false;
+      
+      // Try to match based on the current path
+      navLinks.forEach(link => {
+        const href = link.getAttribute('href');
+        const hrefFile = href.split('/').pop();
+        const pathFile = currentPath.split('/').pop();
+        
+        // If current page matches this nav link
+        if (pathFile === hrefFile) {
+          navLinks.forEach(l => l.classList.remove('text-green-500'));
+          link.classList.add('text-green-500');
+          localStorage.setItem('activeNavLink', link.dataset.target);
+          activeSet = true;
+        }
+      });
+      
+      // If no match by URL but we have localStorage, use that
+      if (!activeSet) {
+        const activeLink = localStorage.getItem('activeNavLink');
+        if (activeLink) {
+          const link = document.querySelector(`[data-target="${activeLink}"]`);
+          if (link) {
+            navLinks.forEach(l => l.classList.remove('text-green-500'));
+            link.classList.add('text-green-500');
+          }
+        }
+      }
+    });
+            </script>
+          </div>
+          <div class="flex gap-3 2xl:gap-6 items-center">
+            <!-- Search bar -->
+            <div class="hidden md:block relative">
+              <input type="text" placeholder="Search for Courses"
+                class="pl-10 pr-4 py-2 rounded-full border text-[20px] focus:outline-none w-[19rem] 2xl:w-[25rem] transition">
+              <div class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                  stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
+              </div>
+            </div>
+            <div class="md:hidden flex items-center justify-center relative  ">
+              <button id="searchBtn" class="text-gray-500 hover:text-gray-700 focus:outline-none">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                </svg>
+              </button>
+    
+            </div>
+    
+    
+            <!-- Language selector -->
+            <div class="block relative rounded-full" @click.away="languageOpen = false">
+              <button @click="languageOpen = !languageOpen"
+                class="hidden xl:flex px-8 py-3 lg:rounded-full items-center space-x-1 text-gray-700 hover:text-gray-900 lg:border h-12">
+                <span x-text="language" class="font-large text-[18px] font-bold"></span>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transition-transform"
+                  :class="{'rotate-180': languageOpen}" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+              <button @click="languageOpen = !languageOpen"
+                class="xl:hidden flex text-[25px] lg:px-8 lg:py-7 lg:rounded-full items-center space-x-1 text-gray-700 hover:text-gray-900 lg:border h-12">
+                <!-- <span x-text="language" class="font-large text-[20px] font-bold"></span> -->
+                <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 496 512" focusable="false"
+                  class="chakra-icon css-1h1ps9q" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M336.5 160C322 70.7 287.8 8 248 8s-74 62.7-88.5 152h177zM152 256c0 22.2 1.2 43.5 3.3 64h185.3c2.1-20.5 3.3-41.8 3.3-64s-1.2-43.5-3.3-64H155.3c-2.1 20.5-3.3 41.8-3.3 64zm324.7-96c-28.6-67.9-86.5-120.4-158-141.6 24.4 33.8 41.2 84.7 50 141.6h108zM177.2 18.4C105.8 39.6 47.8 92.1 19.3 160h108c8.7-56.9 25.5-107.8 49.9-141.6zM487.4 192H372.7c2.1 21 3.3 42.5 3.3 64s-1.2 43-3.3 64h114.6c5.5-20.5 8.6-41.8 8.6-64s-3.1-43.5-8.5-64zM120 256c0-21.5 1.2-43 3.3-64H8.6C3.2 212.5 0 233.8 0 256s3.2 43.5 8.6 64h114.6c-2-21-3.2-42.5-3.2-64zm39.5 96c14.5 89.3 48.7 152 88.5 152s74-62.7 88.5-152h-177zm159.3 141.6c71.4-21.2 129.4-73.7 158-141.6h-108c-8.8 56.9-25.6 107.8-50 141.6zM19.3 352c28.6 67.9 86.5 120.4 158 141.6-24.4-33.8-41.2-84.7-50-141.6h-108z">
+                  </path>
+                </svg>
+              </button>
+              <div x-show="languageOpen" x-transition:enter="transition ease-out duration-100"
+                x-transition:enter-start="transform opacity-0 scale-95"
+                x-transition:enter-end="transform opacity-100 scale-100" x-transition:leave="transition ease-in duration-75"
+                x-transition:leave-start="transform opacity-100 scale-100"
+                x-transition:leave-end="transform opacity-0 scale-95"
+                class="absolute -right-12 lg:right-0 mt-2 w-36 bg-white shadow-lg rounded-md py-1 z-10">
+                <template x-for="lang in languages" :key="lang.code">
+                  <a href="#" @click.prevent="language = lang.code; languageOpen = false"
+                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                    :class="{'bg-gray-50': language === lang.code}" x-text="lang.name"></a>
+                </template>
+              </div>
+            </div>
+            <div class=" block w-[1px] h-12 bg-gray-300"></div>
+    
+            <!-- Sign in button -->
+    <!-- Sign-in buttons -->
+    <a href="#" id="desktop-sign-in" class="hidden bg-green-500 hover:bg-green-600 text-white px-6 md:px-8 py-3 lg:flex items-center rounded-full text-base md:text-[18px] font-bold transition duration-300">Sign in</a>
+    <a href="#" id="mobile-sign-in" class="py-4 lg:hidden flex items-center text-[21px] md:text-[20px] font-bold transition duration-300">
+      <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 496 512" focusable="false" class="chakra-icon css-132u3c" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+        <path d="M248 104c-53 0-96 43-96 96s43 96 96 96 96-43 96-96-43-96-96-96zm0 144c-26.5 0-48-21.5-48-48s21.5-48 48-48 48 21.5 48 48-21.5 48-48 48zm0-240C111 8 0 119 0 256s111 248 248 248 248-111 248-248S385 8 248 8zm0 448c-49.7 0-95.1-18.3-130.1-48.4 14.9-23 40.4-38.6 69.6-39.5 20.8 6.4 40.6 9.6 60.5 9.6s39.7-3.1 60.5-9.6c29.2 1 54.7 16.5 69.6 39.5-35 30.1-80.4 48.4-130.1 48.4zm162.7-84.1c-24.4-31.4-62.1-51.9-105.1-51.9-10.2 0-26 9.6-57.6 9.6-31.5 0-47.4-9.6-57.6-9.6-42.9 0-80.6 20.5-105.1 51.9C61.9 339.2 48 299.2 48 256c0-110.3 89.7-200 200-200s200 89.7 200 200c0 43.2-13.9 83.2-37.3 115.9z"></path>
+      </svg>
+    </a>
+    
+    <!-- Sign-in Sidebar -->
+    
+    
+    
+    
+    <!-- JavaScript -->
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        // Get sign-in buttons by their IDs
+        const desktopSignInBtn = document.getElementById('desktop-sign-in');
+        const mobileSignInBtn = document.getElementById('mobile-sign-in');
+        const sidebar = document.getElementById('sign-in-sidebar');
+        const closeBtn = document.getElementById('close-sidebar');
+        const overlay = document.querySelector('.sidebar-overlay');
+        const phoneScreen = document.getElementById('phone-screen');
+        const otpScreen = document.getElementById('otp-screen');
+        const continueBtn = document.getElementById('continue-btn');
+        const phoneInput = document.getElementById('phone-input');
+        const displayNumber = document.getElementById('display-number');
+        const submitBtn = document.getElementById('submit-btn');
+        const changeNumberBtn = document.getElementById('change-number');
+        const otpInputs = document.querySelectorAll('.otp-input');
+        
+        // Function to open sidebar
+        function openSidebar() {
+          if (sidebar) {
+            sidebar.classList.add('active');
+          }
+        }
+        
+        // Function to close sidebar
+        function closeSidebar() {
+          if (sidebar) {
+            sidebar.classList.remove('active');
+          }
+        }
+        
+        // Add click event listeners to sign-in buttons
+        if (desktopSignInBtn) {
+          desktopSignInBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            openSidebar();
+          });
+        }
+        
+        if (mobileSignInBtn) {
+          mobileSignInBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            openSidebar();
+          });
+        }
+        
+        // Close button functionality
+        if (closeBtn) {
+          closeBtn.addEventListener('click', function() {
+            closeSidebar();
+            
+            // Reset to phone screen when closing
+            if (phoneScreen && otpScreen) {
+              phoneScreen.classList.remove('hidden');
+              otpScreen.classList.add('hidden');
+            }
+          });
+        }
+        
+        // Close when clicking overlay
+        if (overlay) {
+          overlay.addEventListener('click', function() {
+            closeSidebar();
+            
+            // Reset to phone screen when closing
+            if (phoneScreen && otpScreen) {
+              phoneScreen.classList.remove('hidden');
+              otpScreen.classList.add('hidden');
+            }
+          });
+        }
+        
+        // Phone input validation to enable continue button
+        if (phoneInput && continueBtn) {
+          phoneInput.addEventListener('input', function() {
+            if (this.value.length === 11) {
+              continueBtn.classList.remove('bg-gray-100', 'text-gray-400', 'disabled', 'cursor-not-allowed');
+              continueBtn.classList.add('bg-green-500', 'text-white', 'hover:bg-green-600');
+              continueBtn.disabled = false;
+            } else {
+              continueBtn.classList.add('bg-gray-100', 'text-gray-400', 'disabled', 'cursor-not-allowed');
+              continueBtn.classList.remove('bg-green-500', 'text-white', 'hover:bg-green-600');
+              continueBtn.disabled = true;
+            }
+          });
+        }
+        
+        // Continue button to show OTP screen
+        if (continueBtn && phoneScreen && otpScreen && displayNumber && phoneInput) {
+          continueBtn.addEventListener('click', function() {
+            if (phoneInput.value.length === 11) {
+              // Show the phone number in the OTP screen
+              displayNumber.textContent = '+88' + phoneInput.value;
+              
+              // Show OTP screen, hide phone screen
+              phoneScreen.classList.add('hidden');
+              otpScreen.classList.remove('hidden');
+              
+              // Start the timer
+              startTimer();
+              
+              // Focus the first OTP input
+              if (otpInputs[0]) {
+                otpInputs[0].focus();
+              }
+            }
+          });
+        }
+        
+        // Change number button functionality
+        if (changeNumberBtn && phoneScreen && otpScreen) {
+          changeNumberBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            // Show phone screen, hide OTP screen
+            phoneScreen.classList.remove('hidden');
+            otpScreen.classList.add('hidden');
+            
+            // Focus on phone input
+            if (phoneInput) {
+              phoneInput.focus();
+            }
+          });
+        }
+        
+        // OTP input functionality
+        if (otpInputs.length) {
+          otpInputs.forEach((input, index) => {
+            // Move to the next input when a character is entered
+            input.addEventListener('input', function() {
+              if (this.value.length === 1) {
+                if (index < otpInputs.length - 1) {
+                  otpInputs[index + 1].focus();
+                } else {
+                  // Check if all inputs are filled
+                  checkOtpCompletion();
+                }
+              }
+            });
+            
+            // Handle backspace to go to previous input
+            input.addEventListener('keydown', function(e) {
+              if (e.key === 'Backspace' && !this.value && index > 0) {
+                otpInputs[index - 1].focus();
+              }
+            });
+            
+            // Allow only numbers
+            input.addEventListener('keypress', function(e) {
+              if (isNaN(parseInt(e.key))) {
+                e.preventDefault();
+              }
+            });
+          });
+        }
+        
+        // Function to check if all OTP inputs are filled
+        function checkOtpCompletion() {
+          let isComplete = true;
+          
+          otpInputs.forEach(input => {
+            if (!input.value) {
+              isComplete = false;
+            }
+          });
+          
+          if (isComplete && submitBtn) {
+            submitBtn.classList.remove('bg-gray-100', 'text-gray-400', 'disabled', 'cursor-not-allowed');
+            submitBtn.classList.add('bg-green-500', 'text-white', 'hover:bg-green-600');
+            submitBtn.disabled = false;
+          }
+        }
+        
+        // Timer functionality
+        function startTimer() {
+          const timerElement = document.getElementById('timer');
+          if (!timerElement) return;
+          
+          let timeLeft = 119; // 1:59 in seconds
+          
+          // Update timer text
+          function updateTimer() {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            
+            timerElement.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            
+            if (timeLeft === 0) {
+              clearInterval(interval);
+              
+              // Add resend code functionality here
+              const resendLink = document.createElement('a');
+              resendLink.textContent = 'Resend Code';
+              resendLink.href = '#';
+              resendLink.className = 'text-green-500 font-medium ml-2';
+              resendLink.addEventListener('click', function(e) {
+                e.preventDefault();
+                startTimer();
+                this.remove();
+              });
+              
+              timerElement.textContent = '';
+              timerElement.parentNode.appendChild(resendLink);
+            }
+            
+            timeLeft--;
+          }
+          
+          // Update immediately and then every second
+          updateTimer();
+          const interval = setInterval(updateTimer, 1000);
+        }
+        
+        // Submit button functionality
+        if (submitBtn) {
+          submitBtn.addEventListener('click', function() {
+            // Handle verification here
+            // For demo, we'll just close the sidebar
+            alert('Verification successful!'); // Replace with your actual verification logic
+            closeSidebar();
+            
+            // Reset to phone screen for next time
+            if (phoneScreen && otpScreen) {
+              phoneScreen.classList.remove('hidden');
+              otpScreen.classList.add('hidden');
+            }
+            
+            // Reset inputs
+            if (phoneInput) phoneInput.value = '';
+            otpInputs.forEach(input => input.value = '');
+            
+            // Reset buttons
+            if (continueBtn) {
+              continueBtn.classList.add('bg-gray-100', 'text-gray-400', 'disabled', 'cursor-not-allowed');
+              continueBtn.classList.remove('bg-green-500', 'text-white', 'hover:bg-green-600');
+              continueBtn.disabled = true;
+            }
+            
+            submitBtn.classList.add('bg-gray-100', 'text-gray-400', 'disabled', 'cursor-not-allowed');
+            submitBtn.classList.remove('bg-green-500', 'text-white', 'hover:bg-green-600');
+            submitBtn.disabled = true;
+          });
+        }
+      });
+    </script>
+          </div>
+        </div>
+    
+        <!-- Mobile Navigation -->
+        <div x-show="mobileMenuOpen" x-transition:enter="transition ease-out duration-200"
+          x-transition:enter-start="opacity-0 -translate-y-2" x-transition:enter-end="opacity-100 translate-y-0"
+          x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100 translate-y-0"
+          x-transition:leave-end="opacity-0 -translate-y-2" class="xl:hidden mt-4 pb-4">
+          <div class="flex flex-col space-y-4">
+            <a href="./allcourse.html" 
+            class="text-gray-700 hover:text-green-500 font-medium transition-colors text-[18px] 2xl:text-[22px]  duration-200 nav-link"
+            data-target="all-courses">All Courses</a>
+         
+         <a href="./livecourse.html" 
+            class="text-gray-700 hover:text-green-500 font-medium transition-colors text-[18px] 2xl:text-[22px] duration-200 nav-link"
+            data-target="live-courses">Live Courses</a>
+         
+         <a href="./freetest.html" 
+            class="text-gray-700 hover:text-green-500 font-medium transition-colors text-[18px] 2xl:text-[22px] duration-200 nav-link"
+            data-target="free-test">Free Test</a>
+         
+         <a href="./downloadresourse.html" 
+            class="text-gray-700 hover:text-green-500 font-medium transition-colors text-[18px] 2xl:text-[22px] duration-200 nav-link"
+            data-target="download-resources">Download Resources</a>
+         
+         <a href="./freeevent.html" 
+            class="text-gray-700 hover:text-green-500 font-medium transition-colors text-[18px] 2xl:text-[22px] duration-200 nav-link"
+            data-target="free-events">Free Events</a>
+    
+            <!-- Search bar -->
+          
+    
+    
+          </div>
+        </div>
+    
+        <!-- Sidebar for Sign In -->
+        <div id="sign-in-sidebar" class="fixed inset-0 z-50 overflow-hidden">
+          <!-- Overlay -->
+          <div class="fixed inset-0 bg-black bg-opacity-50 sidebar-overlay"></div>
+        
+          <!-- Sidebar Panel -->
+          <div class="fixed inset-y-0 right-0 max-w-[54rem] w-full bg-white shadow-xl overflow-y-auto sidebar-panel">
+            <!-- Sidebar Header -->
+            <div class="keeron-gradient p-8">
+              <div class="py-5">
+                <div class="text-green-400 font-bold text-3xl p-4">keeron</div>
+              </div>
+              <button id="close-sidebar" class="absolute top-3 right-3 text-white hover:text-gray-300 focus:outline-none sidebar-close-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+        
+            <div class="flex flex-col justify-between min-h-[75vh] px-4">
+              <div class="bg-white mt-4 lg:mt-[5rem] flex justify-center items-center">
+                <!-- Registration Screen -->
+                <div id="phone-screen" class="max-w-md w-full flex flex-col">
+                  <h1 class="text-[24px] lg:text-[36px] font-bold text-gray-800 mb-2 lg:mb-4">Welcome to Keeron!</h1>
+                  
+                  <p class="text-gray-600 mb-4 lg:mb-8 text-[18px] lg:text-[22px] text-black">Sign in or Register using your mobile number</p>
+        
+                  <!-- Full name field -->
+                  <div class="w-full mb-2">
+                    <label class="text-gray-700 text-xl font-bold" for="fullname">Your FullName*</label>
+                  </div>
+                  <div class="flex w-full mb-9 relative">
+                    <input type="text" id="fullname-input" placeholder="Your Full name" class="w-full py-4 px-4 border border-gray-300 rounded-md text-xl">
+                  </div>
+                  
+                  <!-- Email field -->  
+                  <div class="w-full mb-2">
+                    <label class="text-gray-700 text-xl font-bold" for="email">Your Email*</label>
+                  </div>
+                  <div class="flex w-full mb-9 relative">
+                    <input type="email" id="email-input" placeholder="Your Email" class="w-full py-4 px-4 border border-gray-300 rounded-md text-xl">
+                  </div>
+        
+                  <!-- Phone field -->
+                  <div class="w-full mb-2">
+                    <label class="text-gray-700 text-xl font-bold" for="phone">Mobile Number*</label>
+                  </div>
+                  <div class="flex w-full mb-9 relative">
+                    <div class="absolute inset-y-0 left-0 flex items-center pl-3 pr-3 pointer-events-none text-xl text-black">+88</div>
+                    <input type="tel" id="phone-input" placeholder="Your Mobile Number" class="w-full py-4 pl-14 pr-4 border border-gray-300 rounded-md text-xl" maxlength="11">
+                  </div>
+        
+                  <!-- Continue button -->
+                  <button id="continue-btn" class="w-full py-5 bg-gray-100 text-gray-400 rounded-md disabled cursor-not-allowed mb-6">Continue</button>
+        
+                  <p class="text-base lg:text-[18px] mt-[17px] text-gray-600 text-center">
+                    By continuing, you agree to the
+                    <a href="#" class="text-gray-800 font-medium">Terms of use</a>,
+                    <a href="#" class="text-gray-800 font-medium">Privacy Policy</a>
+                    and
+                    <a href="#" class="text-gray-800 font-medium">Community Standards</a>
+                    of Keeron
+                  </p>
+                </div>
+        
+                <!-- OTP Verification Screen (Hidden by default) -->
+                <div id="otp-screen" class="max-w-md w-full flex flex-col hidden">
+                  <h1 class="text-[24px] lg:text-[36px] font-bold text-gray-800 mb-2 lg:mb-4">Verify mobile number</h1>
+                  <p class="text-gray-600 mb-4 lg:mb-8 text-[18px] lg:text-[22px] text-black">
+                    Enter the verification code that we sent to this mobile number
+                    <span id="display-number" class="text-green-500 font-medium">+8801XXXXXXXXX</span>
+                  </p>
+        
+                  <div class="flex gap-2 mb-6 justify-center w-full">
+                    <input type="text" maxlength="1" class="otp-input w-16 h-16 text-center text-2xl font-bold border border-gray-300 rounded-md" id="otp-1">
+                    <input type="text" maxlength="1" class="otp-input w-16 h-16 text-center text-2xl font-bold border border-gray-300 rounded-md" id="otp-2">
+                    <input type="text" maxlength="1" class="otp-input w-16 h-16 text-center text-2xl font-bold border border-gray-300 rounded-md" id="otp-3">
+                    <input type="text" maxlength="1" class="otp-input w-16 h-16 text-center text-2xl font-bold border border-gray-300 rounded-md" id="otp-4">
+                    <input type="text" maxlength="1" class="otp-input w-16 h-16 text-center text-2xl font-bold border border-gray-300 rounded-md" id="otp-5">
+                  </div>
+        
+                  <div class="w-full flex justify-end mb-6">
+                    <p class="text-gray-600 text-sm">
+                      Resend code in: <span id="timer" class="font-medium">01:59</span>
+                    </p>
+                  </div>
+        
+                  <button id="submit-btn" class="w-full py-5 bg-gray-100 text-gray-400 rounded-md disabled cursor-not-allowed mb-6">
+                    Submit
+                  </button>
+        
+                  <div class="w-full flex justify-center border-t pt-4">
+                    <p class="text-gray-700 lg:text-[20px]">
+                      Not the correct Number?
+                      <a href="#" id="change-number" class="text-green-500 font-medium">Change Mobile Number</a>
+                    </p>
+                  </div>
+                </div>
+              </div>
+        
+              <!-- Contact Info -->
+              <div class="p-4 text-sm text-gray-600 mt-6 flex flex-col justify-center items-center gap-2">
+                <p class="text-[18px] font-semibold">For issues, contact us at:<span class="font-bold">01322890096</span></p>
+                <p class="text-[18px] font-semibold">or email <a href="mailto:hello@keeron.com" class="text-green-600">hello@keeron.com</a></p>
+              </div>
+            </div>
+          </div>
+        </div>
+    
+        <!-- WhatsApp Icon (Similar to the one on your login screen) -->
+        <div class="fixed bottom-6 right-6 z-10">
+          <a href="#" class="bg-yellow-400 rounded-full h-12 w-12 flex items-center justify-center shadow-lg">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" viewBox="0 0 24 24" fill="currentColor">
+              <path
+                d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.72.045.419-.1.824z" />
+            </svg>
+          </a>
+        </div>
+    
+        <!-- Chat with us button (Similar to login screen) -->
+        <!-- <div class="fixed bottom-6 right-24 z-10">
+          <a href="#"
+            class="bg-white border border-green-500 text-gray-800 rounded-full py-2 px-4 flex items-center space-x-2 shadow-md">
+            <span>Chat with us</span>
+            <div class="bg-black rounded-full h-6 w-6 flex items-center justify-center">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-white" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd"
+                  d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                  clip-rule="evenodd" />
+              </svg>
+            </div>
+          </a>
+        </div> -->
+        <!-- HTML Structure -->
+        <div id="searchInputContainer" class="search-input-container">
+          <div class="container">
+            <div class="search-input-wrapper">
+              <svg class="search-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+              </svg>
+              <input type="text" id="searchInput" placeholder="Search for Courses" class="search-input">
+            </div>
+          </div>
+        </div>
+    
+        
+       
+        </header>
+
+
+    <!-- ========== Start Header ========== -->
+    <div class="relative w-full add1">
+        <div class="  shadow-md">
+          <div class="container mx-auto ">
+            <div class="flex flex-col lg:flex-row items-center justify-between text-center">
+              <h5 class="text-[25px] font-medium text-gray-800 mb-4">৫০% off এর স্পেশাল ছাড় চলছে{অফারটি সীমিত সময়ের জন্য}</h5>
+              
+              <ul class="flex items-center justify-center space-x-2 mb-6">
+                <li class="flex flex-col items-center">
+                  <h5 class="text-xl font-bold">01</h5>
+                  <p class="text-sm text-gray-600">Days</p>
+                </li>
+                <li class="text-xl font-bold">:</li>
+                <li class="flex flex-col items-center">
+                  <h5 class="text-xl font-bold">01</h5>
+                  <p class="text-sm text-gray-600">Hours</p>
+                </li>
+                <li class="text-xl font-bold">:</li>
+                <li class="flex flex-col items-center">
+                  <h5 class="text-xl font-bold">01</h5>
+                  <p class="text-sm text-gray-600">Minutes</p>
+                </li>
+                <li class="text-xl font-bold">:</li>
+                <li class="flex flex-col items-center">
+                  <h5 class="text-xl font-bold">01</h5>
+                  <p class="text-sm text-gray-600">Seconds</p>
+                </li>
+              </ul>
+              
+              <div class="flex space-x-4">
+                <button onclick="showPopup()" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-6 rounded-full transition duration-300">
+                  Enroll Now
+                </button>
+                <button onclick="closeAdd()" class="bg-gray-200 hover:bg-gray-300 text-gray-700 font-bold py-2 px-6 rounded-full transition duration-300">
+                  Close
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      
+    <!-- ========== End Header ========== -->
+    
+    <main>
+        <!-- ========== Start Hero ========== -->
+        <section class="hero">
+            <div class="max-w-[108rem] mx-auto">
+                <div class="hero_data lg:h-[calc(100vh-154px)]
+                h-[calc(135vh-134px)]
+                flex lg:flex-row flex-col-reverse p-4">
+                    <div class="lg:w-1/2">
+                        <h2 class="lg:text-6xl text-2xl font-bold lg:max-w-[40rem]">MS Excel for Professionals</h2>
+                        <p class="lg:text-2xl text-base lg:max-w-[44rem] mb-10 mt-4  lg:my-10">Explore the exciting features of MS Excel. Gain the confidence and expertise to conquer any data challenge that comes your way, and stay ahead in your career.</p>
+                        <div class="reviews flex">
+                            <p class="text-lg lg:text-2xl font-medium">Avg. Rating : 4.9</p>
+                            <div class="flex items-center text-yellow-400">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 lg:h-6 lg:w-6" fill="currentColor" viewBox="0 0 24 24">
+                                  <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                                </svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 lg:h-6 lg:w-6" fill="currentColor" viewBox="0 0 24 24">
+                                  <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                                </svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 lg:h-6 lg:w-6" fill="currentColor" viewBox="0 0 24 24">
+                                  <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                                </svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 lg:h-6 lg:w-6" fill="currentColor" viewBox="0 0 24 24">
+                                  <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                                </svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 lg:h-6 lg:w-6" fill="currentColor" viewBox="0 0 24 24">
+                                  <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                                </svg>
+                              </div>
+                            
+                        </div>
+                        <p class="lg:text-2xl text-lg font-bold my-6">Total Enrollment : 24647</p>
+                        <!-- Instructor Info -->
+                <div class=" bottom-4 left-4 flex items-center mb-[40px] lg:mb-0">
+                    <div class="w-16 h-16 rounded-full overflow-hidden border-2 border-yellow-400">
+                      <img
+                        src="{% static 'template/assets/image/Elta Karim.jpg' %}"
+                        alt="Instructor"
+                        class="w-full h-full object-cover"
+                      />
+                    </div>
+                    <div class="ml-3 text-white">
+                      <div class="font-semibold text-lg lg:text-[25px] mb-2">Brit Karimi</div>
+                      
+                      <div class="text-[14px] lg:text-[12px] lg:text-[20px] text-gray-200">
+                        Former Editor, Arts & Entertainment, The Daily Star
+                      </div>
+                    </div>
+                  </div>
+                    </div>
+                    <div class="lg:w-1/2 flex justify-center items-center  mx-auto">
+                        <video src={% static 'template/assets/video/Ayatul-Kursi.mp4' %}" controls></video>
+                    </div>
+                </div>
+            </div>
+        <div class="category">
+            <div class="container1">
+                <ul class="flex1">
+                    <li> <a href="#overview">Course Overview</a></li>
+                    <li>Curriculum</li>
+                    <li>Mentor</li>
+                    <li>Course Reviews</li>
+                    <li>FAQ</li>
+                </ul>
+            </div>
+        </div>
+        </section>
+        <!-- ========== End Hero ========== -->
+
+        <section class="lg:py-20 py-10">
+            <div class="max-w-[108rem] mx-auto px-6">
+                <div class="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+            
+                    <!-- Videos Card -->
+                    <div class="bg-teal-700 text-white rounded-lg lg:py-16 py-3  flex flex-col items-center justify-center text-center  transition-all duration-300 ease-in-out cursor-pointer hover:-translate-y-[30px]">
+                        <h2 class="lg:text-5xl font-bold mb-2">55</h2>
+                        <p class="lg:text-[1.7rem] font-semibold">Videos</p>
+                    </div>
+                    
+                    <!-- Workbooks Card -->
+                    <div class="bg-blue-900 text-white rounded-lg lg:py-16 py-3 flex flex-col items-center justify-center text-center  transition-all duration-300 ease-in-out cursor-pointer hover:-translate-y-[30px]">
+                        <h2 class="lg:text-5xl font-bold mb-2">9</h2>
+                        <p class="lg:text-[1.7rem] font-semibold">Workbooks</p>
+                    </div>
+                    
+                    <!-- Course Book Card -->
+                    <div class="bg-teal-800 text-white rounded-lg lg:py-16 py-3 flex flex-col items-center justify-center text-center  transition-all duration-300 ease-in-out cursor-pointer hover:-translate-y-[30px]">
+                        <h2 class="lg:text-5xl font-bold mb-2">1</h2>
+                        <p class="lg:text-[1.7rem] font-semibold">Course Book</p>
+                    </div>
+                    
+                    <!-- Quizzes Card -->
+                    <div class="bg-gray-900 text-white rounded-lg lg:py-16 py-3 flex flex-col items-center justify-center text-center  transition-all duration-300 ease-in-out cursor-pointer hover:-translate-y-[30px]">
+                        <h2 class="lg:text-5xl font-bold mb-2">9</h2>
+                        <p class="lg:text-[1.7rem] font-semibold">Quizzes</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+         <section class="all_course">
+            <div class="container1">
+               
+                <br><br>
+                <div class="section_header text-2xl lg:text-3xl">
+                    <h3>জাপানিজ ভাষা শিখার পরিপূর্ণ কোর্স</h3>
+                    <br>
+                    <p class="justify-center">
+                        আপনি যদি উচ্চ শিক্ষা, চাকরি কিংবা ব্যাবসার জন্য জাপানে যেতে চান তবে জাপানি ভাষা জানা আপনার জন্য আবশ্যক।
+                        ☑জাপানিজ ভাষা শিখে খুব সহজে জাপান যেতে পারবেন,Ielts ছাড়াই জাপান যেতে পারবেন,বাংলাদেশে জাপানের বহু সংস্থা থাকায় সহজেই বাংলাদেশে জাপানের সংস্থা গুলোতে কাজ করতে পারবেন।
+                    </p>
+                </div>
+                <div class="course_dtl">
+                    <div>
+                        <div class="ja_shikben">
+                            <h4 class="text-xl lg:text-2xl">Skill Academy নিয়ে এসেছে অনলাইন জাপানিজ ল্যাঙ্গুয়েজ কোর্স।
+                            </h4>
+                            <br>
+                            <ul>
+                                <li><p>N5 লেভেলের কোর্স</p></li>
+                                <li><p>আপনি এই ভাষার অনুবাদক কিংবা ভাষান্তরিক হিসেবে কাজ করতে পারবেন</p></li>
+                                <li><p>জব হোল্ডারদের জন্য রয়েছে বিশেষ ক্লাসের ব্যবস্থা।</p></li>
+                                <li><p>দক্ষ এবং অভিজ্ঞ শিক্ষকমন্ডলী দ্বারা ক্লাস পরিচালনা করা হয়।
+                                </p></li>
+                                <li><p>প্রয়োজনীয় শিট প্রদান করা হয়।</p></li>
+                                <li><p>লিসেনিং, স্পিকিং , রিডিং এর জন্য আলাদা গুরুত্বারুপ দেয়া হয়।</p></li>
+                                <li><p>সর্বোপরি NAT-TEST/JLPT এর জন্য সম্পূর্ণ প্রস্তুতি প্রদান করা হবে।</p></li>
+                                <li><p>ক্লাসের বাইরে অনলাইন গ্রুপের মাধ্যমে সার্বক্ষণিক সমস্যার সমাধান দেয়া হবে।</p></li>
+                                <li><p>বই এবং অন্যান্য কোর্স ম্যাটেরিয়ালস সম্পূর্ণ ফ্রী।</p></li>
+                                <br>
+                                
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="skills">
+                        <div>
+                            <h4 class="text-xl lg:text-2xl">Skills You will Gain</h4>
+                            <br>
+                            <ul>
+                                <li><small>জাপানিতে লেখার দক্ষতা</small></li>
+                                <li><small>জাপানিতে পড়ার দক্ষতা</small></li>
+                                <li><small>জাপানিতে কথা বলার দক্ষতা</small></li>
+                                <li><small>জাপানিতে শোনার দক্ষতা</small></li>
+                            </ul>
+                        </div>
+                    </div>
+
+
+                    
+                </div>
+                <div class="flex items-center justify-center space-x-4">
+                    <h3 class="text-2xl font-medium text-gray-500 line-through">৫০০০৳</h3>
+                    <button 
+                      onclick="showPopup()" 
+                      class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-6 rounded-full transition duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-1">
+                      Apply Now
+                    </button>
+                  </div>
+            </div>
+         </section>
+         <section class="video_reviews">
+            <div class="container1">
+                <div class="section_header">
+                    <h3 class="text-2xl lg:text-3xl">Video Reviews</h3>
+                </div>
+                <br>
+                <div class="review_video">
+                    <video controls src={% static 'template/assets/video/Ayatul-Kursi.mp4' %}"></video>
+                </div>
+                <br>
+                <div class="flex items-center justify-center space-x-4">
+                    <h3 class="text-2xl font-medium text-gray-500 line-through">৫০০০৳</h3>
+                    <button 
+                      onclick="showPopup()" 
+                      class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-6 rounded-full transition duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-1">
+                      Apply Now
+                    </button>
+                  </div>
+            </div>
+         </section>
+         <section class="students">
+            <div class="container1">
+                <div class="section_header">
+                    <h4 class="text-lg lg:text-2xl font-bold">আমাদের স্টুডেন্টদেরকে জাপানের যে কোন ধরনের কঠিন সমস্যা সম্মুখীনের ক্ষেত্রে সমাধানের পথ খুঁজে বের করে দেওয়া</h4>
+                    <br>
+                    <p>এই কোর্সটি ভাষার শিখার চারটি দক্ষতা বিকাশের উপর ফোকাস করবে; কথা বলা, শোনা, পড়া এবং লেখা। আপনি শিখবেন কিভাবে বাক্য গঠন করতে হয়, প্রশ্ন জিজ্ঞাসা করতে হয়, ক্রিয়া সংযোজন ব্যবহার করতে হয় এবং মৌলিক বাক্যের প্যাটার্ন তৈরি করতে হয়।</p>
+                </div>
+                <div class="student_dtl">
+                        <br>
+                        <h5 class="text-lg lg:text-xl">কোর্সটির সাথে যা যা ফ্রী থাকছে</h5>
+                        <br>
+                        <ul>
+                            <li>দক্ষ ও অভিজ্ঞ শিক্ষক দ্বারা পরিচালিত লাইভ ক্লাস</li>
+                            <li>1 to 1 ফ্রি Consultancy</li>
+                            <li> ChatGPT এর সাথে japanese language প্র্যাকটিস (ChatGPT-এর সাথে japanese ভাষায় সাবলীলভাবে কথা বলার সম্পূর্ণ প্রক্রিয়া)              
+                            </li>
+                            <li>ChatGPT স্পোকেন অ্যাপ ফ্রি</li>
+                            <li>গুরুত্বপূর্ণ "সর্বাধিক ব্যবহৃত শব্দভাণ্ডার" এর উপর ১০০০ শব্দের ফ্রি PDF (যা জানলে জাপানি ভাষায় কথা বলা হবে আরও সহজ)</li>
+                            <li>সাথে থাকছে ফ্রি গিভঅ্যাওয়ে, যা লাইভ ক্লাসে দেওয়া হবে</li>
+                            <li>জাপানি ভাষার এই স্পোকেন কোর্সের মাধ্যমে আপনার সব ভয় ও দুর্বলতা দূর হবে, আপনি জাপানিজ ভাষায় হয়ে উঠবেন আত্মবিশ্বাসী </li>
+                        </ul>
+                        <br>
+                        <br>
+                        <h5 class="text-lg lg:text-xl">কোর্সটি থেকে আপনি যা যা শিখতে পারবেন</h5>
+                        <br>
+                        <ul>
+                            <li>স্কুল-কলেজ কিংবা আড্ডায়-অফিসে অনায়াসে সঠিক উচ্চারণে Japanese ভাষায় কথা বলা</li>
+                            <li>প্রাত্যহিক জীবনের বিভিন্ন পরিস্থিতিতে স্মার্টলি জাপানিজ ভাষায় কথা বলা</li>
+                            <li>জাপানিস ভাষায় কথা বলার সংকোচ ও জড়তা দ্রুত কাটিয়ে ওঠা</li>
+                            <li>এতদিন ভুল জানতেন এমন অনেক জাপানিজ শব্দের সঠিক উচ্চারণ</li>
+                            <li>জব ইন্টারভিউ, প্রেজেন্টেশন, ভাইভা, দেশি-বিদেশি ক্লায়েন্ট মিটিং, কলিগদের সাথে আলাপচারিতা, পাবলিক স্পিকিং, অপরিচিত কারো সাথে কথা শুরু করা - ইত্যাদি ক্ষেত্রে জাপানিজ ভাষায় কথা বলা</li>
+                            <li>Japanese Excellence-এর যাত্রা শুরু হোক এখনই!</li>
+                        </ul>
+                        <br>
+                    </div>
+                </div>
+                <div class="flex items-center justify-center space-x-4">
+                    <h3 class="text-lg font-medium text-gray-500 line-through">৫০০০৳</h3>
+                    <button 
+                      onclick="showPopup()" 
+                      class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-6 rounded-full transition duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-1">
+                      Apply Now
+                    </button>
+                  </div>
+            </div>
+         </section>
+         
+         <section class="faq" style="font-weight: 600;">
+            <div class="container1">
+                <div class="section_header">
+                    <h3 class="text-xl lg:text-3xl">কোর্সটি যাদের জন্য</h3>
+                </div>
+                <br>
+                <div class="faq_data" style="font-size: 16px;">
+                    <ul>
+                        <li>
+                            ✅পড়াশুনা আন্তর্জাতিকমানের (World Class Education)
+                        </li>
+                        <li>
+                            ✅জাপানের অর্থনীতি পৃথিবীর মধ্যে চতুর্থ বৃহত্তম
+                        </li>
+                        <li>
+                            ✅জাপান একটি সুন্দর, পরিষ্কার, সু্শৃঙ্খল নিয়ম-নীতি ও সভ্য মানুষের দেশ।
+                        </li>
+                        <li>
+                            ✅পার্ট টাইম জব পাওয়া সহজ।
+                        </li>
+                        <li>
+                            ✅পার্ট টাইম জব করে প্রতি ঘণ্টায় প্রায় ১১০০ Yen থেকে ১৪০০ Yen বা তারও বেশি আয় করা যায় ।
+                        </li>
+                        <li>
+                            ✅পড়াশোনা শেষে স্টুডেন্ট ভিসা পরিবর্তন করে ফুল টাইম জব ভিসায় যতদিন ইচ্ছা থাকার সুযোগ।
+                        </li>
+                        <li>
+                            ✅যাদের দেশ থেকে গ্রাজুয়েশন করা থাকবে তারা চাইলে জাপানের স্কুলে ল্যাংগুয়েজ কোর্স শেষ করে সরাসরি জব ভিসায় রুপান্তর করার সুযোগ।
+                        </li>
+                        <li>
+                            ✅লেখাপড়া শেষ করে ৩ বছর পর permanent Residency (PR) / নাগরিকত্ব নিয়ে স্থায়ীভাবে বসবাসের সুযোগ।
+                        </li>
+                        <li>
+                            ✅Visa Procedure এবং Admission Procedure অনেক সহজ এবং Visa Ratio অনেক ভালো।
+                        </li>
+                        <li>
+                            ✅খরচ তুলনামূলক কম,১ বছরের টিউশন ফি প্রায় ৫.৫০ লক্ষ টাকা (কম বেশি হতে পারে)
+                        </li>
+                        <li>
+                            ✅জাপানে যাওয়ার পর দেশ থেকে আর টাকা নিতে হয় না।
+                        </li>
+                        <li>
+                            ✅শুধুমাত্র Japanese Language N5 Course শেষ করে আপনিও গ্রহণ করতে পারেন জাপানে উচ্চ শিক্ষা, চাকুরি ও স্থায়ীভাবে বসবাসের সুযোগ
+                        </li>
+                    </ul>
+                </div>
+            </div>
+         </section>
+         <section class="course_curriculum" id="overview">
+            <div class="container1">
+                <div class="section_header">
+                    <h3 class="text-xl lg:text-3xl font-bold">Course Curriculum</h3>
+                    <h5 class="text-xl lg:text-2xl">কোর্সের সাথে থাকছে Recorded <span style="color: #11a849;">Class+Bonus👉১ মাসের Live Class</span></h5>
+                </div>
+                <div class="flex1" style="justify-content: center; color: red;">
+                    <h3><del>৫০০০৳</del></h3>
+                    <button class="enroll_Now" onclick="showPopup()">Aplay Now</button>
+                </div>
+                <br>
+                <ul>
+                    <li class="module_list">
+                        <div class="modules">
+                            <p><b>Module</b></p>
+                            <h1 class="text-xl lg:text-6xl">1</h1>
+                        </div>
+                        <div>
+                            <div>
+                                <div class="free_demo flex1">
+                                    <div class="flex1">
+                                        <i><img src={% static 'template/assets/images/curriculmnDuration.svg" alt="images"></i> 
+                                        <small>8 mins to complete</small>
+                                    </div>
+                                    <small>Unlock</small>
+                                </div>
+                                <br>
+                                <h5>Your English Speaking Goals (আপনার ইংরেজিতে কথা বলার লক্ষ্যসমূহ)</h5>
+                                <br>
+                                <p class="line3">
+                                    এই মডিউলে আমরা জাপানিজ শিখতে গিয়ে যেসব চ্যালেঞ্জের সম্মুখীন হই, তা নিয়ে আলোচনা করবো। এই মডিউল থেকে আরো জানতে পারবেন জাপানিজ ভাষা কীভাবে বাংলা থেকে আলাদা এবং কোন বিষয়গুলো জাপানিজ বোঝাকে আরো কঠিন করে তোলে। এছাড়াও আপনি জানতে পারবেন কীভাবে আপনি এই কোর্স শুরু করার আগে আপনার ব্যক্তিগত
+                                </p>
+                                <br>
+                                <br>
+                                <div class="free_demo flex1">
+                                    <div class="flex1">
+                                        <i><img src={% static 'template/assets/images/curriculmnDuration.svg" alt="images"></i> 
+                                        <small>3 Videos</small>
+                                    </div>
+                                    <div class="seeMore_btn" onclick="allVideo()">
+                                        <button>See More</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <ol id="all_video">
+                                <li class="video_wrapper">
+                                    <div class="free_demo flex1">
+                                        <div>
+                                            <h5>Noun</h5>
+                                            <div class="flex1">
+                                                <small>Video -</small>
+                                                <small>3 minutes</small>
+                                            </div>
+                                        </div>
+                                        <small class="btn_primary free_video">See More</small>
+                                    </div>
+                                    <div class="course_video">
+                                        <video src={% static 'template/assets/video/Ayatul-Kursi.mp4' %}" controls></video>
+                                    </div>
+                                </li>
+                                <li class="video_wrapper">
+                                    <div class="free_demo flex1">
+                                        <div>
+                                            <h5>Noun</h5>
+                                            <div class="flex1">
+                                                <small>Video -</small>
+                                                <small>3 minutes</small>
+                                            </div>
+                                        </div>
+                                        <small class="btn_primary free_video">See More</small>
+                                    </div>
+                                    <div class="course_video">
+                                        <video src={% static 'template/assets/video/Ayatul-Kursi.mp4' %}" controls></video>
+                                    </div>
+                                </li>
+                                <li class="video_wrapper">
+                                    <div class="free_demo flex1">
+                                        <div>
+                                            <h5>Noun</h5>
+                                            <div class="flex1">
+                                                <small>Video -</small>
+                                                <small>3 minutes</small>
+                                            </div>
+                                        </div>
+                                        <small>Lock</small>
+                                    </div>
+                                </li>
+                            </ol>
+                        </div>
+                    </li>
+                    <li class="module_list">
+                        <div class="modules">
+                            <p><b>Module</b></p>
+                            <h1 class="text-xl lg:text-6xl">2</h1>
+                        </div>
+                        <div>
+                            <div class="free_demo flex1">
+                                <div class="flex1">
+                                    <i><img src={% static 'template/assets/images/curriculmnDuration.svg" alt="images"></i> 
+                                    <small>8 mins to complete</small>
+                                </div>
+                                <small>Unlock</small>
+                            </div>
+                            <br>
+                            <h5>Your English Speaking Goals (আপনার ইংরেজিতে কথা বলার লক্ষ্যসমূহ)</h5>
+                            <br>
+                            <p class="line3">
+                                এই মডিউলে আমরা জাপানিজ শিখতে গিয়ে যেসব চ্যালেঞ্জের সম্মুখীন হই, তা নিয়ে আলোচনা করবো। এই মডিউল থেকে আরো জানতে পারবেন জাপানিজ ভাষা কীভাবে বাংলা থেকে আলাদা এবং কোন বিষয়গুলো জাপানিজ বোঝাকে আরো কঠিন করে তোলে। এছাড়াও আপনি জানতে পারবেন কীভাবে আপনি এই কোর্স শুরু করার আগে আপনার ব্যক্তিগত
+                            </p>
+                            <br>
+                            <br>
+                            <div class="free_demo flex1">
+                                <div class="flex1">
+                                    <i><img src={% static 'template/assets/images/curriculmnDuration.svg" alt="images"></i> 
+                                    <small>3 Videos</small>
+                                </div>
+                                <div class="seeMore_btn">
+                                    <b>See More</b>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+                <div class="flex items-center justify-center space-x-4">
+                   
+                    <button 
+                     
+                      class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-6 rounded-full transition duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-1">
+                      show More
+                    </button>
+                  </div>
+            </div>
+         </section>
+
+         <section class="mentor_details">
+            <div class="container1">
+                <h3 class="text-lg lg:text-3xl font-bold">মেন্টর পরিচিতি</h3>
+                <br>
+                    <div class="mentor_img">
+                        <img src={% static 'template/assets/images/Santo-Ahmed.jpg' %}" alt="img">
+                    </div>
+            </div>
+         </section>
+         <section class="saying">
+            <div class="container1">
+                <div class="section_header">
+                    <h3 class="text-xl lg:text-3xl">দেখুন কোর্সটি থেকে শেখা স্টুডেন্টরা কি বলছে</h3>
+                </div>
+                <br>
+                <br>
+                <div class="slider">
+                    <div class="slider-container1">
+                        <ul>
+                            <li>
+                                <div class="flex1">
+                                    <div>
+                                        <img src={% static 'template/assets/images/user_icon.png' %}" alt="img">
+                                    </div>
+                                    <div>
+                                        <h6>মাহমুদুল আহমেদ</h6>
+                                        <div class="flex1">
+                                            ★★★★★ <small>2 year ago</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br>
+                                <p class="line5">
+                                    এই কোর্সটি করে আমি জাপানি ভাষার বেসিক দক্ষতা অর্জন করেছি। একদম সহজ ভাষায় ব্যাখ্যা করা হয়েছে!
+                                </p>
+                            </li>
+                            <li>
+                                <div class="flex1">
+                                    <div>
+                                        <img src={% static 'template/assets/images/user_icon.png' %}" alt="img">
+                                    </div>
+                                    <div>
+                                        <h6>কামরুল খান</h6>
+                                        <div class="flex1">
+                                            ★★★★★ <small>1 year ago</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p class="line5">
+                                    শুরুতে কঠিন লাগলেও এই কোর্সের মাধ্যমে জাপানি শেখা মজার হয়ে গেছে!
+                                </p>
+                            </li>
+                            <li>
+                                <div class="flex1">
+                                    <div>
+                                        <img src={% static 'template/assets/images/user_icon.png' %}" alt="img">
+                                    </div>
+                                    <div>
+                                        <h6>আলম খান</h6>
+                                        <div class="flex1">
+                                            ★★★★★ <small>3 month ago</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p class="line5">
+                                    অসাধারণ কোর্স! জাপানি ভাষার জটিল নিয়মগুলো এত সুন্দরভাবে বোঝানো হয়েছে যে শেখা সহজ হয়ে গেছে।
+                                </p>
+                            </li>
+                            <li>
+                                <div class="flex1">
+                                    <div>
+                                        <img src={% static 'template/assets/images/user_icon.png' %}" alt="img">
+                                    </div>
+                                    <div>
+                                        <h6>আরিফুজ্জামান খান</h6>
+                                        <div class="flex1">
+                                            ★★★★★ <small>6 month ago</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p class="line5">
+                                    জাপানি ভাষার প্রতি আমার আগ্রহ অনেকদিনের, কিন্তু এই কোর্সটি করে বুঝলাম শিখতে এত সহজ!
+                                </p>
+                            </li>
+                            <li>
+                                <div class="flex1">
+                                    <div>
+                                        <img src={% static 'template/assets/images/user_icon.png' %}" alt="img">
+                                    </div>
+                                    <div>
+                                        <h6>মিজানুর জামান</h6>
+                                        <div class="flex1">
+                                            ★★★★★ <small>1 year ago</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p class="line5">
+                                    সঠিক পদ্ধতিতে শেখার জন্য কোর্সটি অসাধারণ! শব্দভাণ্ডার ও উচ্চারণ সহজে আয়ত্ত করতে পেরেছি।
+                                </p>
+                            </li>
+                            <li>
+                                <div class="flex1">
+                                    <div>
+                                        <img src={% static 'template/assets/images/user_icon.png' %}" alt="img">
+                                    </div>
+                                    <div>
+                                        <h6>ফারুক আহমেদ</h6>
+                                        <div class="flex1">
+                                            ★★★★★ <small>2 year ago</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p class="line5">
+                                    দারুণ অভিজ্ঞতা! খুব সহজ পদ্ধতিতে শেখানো হয়েছে, বিশেষ করে কানজি'র ব্যাখ্যাগুলো দারুণ ছিল।
+                                </p>
+                            </li>
+                            <li>
+                                <div class="flex1">
+                                    <div>
+                                        <img src={% static 'template/assets/images/user_icon.png' %}" alt="img">
+                                    </div>
+                                    <div>
+                                        <h6>Md. Shahinur Islam</h6>
+                                        <div class="flex1">
+                                            ★★★★★ <small>24 days ago</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p class="line5">
+                                    কোর্সটি সম্পূর্ণ করার পর আমি সহজে জাপানি বাক্য গঠন করতে পারছি।
+                                </p>
+                            </li>
+                            <li>
+                                <div class="flex1">
+                                    <div>
+                                        <img src={% static 'template/assets/images/user_icon.png' %}" alt="img">
+                                    </div>
+                                    <div>
+                                        <h6>শরিফুল রানা</h6>
+                                        <div class="flex1">
+                                            ★★★★★ <small>2 years ago</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p class="line5">
+                                    এই কোর্সটি করার পর জাপানি অক্ষর পড়তে পারছি এবং কিছু বাক্য বলতে পারছি।
+                                </p>
+                            </li>
+                            <li>
+                                <div class="flex1">
+                                    <div>
+                                        <img src={% static 'template/assets/images/user_icon.png' %}" alt="img">
+                                    </div>
+                                    <div>
+                                        <h6>ইমরান আহমেদ</h6>
+                                        <div class="flex1">
+                                            ★★★★★ <small>2 months ago</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p class="line5">
+                                    শেখার ধাপগুলো এত সুন্দরভাবে সাজানো যে একদম নতুনদের জন্য পারফেক্ট!
+                                </p>
+                            </li>
+                            <li>
+                                <div class="flex1">
+                                    <div>
+                                        <img src={% static 'template/assets/images/user_icon.png' %}" alt="img">
+                                    </div>
+                                    <div>
+                                        <h6>রফিকুল খান</h6>
+                                        <div class="flex1">
+                                            ★★★★★ <small>1 year ago</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p class="line5">
+                                    এই কোর্সটি আমাকে জাপানি ভাষায় কথা বলার আত্মবিশ্বাস দিয়েছে, ধন্যবাদ!
+                                </p>
+                            </li>
+                            <li>
+                                <div class="flex1">
+                                    <div>
+                                        <img src={% static 'template/assets/images/user_icon.png' %}" alt="img">
+                                    </div>
+                                    <div>
+                                        <h6>রাজিব চৌধুরী</h6>
+                                        <div class="flex1">
+                                            ★★★★★ <small>3 year ago</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p class="line5">
+                                    প্রতি ক্লাস এত ইন্টারঅ্যাকটিভ যে আমি সহজেই শিখতে পারছি!
+                                </p>
+                            </li>
+                            <li>
+                                <div class="flex1">
+                                    <div>
+                                        <img src={% static 'template/assets/images/user_icon.png' %}" alt="img">
+                                    </div>
+                                    <div>
+                                        <h6>রাজিব চৌধুরী</h6>
+                                        <div class="flex1">
+                                            ★★★★★ <small>20 minute ago</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p class="line5">
+                                    আমি এখন জাপানি ভাষায় ছোট ছোট বাক্যে কথা বলতে পারছি, দারুণ একটা কোর্স!
+                                </p>
+                            </li>
+                            <li>
+                                <div class="flex1">
+                                    <div>
+                                        <img src={% static 'template/assets/images/user_icon.png' %}" alt="img">
+                                    </div>
+                                    <div>
+                                        <h6>খালেদ মাহমুদ</h6>
+                                        <div class="flex1">
+                                            ★★★★★ <small>1 year ago</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p class="line5">
+                                    ব্যতিক্রমী শিক্ষা পদ্ধতি! শেখার জন্য এটি নিঃসন্দেহে বেস্ট কোর্স।
+                                </p>
+                            </li>
+                            <li>
+                                <div class="flex1">
+                                    <div>
+                                        <img src={% static 'template/assets/images/user_icon.png' %}" alt="img">
+                                    </div>
+                                    <div>
+                                        <h6>Md. Shahinur Islam</h6>
+                                        <div class="flex1">
+                                            ★★★★★ <small>6 month ago</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p class="line5">
+                                    শুধু জাপানি শেখা নয়, ভাষাটি কিভাবে ব্যবহার করতে হয় সেটাও পরিষ্কার হয়েছে।
+                                </p>
+                            </li>
+                            <li>
+                                <div class="flex1">
+                                    <div>
+                                        <img src={% static 'template/assets/images/user_icon.png' %}" alt="img">
+                                    </div>
+                                    <div>
+                                        <h6>তানভীর আহমেদ</h6>
+                                        <div class="flex1">
+                                            ★★★★★ <small>5 months ago</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p class="line5">
+                                    আমি নিজে চেষ্টা করেও শিখতে পারিনি, কিন্তু এই কোর্সের মাধ্যমে সহজেই শিখতে পেরেছি!
+                                </p>
+                            </li>
+                            <li>
+                                <div class="flex1">
+                                    <div>
+                                        <img src={% static 'template/assets/images/user_icon.png' %}" alt="img">
+                                    </div>
+                                    <div>
+                                        <h6>নাসির উদ্দিন</h6>
+                                        <div class="flex1">
+                                            ★★★★★ <small>1 year ago</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p class="line5">
+                                    জাপানি ভাষার উচ্চারণ নিয়ে অনেক সমস্যায় ছিলাম, কিন্তু কোর্সটি সেসব দূর করেছে!
+                                </p>
+                            </li>
+                            <li>
+                                <div class="flex1">
+                                    <div>
+                                        <img src={% static 'template/assets/images/user_icon.png' %}" alt="img">
+                                    </div>
+                                    <div>
+                                        <h6>রাশেদুল খান</h6>
+                                        <div class="flex1">
+                                            ★★★★★ <small>2 years ago</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p class="line5">
+                                    প্রথম থেকেই সহজ এবং কার্যকর পদ্ধতিতে শেখানোর জন্য কোর্সটি প্রশংসার যোগ্য! 
+                                </p>
+                            </li>
+                            <li>
+                                <div class="flex1">
+                                    <div>
+                                        <img src={% static 'template/assets/images/user_icon.png' %}" alt="img">
+                                    </div>
+                                    <div>
+                                        <h6>রিদয় খান</h6>
+                                        <div class="flex1">
+                                            ★★★★★ <small>1 year ago</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p class="line5">
+                                    আমি জাপানি সংস্কৃতি বুঝতে চাইতাম, এই কোর্সটি সেই পথটাও সহজ করে দিয়েছে। 
+                                </p>
+                            </li>
+                            <li>
+                                <div class="flex1">
+                                    <div>
+                                        <img src={% static 'template/assets/images/user_icon.png' %}" alt="img">
+                                    </div>
+                                    <div>
+                                        <h6>ফাহিম আহমেদ</h6>
+                                        <div class="flex1">
+                                            ★★★★★ <small>1 year ago</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p class="line5">
+                                    যারা জাপানি ভাষা শিখতে চান, তাদের জন্য এটি পারফেক্ট কোর্স! 
+                                </p>
+                            </li>
+                            <li>
+                                <div class="flex1">
+                                    <div>
+                                        <img src={% static 'template/assets/images/user_icon.png' %}" alt="img">
+                                    </div>
+                                    <div>
+                                        <h6>সুমন আজাদ</h6>
+                                        <div class="flex1">
+                                            ★★★★★ <small>1 year ago</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p class="line5">
+                                    একদম ধাপে ধাপে শেখানোর জন্য কোর্সটি অত্যন্ত উপকারী মনে হয়েছে। 
+                                </p>
+                            </li>
+                            <li>
+                                <div class="flex1">
+                                    <div>
+                                        <img src={% static 'template/assets/images/user_icon.png' %}" alt="img">
+                                    </div>
+                                    <div>
+                                        <h6>রাশেদুল খান</h6>
+                                        <div class="flex1">
+                                            ★★★★★ <small>1 year ago</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p class="line5">
+                                    জাপানি ভাষার গ্রামার এত সহজভাবে শেখানো হয়েছে যে এখন আমি নিজে নিজেই অনুশীলন করতে পারছি। 
+                                </p>
+                            </li>
+                            <li>
+                                <div class="flex1">
+                                    <div>
+                                        <img src={% static 'template/assets/images/user_icon.png' %}" alt="img">
+                                    </div>
+                                    <div>
+                                        <h6>নাসির উদ্দিন</h6>
+                                        <div class="flex1">
+                                            ★★★★★ <small>1 year ago</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p class="line5">
+                                    কোর্সটি একদম জিরো থেকে শুরু করেছে, তাই নতুনদের জন্য পারফেক্ট!
+                                </p>
+                            </li>
+                            <li>
+                                <div class="flex1">
+                                    <div>
+                                        <img src={% static 'template/assets/images/user_icon.png' %}" alt="img">
+                                    </div>
+                                    <div>
+                                        <h6>নাসির</h6>
+                                        <div class="flex1">
+                                            ★★★★★ <small>2 years ago</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p class="line5">
+                                    শুরুতে মনে হয়েছিল কঠিন হবে, কিন্তু কোর্সটির স্টেপ-বাই-স্টেপ গাইডলাইন সব সহজ করে দিয়েছে!
+                                </p>
+                            </li>
+                            <li>
+                                <div class="flex1">
+                                    <div>
+                                        <img src={% static 'template/assets/images/user_icon.png' %}" alt="img">
+                                    </div>
+                                    <div>
+                                        <h6>শরিফুল রানা</h6>
+                                        <div class="flex1">
+                                            ★★★★★ <small>1 year ago</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p class="line5">
+                                    এখন আমি জাপানি ভাষা শিখতে আরও আগ্রহী, কারণ এই কোর্সটি শেখাকে মজার করে তুলেছে!
+                                </p>
+                            </li>
+                        </ul>
+                    </div>
+                    <button class="left"><</button>
+                    <button class="right">></button>
+                </div>                
+                <br>
+                <br>
+                <div class="flex items-center justify-center space-x-4">
+                    <h3 class="text-2xl font-medium text-gray-500 line-through">৫০০০৳</h3>
+                    <button 
+                      onclick="showPopup()" 
+                      class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-6 rounded-full transition duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-1">
+                      Apply Now
+                    </button>
+                  </div>
+            </div>
+         </section>
+         <div class="modal">
+            <div class="overlay" onclick="closePopup()"></div>
+            <div class="popup popup1">
+                <form action="#" method="post">
+                    <input type="text" placeholder="Full Name" required>
+                    <input type="email" placeholder="Email" required>
+                    <input type="tel" placeholder="Phone Number" required>
+                    <div class="free_demo flex1">
+                        <button onclick="closePopup()">Close</button>
+                        <button type="submit" onclick="submitData()">Submite</button>
+                    </div>
+                </form>
+            </div>
+            <div class="popup popup2">
+                <form action="#" method="post">
+                    <input type="text" placeholder="MD. SIBGATULLAH" readonly>
+                    <input type="email" placeholder="sibgatullah667@gmail.com" readonly>
+                    <input type="number" placeholder="01601706606" readonly>
+                    <input type="text" placeholder="Price 999tk" readonly>
+                    <input type="number" placeholder="Quantity 1" readonly>
+                    <div class="free_demo flex1" style="margin-top: 5px;">
+                        <button onclick="closePopup()">Close</button>
+                        <button type="submit">Confirm</button>
+                    </div>
+                </form>
+            </div>
+         </div>
+    </main>
+    <!-- ========== Start Footer ========== -->
+    <footer class="footer">
+        <div class="container1">
+
+        </div>
+    </footer>
+    <!-- ========== End Footer ========== -->
+
+    <script>
+
+        const all_video = document.getElementById('all_video');
+
+        function allVideo() {
+            if (all_video.style.display === "none" || all_video.style.display === "") {
+                all_video.style.display = "block";
+            } else {
+                all_video.style.display = "none";
+            }
+        }
+
+
+        const modal = document.querySelector('.modal');
+        const popup1 = document.querySelector('.popup1');
+        const popup2 = document.querySelector('.popup2');
+        function submitData(){
+            popup1.style.display = "none";
+            popup2.style.display = "block";
+        }
+        function closePopup(){
+            popup1.style.display = "block";
+            modal.style.display = "none";
+            popup2.style.display = "none";
+        }
+        function showPopup(){
+            modal.style.display = "block";
+        }
+
+    document.querySelectorAll(".free_video").forEach((btn) => {
+        btn.addEventListener("click", () => {
+            const parent = btn.closest(".video_wrapper");
+            const video = parent.querySelector(".course_video");
+            
+            if (video.style.display === "block") {
+            video.style.display = "none";
+            } else {
+            video.style.display = "block";
+            }
+        });
+    });
+
+            document.addEventListener("DOMContentLoaded", function () {
+            const slider = document.querySelector(".slider ul");
+            const leftButton = document.querySelector(".left");
+            const rightButton = document.querySelector(".right");
+            let index = 0;
+            
+            const items = document.querySelectorAll(".slider ul li");
+            const totalSlides = items.length / 2;
+            const firstClone = items[0].cloneNode(true);
+            const lastClone = items[items.length - 1].cloneNode(true);
+
+            slider.appendChild(firstClone);
+            slider.insertBefore(lastClone, slider.firstChild);
+
+            index = 1;
+            slider.style.transform = `translateX(-${index * 100}%)`;
+
+            function updateSlider() {
+                slider.style.transition = "transform 0.5s ease-in-out";
+                slider.style.transform = `translateX(-${index * 100}%)`;
+            }
+
+            function nextSlide() {
+                if (index >= totalSlides) {
+                    slider.style.transition = "none";
+                    index = 0;
+                    slider.style.transform = `translateX(-${index * 100}%)`;
+                    setTimeout(() => {
+                        index++;
+                        updateSlider();
+                    }, 50);
+                } else {
+                    index++;
+                    updateSlider();
+                }
+            }
+
+            function prevSlide() {
+                if (index <= 0) {
+                    slider.style.transition = "none";
+                    index = totalSlides; 
+                    slider.style.transform = `translateX(-${index * 100}%)`;
+                    setTimeout(() => {
+                        index--;
+                        updateSlider();
+                    }, 50);
+                } else {
+                    index--;
+                    updateSlider();
+                }
+            }
+
+            rightButton.addEventListener("click", nextSlide);
+            leftButton.addEventListener("click", prevSlide);
+
+            setInterval(nextSlide, 3000);
+        });
+
+
+        const countdownDate = new Date("2025-04-01T00:00:00").getTime();
+
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const timeLeft = countdownDate - now;
+
+            if (timeLeft <= 0) {
+                document.querySelector(".timer").innerHTML = "<h5>Time's Up!</h5>";
+                clearInterval(timer);
+                return;
+            }
+
+            const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+
+            document.querySelectorAll(".timer h5")[0].innerText = days < 10 ? "0" + days : days;
+            document.querySelectorAll(".timer h5")[1].innerText = hours < 10 ? "0" + hours : hours;
+            document.querySelectorAll(".timer h5")[2].innerText = minutes < 10 ? "0" + minutes : minutes;
+            document.querySelectorAll(".timer h5")[3].innerText = seconds < 10 ? "0" + seconds : seconds;
+        }
+        const timer = setInterval(updateCountdown, 1000);
+        updateCountdown();
+
+        function closeAdd(){
+            document.querySelector(".add1").style.display = 'none';
+        }
+
+
+    </script>
+   
+</body>
+</html>

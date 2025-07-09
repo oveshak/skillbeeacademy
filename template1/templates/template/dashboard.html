@@ -1,0 +1,987 @@
+<!DOCTYPE html>
+<html lang="en">
+  {% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skillbee Profile</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/alpinejs/3.12.0/cdn.min.js" defer></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'template/assets/css/headerfooter.css' %}">
+  
+  
+  <!-- <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'custom-green': '#00b246',
+            'custom-blue': '#0a2540'
+          }
+        }
+      }
+    }
+  </script> -->
+   
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              'keeron-blue': '#0A2044',
+              'keeron-green': '#10B981',
+              'custom-green': '#00b246',
+            'custom-blue': '#0a2540'
+            }
+          }
+        }
+      }
+    </script>
+    <link rel="stylesheet" href="{% static 'template/assets/css/headerfooter.css' %}">
+    <style>
+        /* body {
+            background-color: #f8f9fa;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        } */
+        .profile-banner {
+            background: linear-gradient(90deg, #0e4686 0%, #1976d2 100%);
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+
+    <header class="w-full sticky top-0  bg-white lg:py-4 px-4 md:px-8 lg:px-12  z-40" x-data="{ 
+        mobileMenuOpen: false,
+        activeLink: 'all-courses',
+        language: 'EN',
+        languageOpen: false,
+        languages: [
+            { code: 'EN', name: 'English' },
+            { code: 'ES', name: 'Spanish' },
+            { code: 'FR', name: 'French' },
+            { code: 'DE', name: 'German' }
+        ],
+        sidebarOpen: false
+    }" @click.away="mobileMenuOpen = false; languageOpen = false">
+        <div class="max-w-[110rem] mx-auto flex justify-between items-center">
+          <!-- Logo -->
+          <div class="flex">
+            <button @click="mobileMenuOpen = !mobileMenuOpen" class="md:hidden text-gray-700 focus:outline-none">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+              </svg>
+            </button>
+            <div class="flex items-center">
+              <a href="{% url 'index' %}" class="text-green-500 font-bold text-5xl flex w-[180px] items-center">
+            <img src="https://skillbeeacademy.com/upload/images/skillbee.jpeg" alt="skillbee" class="p-2" />
+          </a>
+            </div>
+    
+            <!-- Desktop Navigation -->
+            <nav class="hidden md:flex ml-10 items-center space-x-7" id="main-nav">
+              <a href="./allcourse.html" 
+                 class="text-gray-700 hover:text-green-500 font-medium transition-colors lg:text-[22px] duration-200 nav-link"
+                 data-target="all-courses">All Courses</a>
+              
+              <a href="./livecourse.html" 
+                 class="text-gray-700 hover:text-green-500 font-medium transition-colors lg:text-[22px] duration-200 nav-link"
+                 data-target="live-courses">Live Courses</a>
+              
+              <a href="./freetest.html" 
+                 class="text-gray-700 hover:text-green-500 font-medium transition-colors lg:text-[22px] duration-200 nav-link"
+                 data-target="free-test">Free Test</a>
+              
+              <a href="./downloadresourse.html" 
+                 class="text-gray-700 hover:text-green-500 font-medium transition-colors lg:text-[22px] duration-200 nav-link"
+                 data-target="download-resources">Download Resources</a>
+              
+              <a href="./freeevent.html" 
+                 class="text-gray-700 hover:text-green-500 font-medium transition-colors lg:text-[22px] duration-200 nav-link"
+                 data-target="free-events">Free Events</a>
+            </nav>
+            
+            <script>
+          document.addEventListener('DOMContentLoaded', function() {
+      // Get all navigation links
+      const navLinks = document.querySelectorAll('.nav-link');
+      
+      // Add click event listeners to each nav link
+      navLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+          // Remove active class from all links
+          navLinks.forEach(l => l.classList.remove('text-green-500'));
+          
+          // Add active class to clicked link
+          this.classList.add('text-green-500');
+          
+          // Store active link in localStorage
+          localStorage.setItem('activeNavLink', this.dataset.target);
+        });
+      });
+      
+      // Get all links on the page (not just nav links)
+      const allLinks = document.querySelectorAll('a:not(.nav-link)');
+      
+      // Add click event to all other links to reset active state
+      allLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+          // Remove active class from all nav links
+          navLinks.forEach(navLink => navLink.classList.remove('text-green-500'));
+          
+          // Also clear localStorage
+          localStorage.removeItem('activeNavLink');
+        });
+      });
+      
+      // On page load, check if we should set an active link
+      const currentPath = window.location.pathname;
+      let activeSet = false;
+      
+      // Try to match based on the current path
+      navLinks.forEach(link => {
+        const href = link.getAttribute('href');
+        const hrefFile = href.split('/').pop();
+        const pathFile = currentPath.split('/').pop();
+        
+        // If current page matches this nav link
+        if (pathFile === hrefFile) {
+          navLinks.forEach(l => l.classList.remove('text-green-500'));
+          link.classList.add('text-green-500');
+          localStorage.setItem('activeNavLink', link.dataset.target);
+          activeSet = true;
+        }
+      });
+      
+      // If no match by URL but we have localStorage, use that
+      if (!activeSet) {
+        const activeLink = localStorage.getItem('activeNavLink');
+        if (activeLink) {
+          const link = document.querySelector(`[data-target="${activeLink}"]`);
+          if (link) {
+            navLinks.forEach(l => l.classList.remove('text-green-500'));
+            link.classList.add('text-green-500');
+          }
+        }
+      }
+    });
+            </script>
+          </div>
+          <div class="flex gap-3 lg:gap-6 items-center">
+            <!-- Search bar -->
+            <div class="hidden md:block relative">
+              <input type="text" placeholder="Search for Courses"
+                class="pl-10 pr-4 py-3 rounded-full border text-[20px] focus:outline-none w-[25rem] transition">
+              <div class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                  stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
+              </div>
+            </div>
+            <div class="md:hidden flex items-center justify-center relative  ">
+              <button id="searchBtn" class="text-gray-500 hover:text-gray-700 focus:outline-none">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                </svg>
+              </button>
+    
+            </div>
+    
+    
+            <!-- Language selector -->
+            <div class="block relative rounded-full" @click.away="languageOpen = false">
+              <button @click="languageOpen = !languageOpen"
+                class="hidden md:flex px-8 py-7 lg:rounded-full items-center space-x-1 text-gray-700 hover:text-gray-900 lg:border h-12">
+                <span x-text="language" class="font-large text-[20px] font-bold"></span>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transition-transform"
+                  :class="{'rotate-180': languageOpen}" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+              <button @click="languageOpen = !languageOpen"
+                class="md:hidden flex text-[25px] lg:px-8 lg:py-7 lg:rounded-full items-center space-x-1 text-gray-700 hover:text-gray-900 lg:border h-12">
+                <!-- <span x-text="language" class="font-large text-[20px] font-bold"></span> -->
+                <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 496 512" focusable="false"
+                  class="chakra-icon css-1h1ps9q" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M336.5 160C322 70.7 287.8 8 248 8s-74 62.7-88.5 152h177zM152 256c0 22.2 1.2 43.5 3.3 64h185.3c2.1-20.5 3.3-41.8 3.3-64s-1.2-43.5-3.3-64H155.3c-2.1 20.5-3.3 41.8-3.3 64zm324.7-96c-28.6-67.9-86.5-120.4-158-141.6 24.4 33.8 41.2 84.7 50 141.6h108zM177.2 18.4C105.8 39.6 47.8 92.1 19.3 160h108c8.7-56.9 25.5-107.8 49.9-141.6zM487.4 192H372.7c2.1 21 3.3 42.5 3.3 64s-1.2 43-3.3 64h114.6c5.5-20.5 8.6-41.8 8.6-64s-3.1-43.5-8.5-64zM120 256c0-21.5 1.2-43 3.3-64H8.6C3.2 212.5 0 233.8 0 256s3.2 43.5 8.6 64h114.6c-2-21-3.2-42.5-3.2-64zm39.5 96c14.5 89.3 48.7 152 88.5 152s74-62.7 88.5-152h-177zm159.3 141.6c71.4-21.2 129.4-73.7 158-141.6h-108c-8.8 56.9-25.6 107.8-50 141.6zM19.3 352c28.6 67.9 86.5 120.4 158 141.6-24.4-33.8-41.2-84.7-50-141.6h-108z">
+                  </path>
+                </svg>
+              </button>
+              <div x-show="languageOpen" x-transition:enter="transition ease-out duration-100"
+                x-transition:enter-start="transform opacity-0 scale-95"
+                x-transition:enter-end="transform opacity-100 scale-100" x-transition:leave="transition ease-in duration-75"
+                x-transition:leave-start="transform opacity-100 scale-100"
+                x-transition:leave-end="transform opacity-0 scale-95"
+                class="absolute -right-12 lg:right-0 mt-2 w-36 bg-white shadow-lg rounded-md py-1 z-10">
+                <template x-for="lang in languages" :key="lang.code">
+                  <a href="#" @click.prevent="language = lang.code; languageOpen = false"
+                    class="block px-4 py-2 text-base text-gray-700 hover:bg-gray-100"
+                    :class="{'bg-gray-50': language === lang.code}" x-text="lang.name"></a>
+                </template>
+              </div>
+            </div>
+            <div class=" block w-[1px] h-12 bg-gray-300"></div>
+    
+            <!-- Sign in button -->
+            <a href="#" @click.prevent="sidebarOpen = true"
+              class="hidden  bg-green-500 hover:bg-green-600 text-white px-6 md:px-10 py-4 lg:flex items-center rounded-full text-base md:text-[25px] font-bold transition duration-300">Sign
+              in</a>
+            <a href="#" @click.prevent="sidebarOpen = true"
+              class=" py-4 lg:hidden flex items-center  text-[21px] md:text-[20px] font-bold transition duration-300"><svg
+                stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 496 512" focusable="false"
+                class="chakra-icon css-132u3c" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M248 104c-53 0-96 43-96 96s43 96 96 96 96-43 96-96-43-96-96-96zm0 144c-26.5 0-48-21.5-48-48s21.5-48 48-48 48 21.5 48 48-21.5 48-48 48zm0-240C111 8 0 119 0 256s111 248 248 248 248-111 248-248S385 8 248 8zm0 448c-49.7 0-95.1-18.3-130.1-48.4 14.9-23 40.4-38.6 69.6-39.5 20.8 6.4 40.6 9.6 60.5 9.6s39.7-3.1 60.5-9.6c29.2 1 54.7 16.5 69.6 39.5-35 30.1-80.4 48.4-130.1 48.4zm162.7-84.1c-24.4-31.4-62.1-51.9-105.1-51.9-10.2 0-26 9.6-57.6 9.6-31.5 0-47.4-9.6-57.6-9.6-42.9 0-80.6 20.5-105.1 51.9C61.9 339.2 48 299.2 48 256c0-110.3 89.7-200 200-200s200 89.7 200 200c0 43.2-13.9 83.2-37.3 115.9z">
+                </path>
+              </svg></a>
+    
+            <!-- Mobile menu button -->
+            <!-- <button @click="mobileMenuOpen = !mobileMenuOpen" class="md:hidden text-gray-700 focus:outline-none">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+        </button> -->
+          </div>
+        </div>
+    
+        <!-- Mobile Navigation -->
+        <div x-show="mobileMenuOpen" x-transition:enter="transition ease-out duration-200"
+          x-transition:enter-start="opacity-0 -translate-y-2" x-transition:enter-end="opacity-100 translate-y-0"
+          x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100 translate-y-0"
+          x-transition:leave-end="opacity-0 -translate-y-2" class="md:hidden mt-4 pb-4">
+          <div class="flex flex-col space-y-4">
+            <a href="#" @click.prevent="activeLink = 'all-courses'"
+              :class="{'text-green-500 font-semibold': activeLink === 'all-courses'}"
+              class="text-gray-700 hover:text-green-500 font-medium px-4 py-2 transition-colors duration-200">All
+              Courses</a>
+    
+            <a href="#" @click.prevent="activeLink = 'live-courses'"
+              :class="{'text-green-500 font-semibold': activeLink === 'live-courses'}"
+              class="text-gray-700 hover:text-green-500 font-medium px-4 py-2 transition-colors duration-200">Live
+              Courses</a>
+    
+            <a href="#" @click.prevent="activeLink = 'free-test'"
+              :class="{'text-green-500 font-semibold': activeLink === 'free-test'}"
+              class="text-gray-700 hover:text-green-500 font-medium px-4 py-2 transition-colors duration-200">Free Test</a>
+    
+            <a href="#" @click.prevent="activeLink = 'download-resources'"
+              :class="{'text-green-500 font-semibold': activeLink === 'download-resources'}"
+              class="text-gray-700 hover:text-green-500 font-medium px-4 py-2 transition-colors duration-200">Download
+              Resources</a>
+    
+            <a href="#" @click.prevent="activeLink = 'free-events'"
+              :class="{'text-green-500 font-semibold': activeLink === 'free-events'}"
+              class="text-gray-700 hover:text-green-500 font-medium px-4 py-2 transition-colors duration-200">Free
+              Events</a>
+    
+            <!-- Search bar -->
+          
+    
+    
+          </div>
+        </div>
+    
+        <!-- Sidebar for Sign In -->
+        <div x-show="sidebarOpen" class="fixed inset-0 z-50 overflow-hidden">
+          <!-- Overlay -->
+          <div x-show="sidebarOpen" x-transition:enter="transition-opacity ease-linear duration-300"
+            x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
+            x-transition:leave="transition-opacity ease-linear duration-300" x-transition:leave-start="opacity-100"
+            x-transition:leave-end="opacity-0" class="fixed inset-0 bg-black bg-opacity-50" @click="sidebarOpen = false">
+          </div>
+    
+          <!-- Sidebar Panel -->
+          <div x-show="sidebarOpen" x-transition:enter="transition ease-in-out duration-300 transform"
+            x-transition:enter-start="translate-x-full" x-transition:enter-end="translate-x-0"
+            x-transition:leave="transition ease-in-out duration-300 transform" x-transition:leave-start="translate-x-0"
+            x-transition:leave-end="translate-x-full"
+            class="fixed inset-y-0 right-0 max-w-[54rem] w-full bg-white shadow-xl overflow-y-auto">
+    
+            <!-- Sidebar Header -->
+            <div class="keeron-gradient p-8 ">
+              <div class=" py-5">
+                <div class="text-green-400 font-bold text-3xl p-4">Skillbee</div>
+              </div>
+              <button @click="sidebarOpen = false"
+                class="absolute top-3 right-3 text-white hover:text-gray-300 focus:outline-none">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                  stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+              <!-- <button >
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                  </button> -->
+            </div>
+    
+    
+            <div class="flex flex-col justify-between min-h-[75vh] px-4 ">
+              <div class="bg-white mt-4 lg:mt-[5rem]  flex justify-center items-center ">
+                <div id="phone-screen" class="max-w-md w-full flex flex-col ">
+                  <h1 class="text-[24px] lg:text-[36px] font-bold text-gray-800 mb-2 lg:mb-4">Welcome to Skillbee!</h1>
+                  <p class="text-gray-600 mb-4 lg:mb-8 text-[18px] lg:text-[22px] text-black">Sign in or Register using your
+                    mobile number</p>
+    
+                  <div class="w-full mb-2">
+                    <label class="text-gray-700 text-xl font-bold" for="phone">Mobile Number*</label>
+                  </div>
+    
+                  <div class="flex w-full mb-9 relative">
+                    <div
+                      class="absolute inset-y-0 left-0 flex items-center pl-3 pr-3 pointer-events-none text-xl text-black">
+                      +88
+                    </div>
+                    <input type="tel" id="phone-input" placeholder="Your Mobile Number"
+                      class="w-full py-4 pl-14 pr-4 border border-gray-300  rounded-md text-xl" maxlength="11">
+                  </div>
+    
+                  <button id="continue-btn"
+                    class="w-full py-5 bg-gray-100 text-gray-400 rounded-md disabled cursor-not-allowed mb-6">
+                    Continue
+                  </button>
+    
+                  <p class="text-base lg:text-[18px] mt-[17px] text-gray-600 text-center">
+                    By continuing, you agree to the
+                    <a href="#" class="text-gray-800 font-medium">Terms of use</a>,
+                    <a href="#" class="text-gray-800 font-medium">Privacy Policy</a>
+                    and
+                    <a href="#" class="text-gray-800 font-medium">Community Standards</a>
+                    of Skillbee
+                  </p>
+    
+                  <!-- Purple circle in bottom right -->
+                  <!-- <div class="fixed bottom-4 right-4 w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center">
+                          <span class="text-white text-lg">⋮</span>
+                        </div> -->
+                </div>
+    
+                <!-- OTP Verification Screen (Hidden by default) -->
+                <div id="otp-screen" class="max-w-md w-full flex flex-col  hidden">
+                  <h1 class="text-[24px] lg:text-[36px] font-bold text-gray-800 mb-2 lg:mb-4">Verify mobile number</h1>
+                  <p class="text-gray-600 mb-4 lg:mb-8 text-[18px] lg:text-[22px] text-black">
+                    Enter the verification code that we sent to this mobile number
+                    <span id="display-number" class="text-green-500 font-medium">+8801794003065</span>
+                  </p>
+    
+                  <div class="flex gap-2 mb-6 justify-center w-full">
+                    <input type="text" maxlength="1" class="otp-input" id="otp-1">
+                    <input type="text" maxlength="1" class="otp-input" id="otp-2">
+                    <input type="text" maxlength="1" class="otp-input" id="otp-3">
+                    <input type="text" maxlength="1" class="otp-input" id="otp-4">
+                    <input type="text" maxlength="1" class="otp-input" id="otp-5">
+                  </div>
+    
+                  <div class="w-full flex justify-end mb-6">
+                    <p class="text-gray-600 text-base">
+                      Resend code in: <span id="timer" class="font-medium">01:54</span>
+                    </p>
+                  </div>
+    
+                  <button id="submit-btn"
+                    class="w-full py-3 bg-gray-100 text-gray-400 rounded-md disabled cursor-not-allowed mb-6">
+                    Submit
+                  </button>
+    
+                  <div class="w-full flex justify-center border-t pt-4">
+                    <p class="text-gray-700 lg:text-[20px]">
+                      Not the correct Number?
+                      <a href="#" id="change-number" class="text-green-500 font-medium">Change Mobile Number</a>
+                    </p>
+                  </div>
+    
+                  <!-- Purple circle in bottom right -->
+                  <div class="fixed bottom-4 right-4 w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center">
+                    <span class="text-white text-lg">⋮</span>
+                  </div>
+                </div>
+              </div>
+    
+    
+    
+              <!-- Contact Info -->
+              <div class="p-4 text-base text-gray-600 mt-6 flex flex-col justify-center items-center gap-2">
+    
+                <p class="text-[18px] font-semibold">For issues, contact us at:<span class="font-bold">01322890096</span>
+                </p>
+    
+                <p class="text-[18px] font-semibold">or email <a href="mailto:hello@skillbee.com"
+                    class="text-green-600">hello@skillbee.com</a></p>
+              </div>
+            </div>
+            <!-- User Info -->
+    
+    
+    
+    
+    
+    
+    
+          </div>
+        </div>
+    
+        <!-- WhatsApp Icon (Similar to the one on your login screen) -->
+        <div class="fixed bottom-6 right-6 z-10">
+          <a href="#" class="bg-yellow-400 rounded-full h-12 w-12 flex items-center justify-center shadow-lg">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" viewBox="0 0 24 24" fill="currentColor">
+              <path
+                d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.72.045.419-.1.824z" />
+            </svg>
+          </a>
+        </div>
+    
+        <!-- Chat with us button (Similar to login screen) -->
+        <!-- <div class="fixed bottom-6 right-24 z-10">
+          <a href="#"
+            class="bg-white border border-green-500 text-gray-800 rounded-full py-2 px-4 flex items-center space-x-2 shadow-md">
+            <span>Chat with us</span>
+            <div class="bg-black rounded-full h-6 w-6 flex items-center justify-center">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-white" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd"
+                  d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                  clip-rule="evenodd" />
+              </svg>
+            </div>
+          </a>
+        </div> -->
+        <!-- HTML Structure -->
+        <div id="searchInputContainer" class="search-input-container">
+          <div class="container">
+            <div class="search-input-wrapper">
+              <svg class="search-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+              </svg>
+              <input type="text" id="searchInput" placeholder="Search for Courses" class="search-input">
+            </div>
+          </div>
+        </div>
+    
+        
+       
+        </header>
+
+
+        <div class="min-h-screen flex flex-col md:flex-row">
+          <!-- Sidebar Navigation -->
+          <aside class="bg-indigo-800 text-white w-full md:w-64 md:min-h-screen p-4">
+              <div class="flex items-center justify-between mb-6">
+                  <div class="flex items-center">
+                      <i class="fas fa-cube text-2xl mr-3"></i>
+                      <h1 class="font-bold text-xl">Admin Panel</h1>
+                  </div>
+                  <button id="mobile-menu-button" class="md:hidden">
+                      <i class="fas fa-bars"></i>
+                  </button>
+              </div>
+  
+              <nav id="sidebar-menu" class="hidden md:block">
+                  <ul>
+                      <li class="mb-2">
+                          <a href="#" class="flex items-center p-2 rounded hover:bg-indigo-700 bg-indigo-900">
+                              <i class="fas fa-tachometer-alt mr-3"></i>
+                              <span>Dashboard</span>
+                          </a>
+                      </li>
+                      <li class="mb-2">
+                          <a href="#" class="flex items-center p-2 rounded hover:bg-indigo-700">
+                              <i class="fas fa-users mr-3"></i>
+                              <span>Users</span>
+                          </a>
+                      </li>
+                      <li class="mb-2">
+                        <a href="{% url 'enroll_course' %}" class="flex items-center p-2 rounded hover:bg-indigo-700">
+                            <i class="fas fa-graduation-cap mr-3"></i>
+                            <span>Enroll Course</span>
+                        </a>
+                    </li>
+                      <li class="mb-2">
+                          <a href="#" class="flex items-center p-2 rounded hover:bg-indigo-700">
+                              <i class="fas fa-chart-bar mr-3"></i>
+                              <span>Analytics</span>
+                          </a>
+                      </li>
+                      <li class="mb-2">
+                          <a href="#" class="flex items-center p-2 rounded hover:bg-indigo-700">
+                              <i class="fas fa-cog mr-3"></i>
+                              <span>Settings</span>
+                          </a>
+                      </li>
+
+
+                      <li class="mb-2">
+                        <a href="{% url 'logout' %}" class="flex items-center p-2 rounded hover:bg-indigo-700">
+                            <i class="fas fa-sign-out-alt mr-3"></i>
+                            <span>Logout</span>
+                        </a>
+                    </li>
+                  </ul>
+              </nav>
+          </aside>
+  
+          <!-- Main Content -->
+          <main class="flex-grow">
+              <!-- Top Navigation -->
+              <header class="bg-white shadow px-4 py-3">
+                  <div class="flex justify-between items-center">
+                      <div class="flex items-center">
+                          <span class="md:hidden">
+                              <button id="mobile-sidebar-button" class="text-gray-600 mr-4 focus:outline-none">
+                                  <i class="fas fa-bars"></i>
+                              </button>
+                          </span>
+                          <div class="relative">
+                              <input type="text" placeholder="Search..." class="bg-gray-100 rounded-lg py-2 px-4 pl-10 w-48 md:w-64 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                              <span class="absolute inset-y-0 left-0 pl-3 flex items-center">
+                                  <i class="fas fa-search text-gray-500"></i>
+                              </span>
+                          </div>
+                      </div>
+                      <div class="flex items-center space-x-4">
+                          <button class="relative p-2 text-gray-600 hover:text-indigo-600">
+                              <i class="fas fa-bell"></i>
+                              <span class="absolute top-0 right-0 h-4 w-4 bg-red-500 rounded-full text-xs flex items-center justify-center text-white">3</span>
+                          </button>
+                          <button class="relative p-2 text-gray-600 hover:text-indigo-600">
+                              <i class="fas fa-envelope"></i>
+                              <span class="absolute top-0 right-0 h-4 w-4 bg-red-500 rounded-full text-xs flex items-center justify-center text-white">5</span>
+                          </button>
+                          <div class="flex items-center">
+                              <img src="/api/placeholder/40/40" alt="User" class="h-8 w-8 rounded-full object-cover">
+                              <span class="ml-2 font-medium text-gray-700 hidden md:block">John Doe</span>
+                          </div>
+                      </div>
+                  </div>
+              </header>
+  
+              <!-- Dashboard Content -->
+              <div class="p-6">
+                  <h2 class="text-2xl font-semibold text-gray-800 mb-6">Dashboard Overview</h2>
+                  
+                  <!-- Stat Cards -->
+                  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+                      <div class="bg-white rounded-lg shadow p-4">
+                          <div class="flex items-center">
+                              <div class="p-3 rounded-full bg-indigo-100 text-indigo-600">
+                                  <i class="fas fa-users text-xl"></i>
+                              </div>
+                              <div class="ml-4">
+                                  <p class="text-gray-500 text-sm">Total Users</p>
+                                  <h3 class="font-bold text-xl">12,345</h3>
+                                  <p class="text-green-500 text-sm">↑ 12% from last month</p>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="bg-white rounded-lg shadow p-4">
+                          <div class="flex items-center">
+                              <div class="p-3 rounded-full bg-green-100 text-green-600">
+                                  <i class="fas fa-shopping-cart text-xl"></i>
+                              </div>
+                              <div class="ml-4">
+                                  <p class="text-gray-500 text-sm">Total Sales</p>
+                                  <h3 class="font-bold text-xl">$24,780</h3>
+                                  <p class="text-green-500 text-sm">↑ 8% from last month</p>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="bg-white rounded-lg shadow p-4">
+                          <div class="flex items-center">
+                              <div class="p-3 rounded-full bg-blue-100 text-blue-600">
+                                  <i class="fas fa-box text-xl"></i>
+                              </div>
+                              <div class="ml-4">
+                                  <p class="text-gray-500 text-sm">Products</p>
+                                  <h3 class="font-bold text-xl">1,280</h3>
+                                  <p class="text-red-500 text-sm">↓ 3% from last month</p>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="bg-white rounded-lg shadow p-4">
+                          <div class="flex items-center">
+                              <div class="p-3 rounded-full bg-purple-100 text-purple-600">
+                                  <i class="fas fa-exchange-alt text-xl"></i>
+                              </div>
+                              <div class="ml-4">
+                                  <p class="text-gray-500 text-sm">Conversion Rate</p>
+                                  <h3 class="font-bold text-xl">3.8%</h3>
+                                  <p class="text-green-500 text-sm">↑ 2% from last month</p>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+  
+                  <!-- Charts Section -->
+                  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+                      <div class="bg-white rounded-lg shadow p-4">
+                          <div class="flex justify-between items-center mb-4">
+                              <h3 class="font-semibold text-lg">Sales Analytics</h3>
+                              <div class="flex space-x-2">
+                                  <button class="px-3 py-1 text-sm bg-indigo-100 text-indigo-600 rounded-lg hover:bg-indigo-200">Day</button>
+                                  <button class="px-3 py-1 text-sm bg-indigo-600 text-white rounded-lg">Month</button>
+                                  <button class="px-3 py-1 text-sm bg-indigo-100 text-indigo-600 rounded-lg hover:bg-indigo-200">Year</button>
+                              </div>
+                          </div>
+                          <div class="h-64 flex items-center justify-center">
+                              <img src="/api/placeholder/500/200" alt="Sales chart" class="max-w-full max-h-64">
+                          </div>
+                      </div>
+                      <div class="bg-white rounded-lg shadow p-4">
+                          <div class="flex justify-between items-center mb-4">
+                              <h3 class="font-semibold text-lg">User Traffic</h3>
+                              <div class="flex space-x-2">
+                                  <button class="px-3 py-1 text-sm bg-indigo-600 text-white rounded-lg">All</button>
+                                  <button class="px-3 py-1 text-sm bg-indigo-100 text-indigo-600 rounded-lg hover:bg-indigo-200">Desktop</button>
+                                  <button class="px-3 py-1 text-sm bg-indigo-100 text-indigo-600 rounded-lg hover:bg-indigo-200">Mobile</button>
+                              </div>
+                          </div>
+                          <div class="h-64 flex items-center justify-center">
+                              <img src="/api/placeholder/500/200" alt="Traffic chart" class="max-w-full max-h-64">
+                          </div>
+                      </div>
+                  </div>
+  
+                  <!-- Recent Orders and Top Products -->
+                  <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                      <!-- Recent Orders Table -->
+                      <div class="bg-white rounded-lg shadow p-4 lg:col-span-2">
+                          <div class="flex justify-between items-center mb-4">
+                              <h3 class="font-semibold text-lg">Recent Orders</h3>
+                              <button class="text-indigo-600 hover:text-indigo-800">View All</button>
+                          </div>
+                          <div class="overflow-x-auto">
+                              <table class="min-w-full divide-y divide-gray-200">
+                                  <thead>
+                                      <tr>
+                                          <th class="px-4 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Order ID</th>
+                                          <th class="px-4 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Customer</th>
+                                          <th class="px-4 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                                          <th class="px-4 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Amount</th>
+                                      </tr>
+                                  </thead>
+                                  <tbody class="bg-white divide-y divide-gray-200">
+                                      <tr>
+                                          <td class="px-4 py-3 whitespace-nowrap">#ORD-0012</td>
+                                          <td class="px-4 py-3 whitespace-nowrap">Sarah Johnson</td>
+                                          <td class="px-4 py-3 whitespace-nowrap">
+                                              <span class="px-2 py-1 text-xs rounded-full bg-green-100 text-green-800">Completed</span>
+                                          </td>
+                                          <td class="px-4 py-3 whitespace-nowrap">$125.99</td>
+                                      </tr>
+                                      <tr>
+                                          <td class="px-4 py-3 whitespace-nowrap">#ORD-0011</td>
+                                          <td class="px-4 py-3 whitespace-nowrap">Michael Davis</td>
+                                          <td class="px-4 py-3 whitespace-nowrap">
+                                              <span class="px-2 py-1 text-xs rounded-full bg-yellow-100 text-yellow-800">Pending</span>
+                                          </td>
+                                          <td class="px-4 py-3 whitespace-nowrap">$85.50</td>
+                                      </tr>
+                                      <tr>
+                                          <td class="px-4 py-3 whitespace-nowrap">#ORD-0010</td>
+                                          <td class="px-4 py-3 whitespace-nowrap">Robert Smith</td>
+                                          <td class="px-4 py-3 whitespace-nowrap">
+                                              <span class="px-2 py-1 text-xs rounded-full bg-red-100 text-red-800">Cancelled</span>
+                                          </td>
+                                          <td class="px-4 py-3 whitespace-nowrap">$290.00</td>
+                                      </tr>
+                                      <tr>
+                                          <td class="px-4 py-3 whitespace-nowrap">#ORD-0009</td>
+                                          <td class="px-4 py-3 whitespace-nowrap">Jessica Brown</td>
+                                          <td class="px-4 py-3 whitespace-nowrap">
+                                              <span class="px-2 py-1 text-xs rounded-full bg-blue-100 text-blue-800">Shipped</span>
+                                          </td>
+                                          <td class="px-4 py-3 whitespace-nowrap">$145.20</td>
+                                      </tr>
+                                      <tr>
+                                          <td class="px-4 py-3 whitespace-nowrap">#ORD-0008</td>
+                                          <td class="px-4 py-3 whitespace-nowrap">Thomas Wilson</td>
+                                          <td class="px-4 py-3 whitespace-nowrap">
+                                              <span class="px-2 py-1 text-xs rounded-full bg-green-100 text-green-800">Completed</span>
+                                          </td>
+                                          <td class="px-4 py-3 whitespace-nowrap">$76.49</td>
+                                      </tr>
+                                  </tbody>
+                              </table>
+                          </div>
+                      </div>
+  
+                      <!-- Top Products -->
+                      <div class="bg-white rounded-lg shadow p-4">
+                          <div class="flex justify-between items-center mb-4">
+                              <h3 class="font-semibold text-lg">Top Products</h3>
+                              <button class="text-indigo-600 hover:text-indigo-800">View All</button>
+                          </div>
+                          <ul class="space-y-4">
+                              <li class="flex space-x-3">
+                                  <img src="/api/placeholder/60/60" alt="Product 1" class="w-12 h-12 rounded object-cover">
+                                  <div class="flex-1">
+                                      <h4 class="font-medium">Wireless Headphones</h4>
+                                      <p class="text-gray-500 text-sm">Electronics</p>
+                                      <div class="flex justify-between items-center mt-1">
+                                          <span class="text-indigo-600 font-medium">$129.99</span>
+                                          <span class="text-sm text-gray-500">842 sold</span>
+                                      </div>
+                                  </div>
+                              </li>
+                              <li class="flex space-x-3">
+                                  <img src="/api/placeholder/60/60" alt="Product 2" class="w-12 h-12 rounded object-cover">
+                                  <div class="flex-1">
+                                      <h4 class="font-medium">Smart Watch</h4>
+                                      <p class="text-gray-500 text-sm">Electronics</p>
+                                      <div class="flex justify-between items-center mt-1">
+                                          <span class="text-indigo-600 font-medium">$199.99</span>
+                                          <span class="text-sm text-gray-500">675 sold</span>
+                                      </div>
+                                  </div>
+                              </li>
+                              <li class="flex space-x-3">
+                                  <img src="/api/placeholder/60/60" alt="Product 3" class="w-12 h-12 rounded object-cover">
+                                  <div class="flex-1">
+                                      <h4 class="font-medium">Fitness Tracker</h4>
+                                      <p class="text-gray-500 text-sm">Health</p>
+                                      <div class="flex justify-between items-center mt-1">
+                                          <span class="text-indigo-600 font-medium">$89.99</span>
+                                          <span class="text-sm text-gray-500">543 sold</span>
+                                      </div>
+                                  </div>
+                              </li>
+                              <li class="flex space-x-3">
+                                  <img src="/api/placeholder/60/60" alt="Product 4" class="w-12 h-12 rounded object-cover">
+                                  <div class="flex-1">
+                                      <h4 class="font-medium">Laptop Backpack</h4>
+                                      <p class="text-gray-500 text-sm">Accessories</p>
+                                      <div class="flex justify-between items-center mt-1">
+                                          <span class="text-indigo-600 font-medium">$59.99</span>
+                                          <span class="text-sm text-gray-500">429 sold</span>
+                                      </div>
+                                  </div>
+                              </li>
+                          </ul>
+                      </div>
+                  </div>
+              </div>
+          </main>
+      </div>
+  
+      <script>
+          // Mobile menu toggle
+          document.getElementById('mobile-menu-button').addEventListener('click', function() {
+              const menu = document.getElementById('sidebar-menu');
+              menu.classList.toggle('hidden');
+          });
+  
+          document.getElementById('mobile-sidebar-button').addEventListener('click', function() {
+              const sidebar = document.querySelector('aside');
+              sidebar.classList.toggle('hidden');
+          });
+  
+          // Close sidebar when clicking outside on mobile
+          document.addEventListener('click', function(event) {
+              const sidebar = document.querySelector('aside');
+              const sidebarButton = document.getElementById('mobile-sidebar-button');
+              const menuButton = document.getElementById('mobile-menu-button');
+              
+              if (window.innerWidth < 768) {
+                  if (!sidebar.contains(event.target) && event.target !== sidebarButton && event.target !== menuButton) {
+                      const menu = document.getElementById('sidebar-menu');
+                      menu.classList.add('hidden');
+                  }
+              }
+          });
+  
+          // Ensure menu is visible on desktop
+          window.addEventListener('resize', function() {
+              if (window.innerWidth >= 768) {
+                  const menu = document.getElementById('sidebar-menu');
+                  menu.classList.remove('hidden');
+              }
+          });
+      </script>
+
+
+
+
+     <!-- Footer Section -->
+     <footer class="bg-keeron-blue text-white py-12">
+        <div class="lg:max-w-[112rem] container mx-auto  lg:px-6 " style="padding: 0 25px;">
+          <!-- Footer Main Content -->
+          <!-- Footer Main Content -->
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-8">
+            <!-- Logo Column -->
+            <div class="flex flex-col items-start">
+              <a href="{% url 'index' %}" class="text-green-500 font-bold text-5xl flex w-[180px] items-center">
+            <img src="https://skillbeeacademy.com/upload/images/skillbee.jpeg" alt="skillbee" class="p-2" />
+          </a>
+            </div>
+  
+            <!-- Keeron Links -->
+            <div class="footer-dropdown">
+              <h3 class="text-[1rem] lg:text-[1.5rem] font-bold lg:mb-6 footer-dropdown-heading flex justify-between items-center">
+                Keeron
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 md:hidden" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd"
+                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                    clip-rule="evenodd" />
+                </svg>
+              </h3>
+              <ul
+                class="space-y-2 lg:space-y-3 footer-dropdown-content max-h-0 md:max-h-full overflow-hidden transition-all duration-300 ease-in-out">
+                <li><a href="#" class="hover:text-keeron-green transition text-[14px] lg:text-[20px] lg:font-semibold hover:underline">About Us</a></li>
+                <li><a href="#" class="hover:text-keeron-green transition text-[14px] lg:text-[20px] lg:font-semibold hover:underline">Blog</a></li>
+                <li><a href="#" class="hover:text-keeron-green transition text-[14px] lg:text-[20px] lg:font-semibold hover:underline">Contact Us</a></li>
+                <li><a href="#" class="hover:text-keeron-green transition text-[14px] lg:text-[20px] lg:font-semibold hover:underline">Refund Policy</a></li>
+                <li><a href="#" class="hover:text-keeron-green transition text-[14px] lg:text-[20px] lg:font-semibold hover:underline">FAQ</a></li>
+              </ul>
+            </div>
+  
+            <!-- Programs Links -->
+            <div class="footer-dropdown">
+              <h3 class="text-[1rem] lg:text-[1.5rem] font-bold lg:mb-6 footer-dropdown-heading flex justify-between items-center">
+                Programs
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 md:hidden" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd"
+                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                    clip-rule="evenodd" />
+                </svg>
+              </h3>
+              <ul
+                class="space-y-3 footer-dropdown-content max-h-0 md:max-h-full overflow-hidden transition-all duration-300 ease-in-out">
+                <li><a href="#" class="hover:text-keeron-green transition text-[14px] lg:text-[20px] lg:font-semibold hover:underline">Courses</a></li>
+              </ul>
+            </div>
+  
+            <!-- More Links -->
+            <div class="footer-dropdown">
+              <h3 class="text-[1rem] lg:text-[1.5rem] font-bold lg:mb-6 footer-dropdown-heading flex justify-between items-center">
+                More
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 md:hidden" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd"
+                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                    clip-rule="evenodd" />
+                </svg>
+              </h3>
+              <ul
+                class="space-y-3 footer-dropdown-content max-h-0 md:max-h-full overflow-hidden transition-all duration-300 ease-in-out">
+                <li><a href="#" class="hover:text-keeron-green transition text-[14px] lg:text-[20px] lg:font-semibold hover:underline">Become an Affiliate</a></li>
+              </ul>
+            </div>
+          </div>
+  
+  
+          <!-- Horizontal Line -->
+          <hr class="my-8 border-gray-700">
+  
+          <!-- Mobile App Section -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+            <div>
+              <h3 class="text-[25px] font-semibold mb-4">Get the App</h3>
+              <div class="flex flex-wrap gap-4">
+                <a href="#" class="inline-block">
+                  <img src="https://placehold.co/135x40/333333/FFFFFF?text=Google+Play" alt="Google Play" class="h-10">
+                </a>
+                <a href="#" class="inline-block">
+                  <img src="https://placehold.co/135x40/333333/FFFFFF?text=App+Store" alt="App Store" class="h-10">
+                </a>
+              </div>
+            </div>
+  
+            <!-- Social Media Icons -->
+            <div class="flex justify-start md:justify-end gap-4 items-center">
+              <a href="#" class="bg-white text-keeron-blue p-2 rounded-full hover:bg-gray-200 transition">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+                  <path
+                    d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
+                </svg>
+              </a>
+              <a href="#" class="bg-white text-keeron-blue p-2 rounded-full hover:bg-gray-200 transition">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+                  <path
+                    d="M4.98 3.5c0 1.381-1.11 2.5-2.48 2.5s-2.48-1.119-2.48-2.5c0-1.38 1.11-2.5 2.48-2.5s2.48 1.12 2.48 2.5zm.02 4.5h-5v16h5v-16zm7.982 0h-4.968v16h4.969v-8.399c0-4.67 6.029-5.052 6.029 0v8.399h4.988v-10.131c0-7.88-8.922-7.593-11.018-3.714v-2.155z" />
+                </svg>
+              </a>
+              <a href="#" class="bg-white text-keeron-blue p-2 rounded-full hover:bg-gray-200 transition">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+                  <path
+                    d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v3.385z" />
+                </svg>
+              </a>
+              <a href="#" class="bg-white text-keeron-blue p-2 rounded-full hover:bg-gray-200 transition">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+                  <path
+                    d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z" />
+                </svg>
+              </a>
+            </div>
+          </div>
+  
+          <!-- Copyright and Legal Links -->
+          <div class="flex flex-col md:flex-row justify-between lg:items-center">
+            <p class="mb-4 text-[20px]  md:mb-0">© Skillbee. All rights reserved.</p>
+            <div class="flex lg:flex-row flex-col lg:space-x-6">
+              <a href="#" class="hover:text-keeron-green lg:text-[20px] transition">Terms and conditions</a>
+              <a href="#" class="hover:text-keeron-green lg:text-[20px] transition">Privacy policy</a>
+            </div>
+          </div>
+  
+          <!-- Payment Methods -->
+          <div class="mt-8 flex lg:flex-row flex-col justify-between lg:items-center">
+            <div class="flex lg:flex-row flex-col lg:items-center lg:gap-2 justify-center md:justify-start">
+              <span class="text-base lg:text-lg text-gray-400 mr-2">Pay With</span>
+              <!-- Payment Icons -->
+  
+  
+        <div class="hidden lg:block w-[1px] h-8 mr-3 bg-gray-300"></div>
+              <hr class="block lg:hidden bg-gray-400  h-[1px] my-2" />
+              <div class="flex flex-wrap gap-2 items-center justify-center">
+                <!-- Row 1 of payment icons -->
+                <img src="https://placehold.co/40x25/FFFFFF/333333?text=VISA" alt="Visa" class="h-6">
+                <img src="https://placehold.co/40x25/FFFFFF/333333?text=MC" alt="Mastercard" class="h-6">
+                <img src="https://placehold.co/40x25/FFFFFF/333333?text=AMEX" alt="American Express" class="h-6">
+                <img src="https://placehold.co/40x25/FFFFFF/333333?text=DCB" alt="Discover" class="h-6">
+                <img src="https://placehold.co/40x25/FFFFFF/333333?text=DIN" alt="Diners Club" class="h-6">
+                <img src="https://placehold.co/40x25/FFFFFF/333333?text=MAES" alt="Maestro" class="h-6">
+                <img src="https://placehold.co/40x25/FFFFFF/333333?text=IDEL" alt="iDeal" class="h-6">
+                <img src="https://placehold.co/40x25/FFFFFF/333333?text=GPAY" alt="Google Pay" class="h-6">
+                <img src="https://placehold.co/40x25/FFFFFF/333333?text=JCB" alt="JCB" class="h-6">
+                <img src="https://placehold.co/40x25/FFFFFF/333333?text=GIRO" alt="Giropay" class="h-6">
+                <img src="https://placehold.co/40x25/FFFFFF/333333?text=EPS" alt="EPS" class="h-6">
+                <img src="https://placehold.co/40x25/FFFFFF/333333?text=BANC" alt="Bancontact" class="h-6">
+                <img src="https://placehold.co/40x25/FFFFFF/333333?text=P24" alt="Przelewy24" class="h-6">
+                <img src="https://placehold.co/40x25/FFFFFF/333333?text=KLRN" alt="Klarna" class="h-6">
+                <img src="https://placehold.co/40x25/FFFFFF/333333?text=SEPA" alt="SEPA" class="h-6">
+                <img src="https://placehold.co/40x25/FFFFFF/333333?text=SOFORT" alt="Sofort" class="h-6">
+                <img src="https://placehold.co/40x25/FFFFFF/333333?text=WECHAT" alt="WeChat Pay" class="h-6">
+                <img src="https://placehold.co/40x25/FFFFFF/333333?text=PAYU" alt="PayU" class="h-6">
+                <img src="https://placehold.co/40x25/FFFFFF/333333?text=AliPay" alt="AliPay" class="h-6">
+                <img src="https://placehold.co/40x25/FFFFFF/333333?text=AFFIRM" alt="Affirm" class="h-6">
+                <img src="https://placehold.co/40x25/FFFFFF/333333?text=AFTERP" alt="Afterpay" class="h-6">
+              </div>
+            </div>
+  
+            <!-- Powered by -->
+            <div class="flex lg:flex-row flex-col justify-center lg:items-center md:justify-end mt-4">
+              <p class="text-base lg:text-lg text-gray-400 lg:mb-0 lg:mr-3">Powered by</p>
+              <div class="hidden lg:block w-[1px] h-8 mr-3 bg-gray-300"></div>
+              <hr class="block lg:hidden bg-gray-400  h-[1px] my-2" />
+             <div class="flex justify-between items-start"> <img src="https://placehold.co/100x20/FFFFFF/333333?text=SolidGamma" alt="SolidGamma" class="h-5"></div>
+            </div>
+          </div>
+  
+          <!-- WhatsApp Button (Fixed) -->
+          
+        </div>
+      </footer>
+    <script src="{% static 'template/assets/js/headerfooter.js' %}">
+      
+    </script>
+
+   
+
+</body>
+</html>

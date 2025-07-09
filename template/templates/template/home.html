@@ -1,0 +1,2289 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Skillbee - Courses Platform</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/alpinejs/3.12.0/cdn.min.js" defer></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+<link rel="stylesheet" href="{% static 'template/assets/css/headerfooter.css' %}">
+
+
+<!-- <script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          'custom-green': '#00b246',
+          'custom-blue': '#0a2540'
+        }
+      }
+    }
+  }
+</script> -->
+ 
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'keeron-blue': '#0A2044',
+            'keeron-green': '#10B981',
+            'custom-green': '#00b246',
+          'custom-blue': '#0a2540'
+          }
+        }
+      }
+    }
+  </script>
+   <!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-5VC56W76');</script>
+<!-- End Google Tag Manager -->
+</head>
+
+<body class="font-sans">
+    <!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5VC56W76"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+  <!-- Top border line -->
+  <div class="w-full h-px bg-gray-200"></div>
+
+  <!-- Navigation bar -->
+
+  <header class="w-full sticky top-0  bg-white lg:py-4 px-4 md:px-8 2xl:px-12  z-40" x-data="{ 
+    mobileMenuOpen: false,
+    activeLink: 'all-courses',
+    language: 'EN',
+    languageOpen: false,
+    languages: [
+        { code: 'EN', name: 'English' },
+        { code: 'ES', name: 'Spanish' },
+        { code: 'FR', name: 'French' },
+        { code: 'DE', name: 'German' }
+    ],
+    sidebarOpen: false
+}" @click.away="mobileMenuOpen = false; languageOpen = false">
+    <div class="max-w-[110rem] 2xl:mx-auto flex justify-between items-center">
+      <!-- Logo -->
+      <div class="flex">
+        <button @click="mobileMenuOpen = !mobileMenuOpen" class="xl:hidden text-gray-700 focus:outline-none">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
+        <div class="flex items-center">
+          <a href="{% url 'index' %}" class="text-green-500 font-bold text-5xl flex w-[180px] items-center">
+            <img src="https://skillbeeacademy.com/upload/images/skillbee.jpeg" alt="skillbee" class="p-2" />
+          </a>
+        </div>
+
+        <!-- Desktop Navigation -->
+        <nav class="hidden xl:flex ml-0 items-center gap-5" id="main-nav">
+          <a href="{% url 'allcourse' %}" 
+             class="text-gray-700 hover:text-green-500 font-medium transition-colors text-[18px] 2xl:text-[22px]  duration-200 nav-link"
+             data-target="all-courses">All Courses</a>
+          
+          {% comment %} <a href="./livecourse.html" 
+             class="text-gray-700 hover:text-green-500 font-medium transition-colors text-[18px] 2xl:text-[22px] duration-200 nav-link"
+             data-target="live-courses">Live Courses</a>
+          
+          <a href="./freetest.html" 
+             class="text-gray-700 hover:text-green-500 font-medium transition-colors text-[18px] 2xl:text-[22px] duration-200 nav-link"
+             data-target="free-test">Free Test</a>
+          
+          <a href="./downloadresourse.html" 
+             class="text-gray-700 hover:text-green-500 font-medium transition-colors text-[18px] 2xl:text-[22px] duration-200 nav-link"
+             data-target="download-resources">Download Resources</a>
+          
+          <a href="./freeevent.html" 
+             class="text-gray-700 hover:text-green-500 font-medium transition-colors text-[18px] 2xl:text-[22px] duration-200 nav-link"
+             data-target="free-events">Free Events</a> {% endcomment %}
+        </nav>
+        
+        <script>
+      document.addEventListener('DOMContentLoaded', function() {
+  // Get all navigation links
+  const navLinks = document.querySelectorAll('.nav-link');
+  
+  // Add click event listeners to each nav link
+  navLinks.forEach(link => {
+    link.addEventListener('click', function(e) {
+      // Remove active class from all links
+      navLinks.forEach(l => l.classList.remove('text-green-500'));
+      
+      // Add active class to clicked link
+      this.classList.add('text-green-500');
+      
+      // Store active link in localStorage
+      localStorage.setItem('activeNavLink', this.dataset.target);
+    });
+  });
+  
+  // Get all links on the page (not just nav links)
+  const allLinks = document.querySelectorAll('a:not(.nav-link)');
+  
+  // Add click event to all other links to reset active state
+  allLinks.forEach(link => {
+    link.addEventListener('click', function(e) {
+      // Remove active class from all nav links
+      navLinks.forEach(navLink => navLink.classList.remove('text-green-500'));
+      
+      // Also clear localStorage
+      localStorage.removeItem('activeNavLink');
+    });
+  });
+  
+  // On page load, check if we should set an active link
+  const currentPath = window.location.pathname;
+  let activeSet = false;
+  
+  // Try to match based on the current path
+  navLinks.forEach(link => {
+    const href = link.getAttribute('href');
+    const hrefFile = href.split('/').pop();
+    const pathFile = currentPath.split('/').pop();
+    
+    // If current page matches this nav link
+    if (pathFile === hrefFile) {
+      navLinks.forEach(l => l.classList.remove('text-green-500'));
+      link.classList.add('text-green-500');
+      localStorage.setItem('activeNavLink', link.dataset.target);
+      activeSet = true;
+    }
+  });
+  
+  // If no match by URL but we have localStorage, use that
+  if (!activeSet) {
+    const activeLink = localStorage.getItem('activeNavLink');
+    if (activeLink) {
+      const link = document.querySelector(`[data-target="${activeLink}"]`);
+      if (link) {
+        navLinks.forEach(l => l.classList.remove('text-green-500'));
+        link.classList.add('text-green-500');
+      }
+    }
+  }
+});
+        </script>
+      </div>
+      <div class="flex gap-3 2xl:gap-6 items-center">
+        <!-- Search bar -->
+        <div class="hidden md:block relative">
+          <input type="text" placeholder="Search for Courses"
+            class="pl-10 pr-4 py-2 rounded-full border text-[20px] focus:outline-none w-[19rem] 2xl:w-[25rem] transition">
+          <div class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+              stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+          </div>
+        </div>
+        <div class="md:hidden flex items-center justify-center relative  ">
+          <button id="searchBtn" class="text-gray-500 hover:text-gray-700 focus:outline-none">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+            </svg>
+          </button>
+
+        </div>
+
+
+        <!-- Language selector -->
+        <div class="block relative rounded-full" @click.away="languageOpen = false">
+          <button @click="languageOpen = !languageOpen"
+            class="hidden xl:flex px-8 py-3 lg:rounded-full items-center space-x-1 text-gray-700 hover:text-gray-900 lg:border h-12">
+            <span x-text="language" class="font-large text-[18px] font-bold"></span>
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transition-transform"
+              :class="{'rotate-180': languageOpen}" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+          <button @click="languageOpen = !languageOpen"
+            class="xl:hidden flex text-[25px] lg:px-8 lg:py-7 lg:rounded-full items-center space-x-1 text-gray-700 hover:text-gray-900 lg:border h-12">
+            <!-- <span x-text="language" class="font-large text-[20px] font-bold"></span> -->
+            <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 496 512" focusable="false"
+              class="chakra-icon css-1h1ps9q" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M336.5 160C322 70.7 287.8 8 248 8s-74 62.7-88.5 152h177zM152 256c0 22.2 1.2 43.5 3.3 64h185.3c2.1-20.5 3.3-41.8 3.3-64s-1.2-43.5-3.3-64H155.3c-2.1 20.5-3.3 41.8-3.3 64zm324.7-96c-28.6-67.9-86.5-120.4-158-141.6 24.4 33.8 41.2 84.7 50 141.6h108zM177.2 18.4C105.8 39.6 47.8 92.1 19.3 160h108c8.7-56.9 25.5-107.8 49.9-141.6zM487.4 192H372.7c2.1 21 3.3 42.5 3.3 64s-1.2 43-3.3 64h114.6c5.5-20.5 8.6-41.8 8.6-64s-3.1-43.5-8.5-64zM120 256c0-21.5 1.2-43 3.3-64H8.6C3.2 212.5 0 233.8 0 256s3.2 43.5 8.6 64h114.6c-2-21-3.2-42.5-3.2-64zm39.5 96c14.5 89.3 48.7 152 88.5 152s74-62.7 88.5-152h-177zm159.3 141.6c71.4-21.2 129.4-73.7 158-141.6h-108c-8.8 56.9-25.6 107.8-50 141.6zM19.3 352c28.6 67.9 86.5 120.4 158 141.6-24.4-33.8-41.2-84.7-50-141.6h-108z">
+              </path>
+            </svg>
+          </button>
+          <div x-show="languageOpen" x-transition:enter="transition ease-out duration-100"
+            x-transition:enter-start="transform opacity-0 scale-95"
+            x-transition:enter-end="transform opacity-100 scale-100" x-transition:leave="transition ease-in duration-75"
+            x-transition:leave-start="transform opacity-100 scale-100"
+            x-transition:leave-end="transform opacity-0 scale-95"
+            class="absolute -right-12 lg:right-0 mt-2 w-36 bg-white shadow-lg rounded-md py-1 z-10">
+            <template x-for="lang in languages" :key="lang.code">
+              <a href="#" @click.prevent="language = lang.code; languageOpen = false"
+                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                :class="{'bg-gray-50': language === lang.code}" x-text="lang.name"></a>
+            </template>
+          </div>
+        </div>
+        <div class=" block w-[1px] h-12 bg-gray-300"></div>
+
+        <!-- Sign in button -->
+<!-- Sign-in buttons -->
+<a href="{% url 'login' %}"  class="hidden bg-green-500 hover:bg-green-600 text-white px-6 md:px-8 py-3 lg:flex items-center rounded-full text-base md:text-[18px] font-bold transition duration-300">Sign in</a>
+<a href="{% url 'login' %}" class="py-4 lg:hidden flex items-center text-[21px] md:text-[20px] font-bold transition duration-300">
+  <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 496 512" focusable="false" class="chakra-icon css-132u3c" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+    <path d="M248 104c-53 0-96 43-96 96s43 96 96 96 96-43 96-96-43-96-96-96zm0 144c-26.5 0-48-21.5-48-48s21.5-48 48-48 48 21.5 48 48-21.5 48-48 48zm0-240C111 8 0 119 0 256s111 248 248 248 248-111 248-248S385 8 248 8zm0 448c-49.7 0-95.1-18.3-130.1-48.4 14.9-23 40.4-38.6 69.6-39.5 20.8 6.4 40.6 9.6 60.5 9.6s39.7-3.1 60.5-9.6c29.2 1 54.7 16.5 69.6 39.5-35 30.1-80.4 48.4-130.1 48.4zm162.7-84.1c-24.4-31.4-62.1-51.9-105.1-51.9-10.2 0-26 9.6-57.6 9.6-31.5 0-47.4-9.6-57.6-9.6-42.9 0-80.6 20.5-105.1 51.9C61.9 339.2 48 299.2 48 256c0-110.3 89.7-200 200-200s200 89.7 200 200c0 43.2-13.9 83.2-37.3 115.9z"></path>
+  </svg>
+</a>
+
+<!-- Sign-in Sidebar -->
+
+
+
+
+<!-- JavaScript -->
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Get sign-in buttons by their IDs
+    const desktopSignInBtn = document.getElementById('desktop-sign-in');
+    const mobileSignInBtn = document.getElementById('mobile-sign-in');
+    const sidebar = document.getElementById('sign-in-sidebar');
+    const closeBtn = document.getElementById('close-sidebar');
+    const overlay = document.querySelector('.sidebar-overlay');
+    const phoneScreen = document.getElementById('phone-screen');
+    const otpScreen = document.getElementById('otp-screen');
+    const continueBtn = document.getElementById('continue-btn');
+    const phoneInput = document.getElementById('phone-input');
+    const displayNumber = document.getElementById('display-number');
+    const submitBtn = document.getElementById('submit-btn');
+    const changeNumberBtn = document.getElementById('change-number');
+    const otpInputs = document.querySelectorAll('.otp-input');
+    
+    // Function to open sidebar
+    function openSidebar() {
+      if (sidebar) {
+        sidebar.classList.add('active');
+      }
+    }
+    
+    // Function to close sidebar
+    function closeSidebar() {
+      if (sidebar) {
+        sidebar.classList.remove('active');
+      }
+    }
+    
+    // Add click event listeners to sign-in buttons
+    if (desktopSignInBtn) {
+      desktopSignInBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        openSidebar();
+      });
+    }
+    
+    if (mobileSignInBtn) {
+      mobileSignInBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        openSidebar();
+      });
+    }
+    
+    // Close button functionality
+    if (closeBtn) {
+      closeBtn.addEventListener('click', function() {
+        closeSidebar();
+        
+        // Reset to phone screen when closing
+        if (phoneScreen && otpScreen) {
+          phoneScreen.classList.remove('hidden');
+          otpScreen.classList.add('hidden');
+        }
+      });
+    }
+    
+    // Close when clicking overlay
+    if (overlay) {
+      overlay.addEventListener('click', function() {
+        closeSidebar();
+        
+        // Reset to phone screen when closing
+        if (phoneScreen && otpScreen) {
+          phoneScreen.classList.remove('hidden');
+          otpScreen.classList.add('hidden');
+        }
+      });
+    }
+    
+    // Phone input validation to enable continue button
+    if (phoneInput && continueBtn) {
+      phoneInput.addEventListener('input', function() {
+        if (this.value.length === 11) {
+          continueBtn.classList.remove('bg-gray-100', 'text-gray-400', 'disabled', 'cursor-not-allowed');
+          continueBtn.classList.add('bg-green-500', 'text-white', 'hover:bg-green-600');
+          continueBtn.disabled = false;
+        } else {
+          continueBtn.classList.add('bg-gray-100', 'text-gray-400', 'disabled', 'cursor-not-allowed');
+          continueBtn.classList.remove('bg-green-500', 'text-white', 'hover:bg-green-600');
+          continueBtn.disabled = true;
+        }
+      });
+    }
+    
+    // Continue button to show OTP screen
+    if (continueBtn && phoneScreen && otpScreen && displayNumber && phoneInput) {
+      continueBtn.addEventListener('click', function() {
+        if (phoneInput.value.length === 11) {
+          // Show the phone number in the OTP screen
+          displayNumber.textContent = '+88' + phoneInput.value;
+          
+          // Show OTP screen, hide phone screen
+          phoneScreen.classList.add('hidden');
+          otpScreen.classList.remove('hidden');
+          
+          // Start the timer
+          startTimer();
+          
+          // Focus the first OTP input
+          if (otpInputs[0]) {
+            otpInputs[0].focus();
+          }
+        }
+      });
+    }
+    
+    // Change number button functionality
+    if (changeNumberBtn && phoneScreen && otpScreen) {
+      changeNumberBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        
+        // Show phone screen, hide OTP screen
+        phoneScreen.classList.remove('hidden');
+        otpScreen.classList.add('hidden');
+        
+        // Focus on phone input
+        if (phoneInput) {
+          phoneInput.focus();
+        }
+      });
+    }
+    
+    // OTP input functionality
+    if (otpInputs.length) {
+      otpInputs.forEach((input, index) => {
+        // Move to the next input when a character is entered
+        input.addEventListener('input', function() {
+          if (this.value.length === 1) {
+            if (index < otpInputs.length - 1) {
+              otpInputs[index + 1].focus();
+            } else {
+              // Check if all inputs are filled
+              checkOtpCompletion();
+            }
+          }
+        });
+        
+        // Handle backspace to go to previous input
+        input.addEventListener('keydown', function(e) {
+          if (e.key === 'Backspace' && !this.value && index > 0) {
+            otpInputs[index - 1].focus();
+          }
+        });
+        
+        // Allow only numbers
+        input.addEventListener('keypress', function(e) {
+          if (isNaN(parseInt(e.key))) {
+            e.preventDefault();
+          }
+        });
+      });
+    }
+    
+    // Function to check if all OTP inputs are filled
+    function checkOtpCompletion() {
+      let isComplete = true;
+      
+      otpInputs.forEach(input => {
+        if (!input.value) {
+          isComplete = false;
+        }
+      });
+      
+      if (isComplete && submitBtn) {
+        submitBtn.classList.remove('bg-gray-100', 'text-gray-400', 'disabled', 'cursor-not-allowed');
+        submitBtn.classList.add('bg-green-500', 'text-white', 'hover:bg-green-600');
+        submitBtn.disabled = false;
+      }
+    }
+    
+    // Timer functionality
+    function startTimer() {
+      const timerElement = document.getElementById('timer');
+      if (!timerElement) return;
+      
+      let timeLeft = 119; // 1:59 in seconds
+      
+      // Update timer text
+      function updateTimer() {
+        const minutes = Math.floor(timeLeft / 60);
+        const seconds = timeLeft % 60;
+        
+        timerElement.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        
+        if (timeLeft === 0) {
+          clearInterval(interval);
+          
+          // Add resend code functionality here
+          const resendLink = document.createElement('a');
+          resendLink.textContent = 'Resend Code';
+          resendLink.href = '#';
+          resendLink.className = 'text-green-500 font-medium ml-2';
+          resendLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            startTimer();
+            this.remove();
+          });
+          
+          timerElement.textContent = '';
+          timerElement.parentNode.appendChild(resendLink);
+        }
+        
+        timeLeft--;
+      }
+      
+      // Update immediately and then every second
+      updateTimer();
+      const interval = setInterval(updateTimer, 1000);
+    }
+    
+    // Submit button functionality
+    if (submitBtn) {
+      submitBtn.addEventListener('click', function() {
+        // Handle verification here
+        // For demo, we'll just close the sidebar
+        alert('Verification successful!'); // Replace with your actual verification logic
+        closeSidebar();
+        
+        // Reset to phone screen for next time
+        if (phoneScreen && otpScreen) {
+          phoneScreen.classList.remove('hidden');
+          otpScreen.classList.add('hidden');
+        }
+        
+        // Reset inputs
+        if (phoneInput) phoneInput.value = '';
+        otpInputs.forEach(input => input.value = '');
+        
+        // Reset buttons
+        if (continueBtn) {
+          continueBtn.classList.add('bg-gray-100', 'text-gray-400', 'disabled', 'cursor-not-allowed');
+          continueBtn.classList.remove('bg-green-500', 'text-white', 'hover:bg-green-600');
+          continueBtn.disabled = true;
+        }
+        
+        submitBtn.classList.add('bg-gray-100', 'text-gray-400', 'disabled', 'cursor-not-allowed');
+        submitBtn.classList.remove('bg-green-500', 'text-white', 'hover:bg-green-600');
+        submitBtn.disabled = true;
+      });
+    }
+  });
+</script>
+      </div>
+    </div>
+
+    <!-- Mobile Navigation -->
+    <div x-show="mobileMenuOpen" x-transition:enter="transition ease-out duration-200"
+      x-transition:enter-start="opacity-0 -translate-y-2" x-transition:enter-end="opacity-100 translate-y-0"
+      x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100 translate-y-0"
+      x-transition:leave-end="opacity-0 -translate-y-2" class="xl:hidden mt-4 pb-4">
+      <div class="flex flex-col space-y-4">
+        <a href="{% url 'allcourse' %}" 
+             class="text-gray-700 hover:text-green-500 font-medium transition-colors text-[18px] 2xl:text-[22px]  duration-200 nav-link"
+             data-target="all-courses">All Courses</a>
+     
+     {% comment %} <a href="./livecourse.html" 
+        class="text-gray-700 hover:text-green-500 font-medium transition-colors text-[18px] 2xl:text-[22px] duration-200 nav-link"
+        data-target="live-courses">Live Courses</a>
+     
+     <a href="./freetest.html" 
+        class="text-gray-700 hover:text-green-500 font-medium transition-colors text-[18px] 2xl:text-[22px] duration-200 nav-link"
+        data-target="free-test">Free Test</a>
+     
+     <a href="./downloadresourse.html" 
+        class="text-gray-700 hover:text-green-500 font-medium transition-colors text-[18px] 2xl:text-[22px] duration-200 nav-link"
+        data-target="download-resources">Download Resources</a>
+     
+     <a href="./freeevent.html" 
+        class="text-gray-700 hover:text-green-500 font-medium transition-colors text-[18px] 2xl:text-[22px] duration-200 nav-link"
+        data-target="free-events">Free Events</a> {% endcomment %}
+
+        <!-- Search bar -->
+      
+
+
+      </div>
+    </div>
+
+    <!-- Sidebar for Sign In -->
+    <div id="sign-in-sidebar" class="fixed inset-0 z-50 overflow-hidden">
+      <!-- Overlay -->
+      <div class="fixed inset-0 bg-black bg-opacity-50 sidebar-overlay"></div>
+    
+      <!-- Sidebar Panel -->
+      <div class="fixed inset-y-0 right-0 max-w-[54rem] w-full bg-white shadow-xl overflow-y-auto sidebar-panel">
+        <!-- Sidebar Header -->
+        <div class="keeron-gradient p-8">
+          <div class="py-5">
+            <div class="text-green-400 font-bold text-3xl p-4">Skill Bee</div>
+          </div>
+          <button id="close-sidebar" class="absolute top-3 right-3 text-white hover:text-gray-300 focus:outline-none sidebar-close-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+    
+        <div class="flex flex-col justify-between min-h-[75vh] px-4">
+          <div class="bg-white mt-4 lg:mt-[5rem] flex justify-center items-center">
+            <!-- Registration Screen -->
+            <div id="phone-screen" class="max-w-md w-full flex flex-col">
+              <h1 class="text-[24px] lg:text-[36px] font-bold text-gray-800 mb-2 lg:mb-4">Welcome to Skill Bee!</h1>
+              
+              <p class="text-gray-600 mb-4 lg:mb-8 text-[18px] lg:text-[22px] text-black">Sign in or Register using your mobile number</p>
+    
+              <!-- Full name field -->
+              <div class="w-full mb-2">
+                <label class="text-gray-700 text-xl font-bold" for="fullname">Your FullName*</label>
+              </div>
+              <div class="flex w-full mb-9 relative">
+                <input type="text" id="fullname-input" placeholder="Your Full name" class="w-full py-4 px-4 border border-gray-300 rounded-md text-xl">
+              </div>
+              
+              <!-- Email field -->  
+              <div class="w-full mb-2">
+                <label class="text-gray-700 text-xl font-bold" for="email">Your Email*</label>
+              </div>
+              <div class="flex w-full mb-9 relative">
+                <input type="email" id="email-input" placeholder="Your Email" class="w-full py-4 px-4 border border-gray-300 rounded-md text-xl">
+              </div>
+    
+              <!-- Phone field -->
+              <div class="w-full mb-2">
+                <label class="text-gray-700 text-xl font-bold" for="phone">Mobile Number*</label>
+              </div>
+              <div class="flex w-full mb-9 relative">
+                <div class="absolute inset-y-0 left-0 flex items-center pl-3 pr-3 pointer-events-none text-xl text-black">+88</div>
+                <input type="tel" id="phone-input" placeholder="Your Mobile Number" class="w-full py-4 pl-14 pr-4 border border-gray-300 rounded-md text-xl" maxlength="11">
+              </div>
+    
+              <!-- Continue button -->
+              <button id="continue-btn" class="w-full py-5 bg-gray-100 text-gray-400 rounded-md disabled cursor-not-allowed mb-6">Continue</button>
+    
+              <p class="text-base lg:text-[18px] mt-[17px] text-gray-600 text-center">
+                By continuing, you agree to the
+                <a href="#" class="text-gray-800 font-medium">Terms of use</a>,
+                <a href="#" class="text-gray-800 font-medium">Privacy Policy</a>
+                and
+                <a href="#" class="text-gray-800 font-medium">Community Standards</a>
+                of Skill Bee
+              </p>
+            </div>
+    
+            <!-- OTP Verification Screen (Hidden by default) -->
+            <div id="otp-screen" class="max-w-md w-full flex flex-col hidden">
+              <h1 class="text-[24px] lg:text-[36px] font-bold text-gray-800 mb-2 lg:mb-4">Verify mobile number</h1>
+              <p class="text-gray-600 mb-4 lg:mb-8 text-[18px] lg:text-[22px] text-black">
+                Enter the verification code that we sent to this mobile number
+                <span id="display-number" class="text-green-500 font-medium">+8801XXXXXXXXX</span>
+              </p>
+    
+              <div class="flex gap-2 mb-6 justify-center w-full">
+                <input type="text" maxlength="1" class="otp-input w-16 h-16 text-center text-2xl font-bold border border-gray-300 rounded-md" id="otp-1">
+                <input type="text" maxlength="1" class="otp-input w-16 h-16 text-center text-2xl font-bold border border-gray-300 rounded-md" id="otp-2">
+                <input type="text" maxlength="1" class="otp-input w-16 h-16 text-center text-2xl font-bold border border-gray-300 rounded-md" id="otp-3">
+                <input type="text" maxlength="1" class="otp-input w-16 h-16 text-center text-2xl font-bold border border-gray-300 rounded-md" id="otp-4">
+                <input type="text" maxlength="1" class="otp-input w-16 h-16 text-center text-2xl font-bold border border-gray-300 rounded-md" id="otp-5">
+              </div>
+    
+              <div class="w-full flex justify-end mb-6">
+                <p class="text-gray-600 text-sm">
+                  Resend code in: <span id="timer" class="font-medium">01:59</span>
+                </p>
+              </div>
+    
+              <button id="submit-btn" class="w-full py-5 bg-gray-100 text-gray-400 rounded-md disabled cursor-not-allowed mb-6">
+                Submit
+              </button>
+    
+              <div class="w-full flex justify-center border-t pt-4">
+                <p class="text-gray-700 lg:text-[20px]">
+                  Not the correct Number?
+                  <a href="#" id="change-number" class="text-green-500 font-medium">Change Mobile Number</a>
+                </p>
+              </div>
+            </div>
+          </div>
+    
+          <!-- Contact Info -->
+          <div class="p-4 text-sm text-gray-600 mt-6 flex flex-col justify-center items-center gap-2">
+            <p class="text-[18px] font-semibold">For issues, contact us at:<span class="font-bold">01797418758</span></p>
+            <p class="text-[18px] font-semibold">or email <a href="mailto:hello@skillbee.com" class="text-green-600">hello@skillbee.com</a></p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- WhatsApp Icon (Similar to the one on your login screen) -->
+    <div class="fixed bottom-6 right-6 z-10">
+      <a href="#" class="bg-yellow-400 rounded-full h-12 w-12 flex items-center justify-center shadow-lg">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" viewBox="0 0 24 24" fill="currentColor">
+          <path
+            d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.72.045.419-.1.824z" />
+        </svg>
+      </a>
+    </div>
+
+    <!-- Chat with us button (Similar to login screen) -->
+    <!-- <div class="fixed bottom-6 right-24 z-10">
+      <a href="#"
+        class="bg-white border border-green-500 text-gray-800 rounded-full py-2 px-4 flex items-center space-x-2 shadow-md">
+        <span>Chat with us</span>
+        <div class="bg-black rounded-full h-6 w-6 flex items-center justify-center">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-white" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd"
+              d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+              clip-rule="evenodd" />
+          </svg>
+        </div>
+      </a>
+    </div> -->
+    <!-- HTML Structure -->
+    <div id="searchInputContainer" class="search-input-container">
+      <div class="container">
+        <div class="search-input-wrapper">
+          <svg class="search-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+          </svg>
+          <input type="text" id="searchInput" placeholder="Search for Courses" class="search-input">
+        </div>
+      </div>
+    </div>
+
+    
+   
+    </header>
+
+    <!-- Page content would go here -->
+    <main class=" ">
+     <div>
+
+
+
+
+
+
+
+      <style>
+        .slider-container {
+          width: 100%;
+          margin: 0 auto;
+          position: relative;
+        }
+        
+        .slider {
+          /* position: relative; */
+          overflow: hidden;
+        }
+        
+        .slides {
+          display: flex;
+          transition: transform 0.5s ease;
+        }
+        
+        .slide {
+          min-width: 100%;
+          box-sizing: border-box;
+          text-align: center;
+         
+          background-color: #fff;
+        }
+        
+        .dots {
+          display: flex;
+          justify-content: center;
+          margin-top: 20px;
+          margin-bottom: 10px;
+        }
+        
+        .dot {
+          height: 10px;
+          width: 10px;
+          margin: 0 5px;
+          background-color: #bbb;
+          border-radius: 50%;
+          cursor: pointer;
+        }
+        
+        .dot.active {
+          background-color: #22c55e;
+        }
+        
+        .prev, .next {
+          position: absolute;
+          top: 50%;
+          transform: translateY(-50%);
+          padding: 10px;
+          background-color: rgba(0, 0, 0, 0.5);
+          color: white;
+          border: none;
+          cursor: pointer;
+          z-index: 1;
+        }
+        
+        .prev {
+          left: 0;
+        }
+        
+        .next {
+          right: 0;
+        }
+      </style>
+    
+      <div class="slider-container">
+        <div class="slider">
+          <div class="slides" style="transform: translateX(0%);">
+            {% for item in banner.items.all %}
+              <div class="slide">
+                <img src="{{ item.image.url }}" alt="{{ item.title }}">
+              </div>
+            {% endfor %}
+          </div>
+          <button class="prev hidden lg:block">❮</button>
+          <button class="next hidden lg:block">❯</button>
+        </div>
+
+        <div class="dots">
+          {% for item in banner.items.all %}
+            <div class="dot {% if forloop.first %}active{% endif %}"></div>
+          {% endfor %}
+        </div>
+      </div>
+    
+      
+     </div>
+
+
+
+
+
+     <div class="lg:max-w-[112rem] container mx-auto py-10  lg:px-6">
+        <div class="flex justify-center items-center flex-col my-10">
+          <h1 class=" text-[40px] font-bold">Our Top Picks</h1>
+          <p class="text-[22px] text-gray-600 font-samibold mt-4">Tailored to your career</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3  py-12 lg:px-8 gap-6">
+        {% for course in courses %}
+        
+          <!-- Card 1 -->
+          <div class="bg-white rounded-lg shadow-md overflow-hidden  w-full">
+            <!-- Card Header with Background Image -->
+            <div class="relative group">
+              <div
+                class=" flex items-end bg-opacity-90"
+                style="background-image: url('https://cdnjs.cloudflare.com/ajax/libs/simple-icons/3.0.1/simple-icons.svg'); background-size: cover; background-blend-mode: multiply;"
+              >
+                <!-- Image with hover effect -->
+                <div class="overflow-hidden w-full">
+                  <img
+                    src="{{course.course_thumbnail.url}}"
+                    alt=""
+                    class="transform transition-transform duration-500 hover:scale-110"
+                  />
+                </div>
+            
+                <!-- Instructor Info -->
+                <div class="absolute bottom-4 left-4 flex items-center">
+                  <div class="w-12 h-12 rounded-full overflow-hidden border-2 border-yellow-400">
+                    <img
+                      src="{{course.course_thumbnail.url}}"
+                      alt="Instructor"
+                      class="w-full h-full object-cover"
+                    />
+                  </div>
+                  <div class="ml-3 text-white">
+                    <div class="font-semibold text-sm lg:text-xl">Brit Karimi</div>
+                    <div class="text-sm lg:text-xl text-gray-200">CELTA Certified</div>
+                    <div class="text-[12px] lg:text-base text-gray-200">
+                      Former Editor, Arts & Entertainment, The Daily Star
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Tabs -->
+            <div class="flex my-4 p-4 lg:px-8 gap-3">
+              <div class="px-4 py-2 lg:text-[20px] rounded-sm text-black font-medium bg-[#e0f7fa]">{{course.course_type}}</div>
+              <div class="px-4 py-2 lg:text-[20px] rounded-sm text-black font-medium bg-[#e0f7fa]">{{course.course_level}}</div>            
+            </div>
+            
+            <!-- Course Content -->
+            <div class="p-4 lg:px-8">
+              <h2 class="text-[25px]  2xl:text-[28px] font-bold mb-3 hover:text-[#21c35d]">{{course.title}}</h2>
+              <p class="text-gray-600 text-[18px] 2xl:text-[23px] mb-10">{{course.description|safe}}</p>
+              
+              <!-- Rating -->
+              <div class="flex items-center justify-between mb-3">
+               <div class="flex justify-between items-center">
+                <span class="font-bold mr-2 text-gray-500 text-xl">4.9</span>
+                <div class="flex text-yellow-400">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                  </svg>
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                  </svg>
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                  </svg>
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                  </svg>
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                  </svg>
+                </div>
+               </div>
+                <div class="ml-4 flex items-center text-gray-500">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+                  </svg>
+                  <span class="text-xl">24914 Enrolled</span>
+                </div>
+              </div>
+              
+              <!-- Price and Button -->
+              <div class="flex items-center justify-between mt-6 mb-4">
+                <div>
+                  <span class="text-[26px] font-bold">৳ {{course.offer_price}}</span>
+                  <span class="text-gray-500 text-[23px] line-through ml-2">৳{{course.price}}</span>
+                </div>
+                <a href="{% url 'course_detail' course.slug %}" class="bg-white text-gray-800 font-semibold py-2 px-8 border border-gray-400 rounded-full hover:bg-[#0a2849] hover:text-white text-[25px]">
+                  Enroll
+                </a>
+              </div>
+            </div>
+          </div>
+      
+          
+        
+        
+        {% endfor %}
+        </div>
+
+
+        <div class="flex justify-center my-">
+          <button
+            type="button"
+            class="bg-[#11a849] hover:bg-[#4eba75] text-white font-semibold py-4 px-6 rounded-full shadow-md transition duration-300 ease-in-out text-base lg:text-2xl"
+          >
+            Explore All Resources
+          </button>
+        </div>
+     </div>
+
+
+
+
+
+
+     <div class="lg:max-w-[112rem] container mx-auto py-10  lg:px-6">
+      <div class="flex justify-center items-center flex-col my-10">
+        <h1 class=" text-[40px] font-bold">Our Top Picks</h1>
+        <p class="text-[22px] text-gray-600 font-samibold mt-4">Tailored to your career</p>
+      </div>
+
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 py-12 lg:px-8 gap-6">
+        <!-- Card 1 -->
+        <div class="bg-white rounded-lg shadow-md overflow-hidden  w-full">
+          <!-- Card Header with Background Image -->
+          <div class="relative group">
+            <div
+              class=" flex items-end bg-opacity-90"
+              style="background-image: url('https://cdnjs.cloudflare.com/ajax/libs/simple-icons/3.0.1/simple-icons.svg'); background-size: cover; background-blend-mode: multiply;"
+            >
+              <!-- Image with hover effect -->
+              <div class="overflow-hidden w-full">
+                <img
+                  src="{% static 'template/assets/image/most-common-interview-questions.webp' %}"
+                  alt=""
+                  class="transform transition-transform duration-500 hover:scale-110"
+                />
+              </div>
+          
+            
+            </div>
+          </div>
+          
+          <!-- Tabs -->
+          
+          
+          <!-- Course Content -->
+          <div class="p-4 lg:px-8">
+            <h2 class="text-[18px] 2xl:text-[28px] font-bold mb-3 hover:text-[#21c35d]">Most Common Interview Questions</h2>
+           <h2 class="text-[18px] lg:text-[25px] font-bold mb-3 hover:text-[#21c35d]">Free</h2>
+           <div class="w-full">
+            <button class="w-full bg-white hover:bg-[#0a2849] text-gray-800 font-semibold py-2 px-8 border border-gray-400 rounded-lg hover:text-white text-[25px]">
+              Enroll
+            </button>
+          </div>
+           
+          </div>
+        </div>
+    
+        <!-- Card 2 -->
+        <div class="bg-white rounded-lg shadow-md overflow-hidden  w-full">
+          <!-- Card Header with Background Image -->
+          <div class="relative group">
+            <div
+              class=" flex items-end bg-opacity-90"
+              style="background-image: url('https://cdnjs.cloudflare.com/ajax/libs/simple-icons/3.0.1/simple-icons.svg'); background-size: cover; background-blend-mode: multiply;"
+            >
+              <!-- Image with hover effect -->
+              <div class="overflow-hidden w-full">
+                <img
+                  src="{% static 'template/assets/image/most-common-interview-questions.webp' %}"
+                  alt=""
+                  class="transform transition-transform duration-500 hover:scale-110"
+                />
+              </div>
+          
+            
+            </div>
+          </div>
+          
+          <!-- Tabs -->
+          
+          
+          <!-- Course Content -->
+          <div class="p-4 lg:px-8">
+            <h2 class="text-[18px] 2xl:text-[28px] font-bold mb-3 hover:text-[#21c35d]">Most Common Interview Questions</h2>
+           <h2 class="text-[18px] lg:text-[25px] font-bold mb-3 hover:text-[#21c35d]">Free</h2>
+           <div class="w-full">
+            <button class="w-full bg-white hover:bg-[#0a2849] text-gray-800 font-semibold py-2 px-8 border border-gray-400 rounded-lg hover:text-white text-[25px]">
+              Enroll
+            </button>
+          </div>
+           
+          </div>
+        </div>
+    
+        <!-- Card 3 -->
+        <div class="bg-white rounded-lg shadow-md overflow-hidden  w-full">
+          <!-- Card Header with Background Image -->
+          <div class="relative group">
+            <div
+              class=" flex items-end bg-opacity-90"
+              style="background-image: url('https://cdnjs.cloudflare.com/ajax/libs/simple-icons/3.0.1/simple-icons.svg'); background-size: cover; background-blend-mode: multiply;"
+            >
+              <!-- Image with hover effect -->
+              <div class="overflow-hidden w-full">
+                <img
+                  src="{% static 'template/assets/image/most-common-interview-questions.webp' %}"
+                  alt=""
+                  class="transform transition-transform duration-500 hover:scale-110"
+                />
+              </div>
+          
+            
+            </div>
+          </div>
+          
+          <!-- Tabs -->
+          
+          
+          <!-- Course Content -->
+          <div class="p-4 lg:px-8">
+            <h2 class="text-[18px] 2xl:text-[28px] font-bold mb-3 hover:text-[#21c35d]">Most Common Interview Questions</h2>
+           <h2 class="text-[18px] lg:text-[25px] font-bold mb-3 hover:text-[#21c35d]">Free</h2>
+           <div class="w-full">
+            <button class="w-full bg-white hover:bg-[#0a2849] text-gray-800 font-semibold py-2 px-8 border border-gray-400 rounded-lg hover:text-white text-[25px]">
+              Enroll
+            </button>
+          </div>
+           
+          </div>
+        </div>
+
+
+
+        <div class="bg-white rounded-lg shadow-md overflow-hidden  w-full">
+          <!-- Card Header with Background Image -->
+          <div class="relative group">
+            <div
+              class=" flex items-end bg-opacity-90"
+              style="background-image: url('https://cdnjs.cloudflare.com/ajax/libs/simple-icons/3.0.1/simple-icons.svg'); background-size: cover; background-blend-mode: multiply;"
+            >
+              <!-- Image with hover effect -->
+              <div class="overflow-hidden w-full">
+                <img
+                  src="{% static 'template/assets/image/most-common-interview-questions.webp' %}"
+                  alt=""
+                  class="transform transition-transform duration-500 hover:scale-110"
+                />
+              </div>
+          
+            
+            </div>
+          </div>
+          
+          <!-- Tabs -->
+          
+          
+          <!-- Course Content -->
+          <div class="p-4 lg:px-8">
+            <h2 class="text-[18px] 2xl:text-[28px] font-bold mb-3 hover:text-[#21c35d]">Most Common Interview Questions</h2>
+           <h2 class="text-[18px] lg:text-[25px] font-bold mb-3 hover:text-[#21c35d]">Free</h2>
+           <div class="w-full">
+            <button class="w-full bg-white hover:bg-[#0a2849] text-gray-800 font-semibold py-2 px-8 border border-gray-400 rounded-lg hover:text-white text-[25px]">
+              Enroll
+            </button>
+          </div>
+           
+          </div>
+        </div>
+      </div>
+      <div class="flex justify-center my-">
+        <button
+          type="button"
+          class="bg-[#11a849] hover:bg-[#4eba75] text-white font-semibold py-4 px-6 rounded-full shadow-md transition duration-300 ease-in-out text-base lg:text-2xl"
+        >
+          Explore All Resources
+        </button>
+      </div>
+      </div>
+
+      <div class="max-w-[90rem] mx-auto px-4 py-16 max-w-7xl">
+        <!-- Header Section -->
+        <div class="text-center mb-16">
+            <h1 class="text-4xl md:text-5xl font-bold text-gray-800 mb-4">The Skillbee Experience</h1>
+            <p class="text-xl text-gray-600">Helping you become the very best</p>
+        </div>
+        
+        <!-- Main Content Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <!-- Left Column - Features -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <!-- Expert Mentors Card -->
+      <div class="w-full">
+        <div class="feature-card bg-teal-700 text-white p-8 rounded-lg h-full">
+          <div class="icon-container mb-4">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+            </svg>
+          </div>
+          <h3 class="text-xl font-bold mb-2">Expert Mentors</h3>
+          <p class="text-teal-100">Learn from the industry movers and shapers</p>
+        </div>
+      </div>
+                    
+      <!-- Offline Meetups Card -->
+      <div class="w-full">
+        <div class="feature-card bg-gray-900 text-white p-8 rounded-lg h-full">
+          <div class="icon-container mb-4">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+            </svg>
+          </div>
+          <h3 class="text-xl font-bold mb-2">Offline Meetups</h3>
+          <p class="text-gray-300">Grow your professional network</p>
+        </div>
+      </div>
+      
+      <!-- Row 2 -->
+      <!-- Hybrid Learning Card -->
+      <div class="w-full">
+        <div class="feature-card bg-gray-900 text-white p-8 rounded-lg h-full">
+          <div class="icon-container mb-4">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+            </svg>
+          </div>
+          <h3 class="text-xl font-bold mb-2">Hybrid Learning</h3>
+          <p class="text-gray-300">On-demand lessons and LIVE classes</p>
+        </div>
+      </div>
+                    
+      <!-- Success Manager Card -->
+      <div class="w-full">
+        <div class="feature-card bg-teal-700 text-white p-8 rounded-lg h-full">
+          <div class="icon-container mb-4">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+            </svg>
+          </div>
+          <h3 class="text-xl font-bold mb-2">Success Manager</h3>
+          <p class="text-teal-100">Dedicated mentors for career guidance</p>
+        </div>
+      </div>
+    </div>
+            
+            <!-- Right Column - Video -->
+            <div class="lg:col-span-1">
+                <div class="video-container bg-gray-900 rounded-lg overflow-hidden shadow-lg h-full">
+                  <div class="w-full h-full">
+                    <video src="assets/video/Ayatul-Kursi.mp4" controls class="w-full h-full"></video>
+                  </div>
+                  
+                  
+                    
+                    
+                </div>
+            </div>
+        </div>
+
+        <div class="flex justify-center my-10">
+          <button type="button" class="bg-[#11a849] hover:bg-[#4eba75] text-white font-semibold py-4 px-6 rounded-full shadow-md transition duration-300 ease-in-out text-base lg:text-2xl">
+            Explore All Resources
+          </button>
+        </div>
+
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const video = document.getElementById('keeronVideo');
+            const playButton = document.getElementById('playButton');
+            const muteButton = document.getElementById('muteButton');
+            const fullscreenButton = document.getElementById('fullscreenButton');
+            const progressFill = document.getElementById('progressFill');
+            const currentTimeElement = document.getElementById('currentTime');
+            const durationElement = document.getElementById('duration');
+            const videoContainer = document.querySelector('.video-container');
+            
+            // Set initial state
+            let isPlaying = false;
+            let isMuted = true;
+            video.muted = true;
+            
+            // Function to format time in MM:SS format
+            function formatTime(seconds) {
+                const minutes = Math.floor(seconds / 60);
+                seconds = Math.floor(seconds % 60);
+                return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+            }
+            
+            // Update play/pause button UI
+            function updatePlayButton() {
+                playButton.innerHTML = isPlaying ? 
+                    `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 9v6m4-6v6m7-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>` : 
+                    `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>`;
+            }
+            
+            // Update mute button UI
+            function updateMuteButton() {
+                muteButton.innerHTML = isMuted ? 
+                    `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2" />
+                    </svg>` : 
+                    `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
+                    </svg>`;
+            }
+            
+            // Play/Pause video
+            playButton.addEventListener('click', function() {
+                if (isPlaying) {
+                    video.pause();
+                } else {
+                    video.play();
+                }
+                isPlaying = !isPlaying;
+                updatePlayButton();
+            });
+            
+            // Toggle mute
+            muteButton.addEventListener('click', function() {
+                video.muted = !video.muted;
+                isMuted = video.muted;
+                updateMuteButton();
+            });
+            
+            // Fullscreen toggle
+            fullscreenButton.addEventListener('click', function() {
+                if (document.fullscreenElement) {
+                    document.exitFullscreen();
+                } else {
+                    videoContainer.requestFullscreen();
+                }
+            });
+            
+            // Update progress bar as video plays
+            video.addEventListener('timeupdate', function() {
+                const progress = (video.currentTime / video.duration) * 100;
+                progressFill.style.width = `${progress}%`;
+                currentTimeElement.textContent = formatTime(video.currentTime);
+            });
+            
+            // Set duration when metadata is loaded
+            video.addEventListener('loadedmetadata', function() {
+                durationElement.textContent = formatTime(video.duration);
+            });
+            
+            // Click on progress bar to seek
+            document.querySelector('.progress-bar').addEventListener('click', function(e) {
+                const progressBar = this.getBoundingClientRect();
+                const percent = (e.clientX - progressBar.left) / progressBar.width;
+                video.currentTime = percent * video.duration;
+            });
+            
+            // Handle video end
+            video.addEventListener('ended', function() {
+                isPlaying = false;
+                updatePlayButton();
+                video.currentTime = 0;
+            });
+            
+            // Make the cards responsive on hover
+            document.querySelectorAll('.feature-card').forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.classList.add('scale-105');
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.classList.remove('scale-105');
+                });
+            });
+            
+            // Set the video duration manually since we don't have a real video
+            durationElement.textContent = '2:38';
+
+            // Responsive adjustments
+            function handleResize() {
+                if (window.innerWidth < 768) {
+                    // Mobile adjustments
+                    document.querySelectorAll('.feature-card').forEach(card => {
+                        card.classList.add('p-6');
+                        card.classList.remove('p-8');
+                    });
+                } else {
+                    // Desktop adjustments
+                    document.querySelectorAll('.feature-card').forEach(card => {
+                        card.classList.add('p-8');
+                        card.classList.remove('p-6');
+                    });
+                }
+            }
+            
+            // Initial call and event listener for window resize
+            handleResize();
+            window.addEventListener('resize', handleResize);
+        });
+    </script>
+
+
+    <!-- <style>
+      .fade-gradient {
+        background: linear-gradient(to bottom, #ffffff 0%, #e6f7e6 100%);
+      }
+      .carousel-card {
+        transition: transform 0.3s ease;
+      }
+      .carousel-card:hover {
+        transform: translateY(-5px);
+      }
+      .nav-button {
+        transition: all 0.2s ease;
+      }
+      .nav-button:hover {
+        background-color: #f0f9f0;
+      }
+      .company-badge {
+        font-size: 10px;
+        padding: 2px 8px;
+        border-radius: 12px;
+        background-color: white;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+      }
+      /* Fixed slider styles */
+      #carouselWrapper {
+        overflow: hidden;
+        position: relative;
+        width: 100%;
+      }
+      #carouselTrack {
+        display: flex;
+        transition: transform 0.5s ease;
+      }
+    </style> -->
+
+
+    <div class="container mx-auto px-4 py-12 max-w-6xl">
+      <h2 class="text-4xl font-bold text-center text-custom-blue mb-2">Experienced Mentors</h2>
+      <p class="text-center text-gray-600 mb-12">To help shape your career</p>
+      
+      <div class="relative">
+        <!-- Slider container -->
+        <div class="overflow-hidden">
+          <div id="slider" class="flex transition-transform duration-500 ease-in-out">
+            <!-- Slide 1 -->
+            <div class="w-full md:w-1/3 flex-shrink-0 px-3">
+              <div class="bg-white rounded-lg overflow-hidden shadow-md h-full group">
+                <div class="relative">
+                  <div class="h-96 bg-gradient-to-b from-transparent to-green-100">
+                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Rifatul Maksud" class="w-full h-full object-cover">
+                    <div class="absolute bottom-4 left-4">
+                      <div class="bg-white text-pink-600 text-xs font-semibold py-1 px-2 rounded mb-2 inline-block">BAL</div>
+                      <h3 class="text-xl font-bold text-white">Rifatul Maksud</h3>
+                      <p class="text-sm text-white">Manager - Product</p>
+                    </div>
+                    <!-- Hover button -->
+                    <div class="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                      <button class="bg-custom-green hover:bg-green-600 text-white font-medium py-2 px-6 rounded-md transition-colors">See Profile</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Slide 2 -->
+            <div class="w-full md:w-1/3 flex-shrink-0 px-3">
+              <div class="bg-white rounded-lg overflow-hidden shadow-md h-full group">
+                <div class="relative">
+                  <div class="h-96 bg-gradient-to-b from-transparent to-green-100">
+                    <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Saiara Adrita" class="w-full h-full object-cover">
+                    <div class="absolute bottom-4 left-4">
+                      <div class="bg-white text-red-600 text-xs font-semibold py-1 px-2 rounded mb-2 inline-block">Microsoft</div>
+                      <h3 class="text-xl font-bold text-white">Saiara Adrita</h3>
+                      <p class="text-sm text-white">Product Manager</p>
+                    </div>
+                    <!-- Hover button -->
+                    <div class="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                      <button class="bg-custom-green hover:bg-green-600 text-white font-medium py-2 px-6 rounded-md transition-colors">See Profile</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Slide 3 -->
+            <div class="w-full md:w-1/3 flex-shrink-0 px-3">
+              <div class="bg-white rounded-lg overflow-hidden shadow-md h-full group">
+                <div class="relative">
+                  <div class="h-96 bg-gradient-to-b from-transparent to-green-100">
+                    <img src="https://images.unsplash.com/photo-1564564321837-a57b7070ac4f?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Zunaed Rabbani" class="w-full h-full object-cover">
+                    <div class="absolute bottom-4 left-4">
+                      <div class="bg-white text-blue-600 text-xs font-semibold py-1 px-2 rounded mb-2 inline-block">REY</div>
+                      <h3 class="text-xl font-bold text-white">Zunaed Rabbani</h3>
+                      <p class="text-sm text-white">Founder & CEO</p>
+                    </div>
+                    <!-- Hover button -->
+                    <div class="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                      <button class="bg-custom-green hover:bg-green-600 text-white font-medium py-2 px-6 rounded-md transition-colors">See Profile</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Slide 4 (duplicate of 1 for infinite loop) -->
+            <div class="w-full md:w-1/3 flex-shrink-0 px-3">
+              <div class="bg-white rounded-lg overflow-hidden shadow-md h-full group">
+                <div class="relative">
+                  <div class="h-96 bg-gradient-to-b from-transparent to-green-100">
+                    <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Another Mentor" class="w-full h-full object-cover">
+                    <div class="absolute bottom-4 left-4">
+                      <div class="bg-white text-yellow-600 text-xs font-semibold py-1 px-2 rounded mb-2 inline-block">Google</div>
+                      <h3 class="text-xl font-bold text-white">Ahmed Khan</h3>
+                      <p class="text-sm text-white">UX Designer</p>
+                    </div>
+                    <!-- Hover button -->
+                    <div class="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                      <button class="bg-custom-green hover:bg-green-600 text-white font-medium py-2 px-6 rounded-md transition-colors">See Profile</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Navigation buttons -->
+        <button id="prevBtn" class="absolute top-1/2 left-0 transform -translate-y-1/2 bg-custom-blue text-white w-10 h-10 rounded-full flex items-center justify-center shadow-lg z-10">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+          </svg>
+        </button>
+        
+        <button id="nextBtn" class="absolute top-1/2 right-0 transform -translate-y-1/2 bg-custom-blue text-white w-10 h-10 rounded-full flex items-center justify-center shadow-lg z-10">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+          </svg>
+        </button>
+      </div>
+    </div>
+    
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        const slider = document.getElementById('slider');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const slides = document.querySelectorAll('#slider > div');
+        let currentIndex = 0;
+        const totalSlides = slides.length;
+        let autoplayInterval;
+        
+        // Function to check if we're on mobile
+        function isMobile() {
+          return window.innerWidth < 768; // md breakpoint in Tailwind
+        }
+        
+        // Function to move the slider
+        function updateSlider() {
+          let slidePercentage;
+          
+          // If mobile, show one slide at a time (100%)
+          // If desktop, show three slides at a time (33.33%)
+          if (isMobile()) {
+            slidePercentage = 100;
+          } else {
+            slidePercentage = 100 / 3;
+          }
+          
+          const translateX = -currentIndex * slidePercentage;
+          slider.style.transform = `translateX(${translateX}%)`;
+        }
+        
+        // Function to go to next slide
+        function nextSlide() {
+          currentIndex++;
+          
+          // Reset to beginning when reaching the end
+          if (isMobile()) {
+            // For mobile: totalSlides is the max
+            if (currentIndex >= totalSlides) {
+              currentIndex = 0;
+            }
+          } else {
+            // For desktop: totalSlides - 2 is the max (showing 3 at a time)
+            if (currentIndex > totalSlides - 3) {
+              currentIndex = 0;
+            }
+          }
+          
+          updateSlider();
+        }
+        
+        // Function to go to previous slide
+        function prevSlide() {
+          currentIndex--;
+          
+          // Go to end when going before the first slide
+          if (currentIndex < 0) {
+            if (isMobile()) {
+              currentIndex = totalSlides - 1;
+            } else {
+              currentIndex = totalSlides - 3;
+            }
+          }
+          
+          updateSlider();
+        }
+        
+        // Start autoplay
+        function startAutoplay() {
+          autoplayInterval = setInterval(nextSlide, 5000);
+        }
+        
+        // Stop autoplay
+        function stopAutoplay() {
+          clearInterval(autoplayInterval);
+        }
+        
+        // Event listeners for buttons
+        nextBtn.addEventListener('click', function() {
+          stopAutoplay();
+          nextSlide();
+          startAutoplay();
+        });
+        
+        prevBtn.addEventListener('click', function() {
+          stopAutoplay();
+          prevSlide();
+          startAutoplay();
+        });
+        
+        // Pause autoplay on hover
+        slider.addEventListener('mouseenter', stopAutoplay);
+        slider.addEventListener('mouseleave', startAutoplay);
+        
+        // Handle window resize
+        window.addEventListener('resize', function() {
+          // Reset to first slide and update the slider
+          currentIndex = 0;
+          updateSlider();
+        });
+        
+        // Initialize slider
+        updateSlider();
+        startAutoplay();
+      });
+    </script>
+  
+
+ <div class="lg:my-[100px]">
+  <div class="bg-[url('https://cdn.jsdelivr.net/gh/mdsibgatullah/keeron/assets/images/hero_bg.svg')] bg-cover bg-center py-[100px] overflow-hidden">
+    <!-- Header -->
+    <div class="text-center mb-12">
+        <h2 class="text-4xl md:text-5xl font-bold text-white mb-3">Our ambitious learners</h2>
+        <p class="text-gray-300">Currently work in these companies</p>
+    </div>
+    
+    <!-- Logo Slider Container -->
+    <div class="relative overflow-hidden">
+        <!-- First set of logos -->
+        <div class="flex animate-scroll whitespace-nowrap">
+            <!-- Logo items with doubled content for continuous scrolling -->
+            <div class="flex items-center mx-4 md:mx-6 min-w-max">
+                <div class="bg-white rounded-md p-3 flex items-center justify-center h-12 w-28">
+                    <img src="/api/placeholder/112/48" alt="Star" class="h-6 object-contain">
+                </div>
+            </div>
+            <div class="flex items-center mx-4 md:mx-6 min-w-max">
+                <div class="bg-white rounded-md p-3 flex items-center justify-center h-12 w-28">
+                    <img src="/api/placeholder/112/48" alt="Pathao" class="h-6 object-contain">
+                </div>
+            </div>
+            <div class="flex items-center mx-4 md:mx-6 min-w-max">
+                <div class="bg-white rounded-md p-3 flex items-center justify-center h-12 w-28">
+                    <img src="/api/placeholder/112/48" alt="Truck Lagbe" class="h-6 object-contain">
+                </div>
+            </div>
+            <div class="flex items-center mx-4 md:mx-6 min-w-max">
+                <div class="bg-white rounded-md p-3 flex items-center justify-center h-12 w-28">
+                    <img src="/api/placeholder/112/48" alt="Company" class="h-6 object-contain">
+                </div>
+            </div>
+            <div class="flex items-center mx-4 md:mx-6 min-w-max">
+                <div class="bg-white rounded-md p-3 flex items-center justify-center h-12 w-28">
+                    <img src="/api/placeholder/112/48" alt="ShareTrip" class="h-6 object-contain">
+                </div>
+            </div>
+            <div class="flex items-center mx-4 md:mx-6 min-w-max">
+                <div class="bg-white rounded-md p-3 flex items-center justify-center h-12 w-28">
+                    <img src="/api/placeholder/112/48" alt="MGI" class="h-6 object-contain">
+                </div>
+            </div>
+            <div class="flex items-center mx-4 md:mx-6 min-w-max">
+                <div class="bg-white rounded-md p-3 flex items-center justify-center h-12 w-28">
+                    <img src="/api/placeholder/112/48" alt="BAT" class="h-6 object-contain">
+                </div>
+            </div>
+            <div class="flex items-center mx-4 md:mx-6 min-w-max">
+                <div class="bg-white rounded-md p-3 flex items-center justify-center h-12 w-28">
+                    <img src="/api/placeholder/112/48" alt="Mindshare" class="h-6 object-contain">
+                </div>
+            </div>
+            <div class="flex items-center mx-4 md:mx-6 min-w-max">
+                <div class="bg-white rounded-md p-3 flex items-center justify-center h-12 w-28">
+                    <img src="/api/placeholder/112/48" alt="Daraz" class="h-6 object-contain">
+                </div>
+            </div>
+            <div class="flex items-center mx-4 md:mx-6 min-w-max">
+                <div class="bg-white rounded-md p-3 flex items-center justify-center h-12 w-28">
+                    <img src="/api/placeholder/112/48" alt="Httpool" class="h-6 object-contain">
+                </div>
+            </div>
+            <div class="flex items-center mx-4 md:mx-6 min-w-max">
+                <div class="bg-white rounded-md p-3 flex items-center justify-center h-12 w-28">
+                    <img src="/api/placeholder/112/48" alt="ShopUp" class="h-6 object-contain">
+                </div>
+            </div>
+            <div class="flex items-center mx-4 md:mx-6 min-w-max">
+                <div class="bg-white rounded-md p-3 flex items-center justify-center h-12 w-28">
+                    <img src="/api/placeholder/112/48" alt="Prothom Alo" class="h-6 object-contain">
+                </div>
+            </div>
+            <div class="flex items-center mx-4 md:mx-6 min-w-max">
+                <div class="bg-white rounded-md p-3 flex items-center justify-center h-12 w-28">
+                    <img src="/api/placeholder/112/48" alt="Daily Star" class="h-6 object-contain">
+                </div>
+            </div>
+            <div class="flex items-center mx-4 md:mx-6 min-w-max">
+                <div class="bg-white rounded-md p-3 flex items-center justify-center h-12 w-28">
+                    <img src="/api/placeholder/112/48" alt="Pathao" class="h-6 object-contain">
+                </div>
+            </div>
+            
+            <!-- Duplicate all logos for seamless scrolling -->
+            <div class="flex items-center mx-4 md:mx-6 min-w-max">
+                <div class="bg-white rounded-md p-3 flex items-center justify-center h-12 w-28">
+                    <img src="/api/placeholder/112/48" alt="Star" class="h-6 object-contain">
+                </div>
+            </div>
+            <div class="flex items-center mx-4 md:mx-6 min-w-max">
+                <div class="bg-white rounded-md p-3 flex items-center justify-center h-12 w-28">
+                    <img src="/api/placeholder/112/48" alt="Pathao" class="h-6 object-contain">
+                </div>
+            </div>
+            <div class="flex items-center mx-4 md:mx-6 min-w-max">
+                <div class="bg-white rounded-md p-3 flex items-center justify-center h-12 w-28">
+                    <img src="/api/placeholder/112/48" alt="Truck Lagbe" class="h-6 object-contain">
+                </div>
+            </div>
+            <div class="flex items-center mx-4 md:mx-6 min-w-max">
+                <div class="bg-white rounded-md p-3 flex items-center justify-center h-12 w-28">
+                    <img src="/api/placeholder/112/48" alt="Company" class="h-6 object-contain">
+                </div>
+            </div>
+            <div class="flex items-center mx-4 md:mx-6 min-w-max">
+                <div class="bg-white rounded-md p-3 flex items-center justify-center h-12 w-28">
+                    <img src="/api/placeholder/112/48" alt="ShareTrip" class="h-6 object-contain">
+                </div>
+            </div>
+            <div class="flex items-center mx-4 md:mx-6 min-w-max">
+                <div class="bg-white rounded-md p-3 flex items-center justify-center h-12 w-28">
+                    <img src="/api/placeholder/112/48" alt="MGI" class="h-6 object-contain">
+                </div>
+            </div>
+            <div class="flex items-center mx-4 md:mx-6 min-w-max">
+                <div class="bg-white rounded-md p-3 flex items-center justify-center h-12 w-28">
+                    <img src="/api/placeholder/112/48" alt="BAT" class="h-6 object-contain">
+                </div>
+            </div>
+            <div class="flex items-center mx-4 md:mx-6 min-w-max">
+                <div class="bg-white rounded-md p-3 flex items-center justify-center h-12 w-28">
+                    <img src="/api/placeholder/112/48" alt="Mindshare" class="h-6 object-contain">
+                </div>
+            </div>
+            <div class="flex items-center mx-4 md:mx-6 min-w-max">
+                <div class="bg-white rounded-md p-3 flex items-center justify-center h-12 w-28">
+                    <img src="/api/placeholder/112/48" alt="Daraz" class="h-6 object-contain">
+                </div>
+            </div>
+            <div class="flex items-center mx-4 md:mx-6 min-w-max">
+                <div class="bg-white rounded-md p-3 flex items-center justify-center h-12 w-28">
+                    <img src="/api/placeholder/112/48" alt="Httpool" class="h-6 object-contain">
+                </div>
+            </div>
+            <div class="flex items-center mx-4 md:mx-6 min-w-max">
+                <div class="bg-white rounded-md p-3 flex items-center justify-center h-12 w-28">
+                    <img src="/api/placeholder/112/48" alt="ShopUp" class="h-6 object-contain">
+                </div>
+            </div>
+            <div class="flex items-center mx-4 md:mx-6 min-w-max">
+                <div class="bg-white rounded-md p-3 flex items-center justify-center h-12 w-28">
+                    <img src="/api/placeholder/112/48" alt="Prothom Alo" class="h-6 object-contain">
+                </div>
+            </div>
+            <div class="flex items-center mx-4 md:mx-6 min-w-max">
+                <div class="bg-white rounded-md p-3 flex items-center justify-center h-12 w-28">
+                    <img src="/api/placeholder/112/48" alt="Daily Star" class="h-6 object-contain">
+                </div>
+            </div>
+            <div class="flex items-center mx-4 md:mx-6 min-w-max">
+                <div class="bg-white rounded-md p-3 flex items-center justify-center h-12 w-28">
+                    <img src="/api/placeholder/112/48" alt="Pathao" class="h-6 object-contain">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+ </div>
+
+<script>
+    // Pause animation on hover
+    const slider = document.querySelector('.animate-scroll');
+    
+    slider.addEventListener('mouseenter', () => {
+        slider.style.animationPlayState = 'paused';
+    });
+    
+    slider.addEventListener('mouseleave', () => {
+        slider.style.animationPlayState = 'running';
+    });
+</script>
+
+<style>
+  @keyframes scroll {
+      0% {
+          transform: translateX(0);
+      }
+      100% {
+          transform: translateX(-50%);
+      }
+  }
+  .animate-scroll {
+      animation: scroll 20s linear infinite;
+  }
+</style>
+
+  <style>
+   
+    
+    .testimonial-card {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        padding: 1.5rem;
+        border-radius: 0.75rem;
+        background-color: white;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .testimonial-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 12px 20px rgba(0, 0, 0, 0.1);
+    }
+    
+    .logo-container {
+        display: flex;
+       
+        align-items: center;
+        height: 100px;
+        margin-bottom: 0.5rem;
+    }
+    
+    .logo-img {
+        height: 100px;
+        object-fit: contain;
+        transition: transform 0.3s ease;
+    }
+    
+    .testimonial-card:hover .logo-img {
+        transform: scale(1.05);
+    }
+</style>
+
+
+  <div class="container mx-auto px-4 py-12">
+    <!-- Heading Section -->
+    <div class="text-center mb-16">
+        <h2 class="text-4xl font-bold text-gray-800 mb-4">What People are Saying</h2>
+        <p class="text-gray-600 max-w-3xl mx-auto">
+            Students, professionals, and budding entrepreneurs drive and inspire us and make up the
+            Skillbee community. Here's what they have to say
+        </p>
+    </div>
+
+    <!-- Testimonials Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <!-- Testimonial 1 -->
+        <div class="testimonial-card">
+            <!-- Logo -->
+            <div class="logo-container">
+                <img src="{% static 'template/assets/image/cc3a14d7-d7ec-48fa-beb3-2c33ea4033d5.png' %}" alt="iDesk Logo" class="logo-img">
+            </div>
+            
+            <!-- Description -->
+            <p class="text-gray-700 text-left text-lg mt-4 mb-4">
+                How did Papia Sultana Meem transform her career with the FMCG Sales Excellence course? She mastered key sales skills!
+            </p>
+            
+            <!-- Video Card -->
+            <div class="video-card mb-4">
+              <video src="assets/video/Ayatul-Kursi.mp4" controls></video>
+            </div>
+            
+            <!-- Profile -->
+            <div class="flex items-center space-x-3 mt-auto">
+                <img src="{% static 'template/assets/image/1d2cbacb-ee41-4c9d-b0a5-264aeeb85885.webp' %}" alt="Papia Sultana Meem" class="w-12 h-12 rounded-full">
+                <div>
+                    <h3 class="font-bold text-gray-800">Papia Sultana Meem</h3>
+                    <p class="text-gray-500 text-sm">Accountant</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Testimonial 2 -->
+        <div class="testimonial-card">
+          <!-- Logo -->
+          <div class="logo-container">
+              <img src="{% static 'template/assets/image/cc3a14d7-d7ec-48fa-beb3-2c33ea4033d5.png' %}" alt="iDesk Logo" class="logo-img">
+          </div>
+          
+          <!-- Description -->
+          <p class="text-gray-700 text-left text-lg mt-4 mb-4 mb-4">
+              How did Papia Sultana Meem transform her career with the FMCG Sales Excellence course? She mastered key sales skills!
+          </p>
+          
+          <!-- Video Card -->
+          <div class="video-card mb-4">
+            <video src="assets/video/Ayatul-Kursi.mp4" controls></video>
+          </div>
+          
+          <!-- Profile -->
+          <div class="flex items-center space-x-3 mt-auto">
+              <img src="{% static 'template/assets/image/1d2cbacb-ee41-4c9d-b0a5-264aeeb85885' %}" alt="Papia Sultana Meem" class="w-12 h-12 rounded-full">
+              <div>
+                  <h3 class="font-bold text-gray-800">Papia Sultana Meem</h3>
+                  <p class="text-gray-500 text-sm">Accountant</p>
+              </div>
+          </div>
+      </div> <div class="testimonial-card">
+        <!-- Logo -->
+        <div class="logo-container">
+            <img src="{% static 'template/assets/image/cc3a14d7-d7ec-48fa-beb3-2c33ea4033d5.png' %}" alt="iDesk Logo" class="logo-img">
+        </div>
+        
+        <!-- Description -->
+        <p class="text-gray-700 text-left text-lg mt-4 mb-4 mb-4">
+            How did Papia Sultana Meem transform her career with the FMCG Sales Excellence course? She mastered key sales skills!
+        </p>
+        
+        <!-- Video Card -->
+        <div class="video-card mb-4">
+          <video src="assets/video/Ayatul-Kursi.mp4" controls></video>
+        </div>
+        
+        <!-- Profile -->
+        <div class="flex items-center space-x-3 mt-auto">
+            <img src="{% static 'template/assets/image/1d2cbacb-ee41-4c9d-b0a5-264aeeb85885.webp' %}" alt="Papia Sultana Meem" class="w-12 h-12 rounded-full">
+            <div>
+                <h3 class="font-bold text-gray-800">Papia Sultana Meem</h3>
+                <p class="text-gray-500 text-sm">Accountant</p>
+            </div>
+        </div>
+    </div>
+    </div>
+
+
+    <div class="flex justify-center my-10">
+      <button type="button" class="bg-[#11a849] hover:bg-[#4eba75] text-white font-semibold py-4 px-6 rounded-full shadow-md transition duration-300 ease-in-out text-base lg:text-2xl">
+        Explore All Resources
+      </button>
+    </div>
+</div>
+      
+
+
+
+<div class="max-w-[78rem] mx-auto px-4 py-12">
+  <!-- Blog Header -->
+  <div class="text-center mb-12">
+      <h2 class="text-4xl font-bold text-gray-800 mb-2">Explore our Blog</h2>
+      <p class="text-gray-600">In-depth content for your self-development journey</p>
+  </div>
+
+  <!-- Blog Posts Grid -->
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <!-- First Blog Post -->
+      <div class="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300">
+          <div class="relative">
+              <img src="{% static 'template/assets/image/Excel-theke-income.jpg' %}" alt="Excel Learning" class="w-full h-[17rem] object-cover">
+              <div class="absolute top-4 left-4 bg-gray-800 text-white px-3 py-1 rounded-md text-sm">
+                  <i class="fa-solid fa-chart-simple mr-1"></i>
+              </div>
+          </div>
+          <div class="p-6">
+              <div class="inline-block bg-green-50 text-green-700 px-3 py-1 rounded-md text-sm font-medium mb-3">
+                  Skill Development
+              </div>
+              <h3 class="text-xl font-bold hover:text-green-600 mb-2">Excel শিখে অনলাইনে আয় করার ৫টি উপায়</h3>
+              <p class="text-gray-600 mb-4">বর্তমান চাকরির বাজারে একটি কমন কথা শোনা যায়, "ভাল্লা ক্যান্ডিডেট পাওয়া যাচ্ছেনা!" এই যোগ্যতার মাপকাঠি কিন্তু কোন বড়ো ডিগ্রিস নয়, বরং বিশেষ ধরণের...</p>
+              
+              <div class="flex items-center justify-between mt-6">
+                  <div class="flex items-center">
+                      <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Author" class="w-10 h-10 rounded-full mr-3">
+                      <div>
+                          <h4 class="font-medium">Skill Bee</h4>
+                          <p class="text-gray-500 text-sm">August 19th, 2023</p>
+                      </div>
+                  </div>
+                  <div class="flex items-center text-gray-500">
+                      <span class="flex items-center mr-4"><i class="fa-regular fa-heart mr-1"></i> 2</span>
+                      <span class="flex items-center"><i class="fa-regular fa-comment mr-1"></i> 5</span>
+                  </div>
+              </div>
+          </div>
+      </div>
+
+      <!-- Second Blog Post -->
+
+      <div class="flex flex-col gap-10">
+        <div class="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300 md:col-span-2">
+          <div class="p-4 lg:p-6">
+              <div class="inline-block bg-purple-50 text-purple-700 px-3 py-1 rounded-md text-sm font-medium mb-3">
+                  Career Development
+              </div>
+              <h3 class="text-xl font-bold hover:text-green-700 text-gray-800 mb-2">চাকরির ইন্টারভিউতে জিজ্ঞেস করা ১০ টি কমন প্রশ্ন</h3>
+              <p class="text-gray-600 mb-4">চাকরির ইন্টারভিউতে কিছুটা ভয় বা সংশয় স্বভাবি এমন লোক খুঁজে পাওয়া কঠিন। এর সকল সমাধান...</p>
+              
+              <div class="flex items-center justify-between mt-6">
+                  <div class="flex items-center">
+                      <img src="{% static 'template/assets/image/Elta Karim.jpg' %}" alt="Author" class="w-10 h-10 rounded-full mr-3">
+                      <div>
+                          <h4 class="font-medium">Skill Bee</h4>
+                          <p class="text-gray-500 text-sm">August 19th, 2023</p>
+                      </div>
+                  </div>
+                  <div class="flex items-center text-gray-500">
+                      <span class="flex items-center mr-4"><i class="fa-regular fa-heart mr-1"></i> 2</span>
+                      <span class="flex items-center"><i class="fa-regular fa-comment mr-1"></i> 3</span>
+                  </div>
+              </div>
+          </div>
+      </div>
+      <div class="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300 md:col-span-2">
+        <div class="p-6">
+            <div class="inline-block bg-purple-50 text-purple-700 px-3 py-1 rounded-md text-sm font-medium mb-3">
+                Career Development
+            </div>
+            <h3 class="text-xl font-bold hover:text-green-700 text-gray-800 mb-2">চাকরির ইন্টারভিউতে জিজ্ঞেস করা ১০ টি কমন প্রশ্ন</h3>
+            <p class="text-gray-600 mb-4">চাকরির ইন্টারভিউতে কিছুটা ভয় বা সংশয় স্বভাবি এমন লোক খুঁজে পাওয়া কঠিন। এর সকল সমাধান...</p>
+            
+            <div class="flex items-center justify-between mt-6">
+                <div class="flex items-center">
+                    <img src="{% static 'template/assets/image/Elta Karim.jpg' %}" alt="Author" class="w-10 h-10 rounded-full mr-3">
+                    <div>
+                        <h4 class="font-medium">Skill Bee</h4>
+                        <p class="text-gray-500 text-sm">August 19th, 2023</p>
+                    </div>
+                </div>
+                <div class="flex items-center text-gray-500">
+                    <span class="flex items-center mr-4"><i class="fa-regular fa-heart mr-1"></i> 2</span>
+                    <span class="flex items-center"><i class="fa-regular fa-comment mr-1"></i> 3</span>
+                </div>
+            </div>
+        </div>
+    </div>
+      </div>
+      <!-- <div class="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300">
+          <div class="relative">
+              <img src="/api/placeholder/800/400" alt="Career Development" class="w-full h-64 object-cover">
+          </div>
+          <div class="p-6">
+              <div class="inline-block bg-purple-50 text-purple-700 px-3 py-1 rounded-md text-sm font-medium mb-3">
+                  Career Development
+              </div>
+              <h3 class="text-xl font-bold text-gray-800 mb-2">সেলস এন্ড মার্কেটিং ভবে ইন্টারভিউ এর প্রস্তুতি নিবেন কীভাবে?</h3>
+              <p class="text-gray-600 mb-4">ইন্টারভিউ হল সেইম ই, সেলস মার্কেটিং হোক বা ইঞ্জিনিয়ার। এটার জন্য আলাদা প্রস্তুতির...</p>
+              
+              <div class="flex items-center justify-between mt-6">
+                  <div class="flex items-center">
+                      <img src="/api/placeholder/40/40" alt="Author" class="w-10 h-10 rounded-full mr-3">
+                      <div>
+                          <h4 class="font-medium">Keeron</h4>
+                          <p class="text-gray-500 text-sm">August 19th, 2023</p>
+                      </div>
+                  </div>
+                  <div class="flex items-center text-gray-500">
+                      <span class="flex items-center mr-4"><i class="fa-regular fa-heart mr-1"></i> 1</span>
+                      <span class="flex items-center"><i class="fa-regular fa-comment mr-1"></i> 2</span>
+                  </div>
+              </div>
+          </div>
+      </div> -->
+
+      <!-- Third Blog Post -->
+      <!-- <div class="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300 md:col-span-2">
+          <div class="p-6">
+              <div class="inline-block bg-purple-50 text-purple-700 px-3 py-1 rounded-md text-sm font-medium mb-3">
+                  Career Development
+              </div>
+              <h3 class="text-xl font-bold text-gray-800 mb-2">চাকরির ইন্টারভিউতে জিজ্ঞেস করা ১০ টি কমন প্রশ্ন</h3>
+              <p class="text-gray-600 mb-4">চাকরির ইন্টারভিউতে কিছুটা ভয় বা সংশয় স্বভাবি এমন লোক খুঁজে পাওয়া কঠিন। এর সকল সমাধান...</p>
+              
+              <div class="flex items-center justify-between mt-6">
+                  <div class="flex items-center">
+                      <img src="/api/placeholder/40/40" alt="Author" class="w-10 h-10 rounded-full mr-3">
+                      <div>
+                          <h4 class="font-medium">Keeron</h4>
+                          <p class="text-gray-500 text-sm">August 19th, 2023</p>
+                      </div>
+                  </div>
+                  <div class="flex items-center text-gray-500">
+                      <span class="flex items-center mr-4"><i class="fa-regular fa-heart mr-1"></i> 2</span>
+                      <span class="flex items-center"><i class="fa-regular fa-comment mr-1"></i> 3</span>
+                  </div>
+              </div>
+          </div>
+      </div> -->
+  </div>
+
+  <div class="flex justify-center my-10">
+    <button type="button" class="bg-[#11a849] hover:bg-[#4eba75] text-white font-semibold py-4 px-6 rounded-full shadow-md transition duration-300 ease-in-out text-base lg:text-2xl">
+      Explore All Resources
+    </button>
+  </div>
+
+
+  <!-- Chat with us Button -->
+  
+</div>
+      
+
+
+
+
+<div class="max-w-[90rem] mx-auto px-4 py-16">
+  <div class="flex flex-col md:flex-row items-center justify-between">
+      <!-- Left Content -->
+      {% comment %} <div class="w-full md:w-1/2 mb-10 md:mb-0 md:pr-8">
+          <h3 class="text-gray-800 text-2xl  font-medium mb-8">Keeron Mobile App</h3>
+          <h2 class="text-gray-800 text-4xl md:text-5xl font-bold mb-8">Download Now</h2>
+          <p class="text-gray-600 text-lg mb-8">Upskilling is now at your fingertips!</p>
+          
+          <div>
+              <h4 class="text-gray-800 text-xl font-medium mb-4">Get the App</h4>
+              <div class="flex flex-wrap gap-4">
+                  <a href="#" class="inline-block">
+                      <img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png' %}" alt="Get it on Google Play" class="h-12">
+                  </a>
+                  <a href="#" class="inline-block">
+                    <img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png' %}" alt="Get it on Google Play" class="h-12">
+                </a>
+              </div>
+          </div>
+      </div> {% endcomment %}
+      
+      <!-- Right Image -->
+      <div class="w-full md:w-1/2 flex justify-center md:justify-end">
+          <div class="relative -mb-[61px] w-64 md:w-[30rem]">
+              <!-- Phone Frame -->
+              <img src="{% static 'template/assets/image/yy' %}" alt="">
+          </div>
+      </div>
+  </div>
+</div>
+
+    </main>
+
+
+  <style>
+    .feature-card {
+      height: 100%;
+      transition: transform 0.3s ease;
+    }
+    .feature-card:hover {
+      transform: translateY(-5px);
+    }
+    .icon-container {
+      display: inline-flex;
+      background-color: rgba(255, 255, 255, 0.1);
+      padding: 10px;
+      border-radius: 8px;
+    }
+  </style>
+
+
+
+
+
+    <!-- Footer Section -->
+    <footer class="bg-keeron-blue text-white py-12">
+      <div class="lg:max-w-[112rem] container mx-auto  lg:px-6 " style="padding: 0 25px;">
+        <!-- Footer Main Content -->
+        <!-- Footer Main Content -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-8">
+          <!-- Logo Column -->
+          <div class="flex flex-col items-start">
+            <a href="{% url 'index' %}" class="text-green-500 font-bold text-5xl flex w-[180px] items-center">
+            <img src="https://skillbeeacademy.com/upload/images/skillbee.jpeg" alt="skillbee" class="p-2" />
+          </a>
+          </div>
+
+          <!-- Keeron Links -->
+          <div class="footer-dropdown">
+            <h3 class="text-[1rem] lg:text-[1.5rem] font-bold lg:mb-6 footer-dropdown-heading flex justify-between items-center">
+              Keeron
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 md:hidden" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd"
+                  d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                  clip-rule="evenodd" />
+              </svg>
+            </h3>
+            <ul
+              class="space-y-2 lg:space-y-3 footer-dropdown-content max-h-0 md:max-h-full overflow-hidden transition-all duration-300 ease-in-out">
+              <li><a href="#" class="hover:text-keeron-green transition text-[14px] lg:text-[20px] lg:font-semibold hover:underline">About Us</a></li>
+              <li><a href="#" class="hover:text-keeron-green transition text-[14px] lg:text-[20px] lg:font-semibold hover:underline">Blog</a></li>
+              <li><a href="#" class="hover:text-keeron-green transition text-[14px] lg:text-[20px] lg:font-semibold hover:underline">Contact Us</a></li>
+              <li><a href="#" class="hover:text-keeron-green transition text-[14px] lg:text-[20px] lg:font-semibold hover:underline">Refund Policy</a></li>
+              <li><a href="#" class="hover:text-keeron-green transition text-[14px] lg:text-[20px] lg:font-semibold hover:underline">FAQ</a></li>
+            </ul>
+          </div>
+
+          <!-- Programs Links -->
+          <div class="footer-dropdown">
+            <h3 class="text-[1rem] lg:text-[1.5rem] font-bold lg:mb-6 footer-dropdown-heading flex justify-between items-center">
+              Programs
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 md:hidden" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd"
+                  d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                  clip-rule="evenodd" />
+              </svg>
+            </h3>
+            <ul
+              class="space-y-3 footer-dropdown-content max-h-0 md:max-h-full overflow-hidden transition-all duration-300 ease-in-out">
+              <li><a href="#" class="hover:text-keeron-green transition text-[14px] lg:text-[20px] lg:font-semibold hover:underline">Courses</a></li>
+            </ul>
+          </div>
+
+          <!-- More Links -->
+          <div class="footer-dropdown">
+            <h3 class="text-[1rem] lg:text-[1.5rem] font-bold lg:mb-6 footer-dropdown-heading flex justify-between items-center">
+              More
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 md:hidden" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd"
+                  d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                  clip-rule="evenodd" />
+              </svg>
+            </h3>
+            <ul
+              class="space-y-3 footer-dropdown-content max-h-0 md:max-h-full overflow-hidden transition-all duration-300 ease-in-out">
+              <li><a href="#" class="hover:text-keeron-green transition text-[14px] lg:text-[20px] lg:font-semibold hover:underline">Become an Affiliate</a></li>
+            </ul>
+          </div>
+        </div>
+
+
+        <!-- Horizontal Line -->
+        <hr class="my-8 border-gray-700">
+
+        <!-- Mobile App Section -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+          <div>
+            <h3 class="text-[25px] font-semibold mb-4">Get the App</h3>
+            <div class="flex flex-wrap gap-4">
+              <a href="#" class="inline-block">
+                <img src="https://placehold.co/135x40/333333/FFFFFF?text=Google+Play" alt="Google Play" class="h-10">
+              </a>
+              <a href="#" class="inline-block">
+                <img src="https://placehold.co/135x40/333333/FFFFFF?text=App+Store" alt="App Store" class="h-10">
+              </a>
+            </div>
+          </div>
+
+          <!-- Social Media Icons -->
+          <div class="flex justify-start md:justify-end gap-4 items-center">
+            <a href="#" class="bg-white text-keeron-blue p-2 rounded-full hover:bg-gray-200 transition">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+                <path
+                  d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
+              </svg>
+            </a>
+            <a href="#" class="bg-white text-keeron-blue p-2 rounded-full hover:bg-gray-200 transition">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+                <path
+                  d="M4.98 3.5c0 1.381-1.11 2.5-2.48 2.5s-2.48-1.119-2.48-2.5c0-1.38 1.11-2.5 2.48-2.5s2.48 1.12 2.48 2.5zm.02 4.5h-5v16h5v-16zm7.982 0h-4.968v16h4.969v-8.399c0-4.67 6.029-5.052 6.029 0v8.399h4.988v-10.131c0-7.88-8.922-7.593-11.018-3.714v-2.155z" />
+              </svg>
+            </a>
+            <a href="#" class="bg-white text-keeron-blue p-2 rounded-full hover:bg-gray-200 transition">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+                <path
+                  d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v3.385z" />
+              </svg>
+            </a>
+            <a href="#" class="bg-white text-keeron-blue p-2 rounded-full hover:bg-gray-200 transition">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+                <path
+                  d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z" />
+              </svg>
+            </a>
+          </div>
+        </div>
+
+        <!-- Copyright and Legal Links -->
+        <div class="flex flex-col md:flex-row justify-between lg:items-center">
+          <p class="mb-4 text-[20px]  md:mb-0">© Skillbee. All rights reserved.</p>
+          <div class="flex lg:flex-row flex-col lg:space-x-6">
+            <a href="#" class="hover:text-keeron-green lg:text-[20px] transition">Terms and conditions</a>
+            <a href="#" class="hover:text-keeron-green lg:text-[20px] transition">Privacy policy</a>
+          </div>
+        </div>
+
+        
+        <!-- WhatsApp Button (Fixed) -->
+        
+      </div>
+    </footer>
+  <script src="{% static 'template/assets/js/headerfooter.js' %}">
+    
+  </script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const slides = document.querySelector('.slides');
+      const slideElements = document.querySelectorAll('.slide');
+      const dotsContainer = document.querySelector('.dots');
+      const prevButton = document.querySelector('.prev');
+      const nextButton = document.querySelector('.next');
+      
+      let currentIndex = 0;
+      const totalSlides = slideElements.length;
+      
+      // Create dots
+      for (let i = 0; i < totalSlides; i++) {
+        const dot = document.createElement('div');
+        dot.className = 'dot';
+        if (i === 0) dot.classList.add('active');
+        dot.addEventListener('click', () => goToSlide(i));
+        dotsContainer.appendChild(dot);
+      }
+      
+      // Go to specific slide
+      function goToSlide(index) {
+        currentIndex = index;
+        updateSlider();
+      }
+      
+      // Update slider position and active dot
+      function updateSlider() {
+        slides.style.transform = `translateX(-${currentIndex * 100}%)`;
+        
+        // Update active dot
+        document.querySelectorAll('.dot').forEach((dot, i) => {
+          if (i === currentIndex) {
+            dot.classList.add('active');
+          } else {
+            dot.classList.remove('active');
+          }
+        });
+      }
+      
+      // Next slide
+      function nextSlide() {
+        currentIndex = (currentIndex + 1) % totalSlides;
+        updateSlider();
+      }
+      
+      // Previous slide
+      function prevSlide() {
+        currentIndex = (currentIndex - 1 + totalSlides) % totalSlides;
+        updateSlider();
+      }
+      
+      // Add event listeners
+      prevButton.addEventListener('click', prevSlide);
+      nextButton.addEventListener('click', nextSlide);
+      
+      // Set initial state
+      updateSlider();
+      
+      // Optional: Auto-sliding functionality similar to react-slick's default
+      const interval = setInterval(nextSlide, 3000);
+      
+      // Stop auto-sliding when user interacts
+      document.querySelector('.slider').addEventListener('mouseenter', () => {
+        clearInterval(interval);
+      });
+    });
+  </script>
+</body>
+
+</html>

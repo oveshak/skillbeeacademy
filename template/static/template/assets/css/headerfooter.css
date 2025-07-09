@@ -1,0 +1,196 @@
+  /* Sidebar styling */
+  #sign-in-sidebar {
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s, opacity 0.3s;
+  }
+  
+  #sign-in-sidebar.active {
+    visibility: visible;
+    opacity: 1;
+  }
+  
+  #sign-in-sidebar.active .sidebar-panel {
+    transform: translateX(0);
+  }
+  
+  .sidebar-panel {
+    transform: translateX(100%);
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  .sidebar-overlay {
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  
+  #sign-in-sidebar.active .sidebar-overlay {
+    opacity: 1;
+  }
+  
+  /* OTP input styling */
+  .otp-input:focus {
+    outline: none;
+    border-color: #10B981;
+    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2);
+  }
+  
+  .keeron-gradient {
+    background: linear-gradient(135deg, #0F766E 0%, #047857 100%);
+  }
+/* Base styles for search input */
+.search-input-container {
+  position: fixed;
+  top: 80px;
+  /* Adjust based on your header height */
+  left: 0;
+  right: 0;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+  background-color: white;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  width: 100%;
+}
+
+.search-input-container.active {
+  max-height: 60px;
+}
+
+.container {
+  width: 100%;
+  padding: 0 15px;
+  margin: 0 auto;
+}
+
+.search-input-wrapper {
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #e2e8f0;
+  padding: 0.75rem 0;
+}
+
+.search-icon {
+  width: 20px;
+  height: 20px;
+  margin-right: 12px;
+  color: #9ca3af;
+}
+
+.search-input {
+  width: 100%;
+  border: none;
+  padding: 0.5rem;
+  font-size: 1rem;
+  background-color: white;
+}
+
+.search-input:focus {
+  outline: none;
+}
+
+/* Responsive behavior */
+@media (min-width: 768px) {
+
+  /* This will auto-hide the search on desktop/PC view */
+  .search-input-container {
+    display: none;
+  }
+
+  /* For desktop, we can show a permanent search in the header instead */
+  .desktop-search {
+    display: flex;
+    align-items: center;
+    border: 1px solid #e2e8f0;
+    border-radius: 4px;
+    padding: 0.5rem;
+    width: 300px;
+  }
+
+  /* Hide mobile search toggle button on desktop */
+  #searchBtn {
+    display: none;
+  }
+}
+
+@media (max-width: 767px) {
+
+  /* Show mobile search toggle on phones */
+  #searchBtn {
+    display: block;
+  }
+
+  /* Hide desktop search on phones */
+  .desktop-search {
+    display: none;
+  }
+}
+
+.nav-link.active {
+  color: #10B981;
+  /* Tailwind's green-500 */
+  font-weight: 600;
+}
+
+/* Additional CSS for responsive dropdowns */
+@media (max-width: 768px) {
+  .footer-dropdown-heading {
+    cursor: pointer;
+  }
+
+  .footer-dropdown.active .footer-dropdown-heading svg {
+    transform: rotate(180deg);
+  }
+
+  .footer-dropdown-content {
+    transition: max-height 0.3s ease-in-out;
+  }
+}
+
+@media (min-width: 769px) {
+
+  /* Hide dropdown arrows on desktop */
+  .footer-dropdown-heading svg {
+    display: none;
+  }
+}
+
+.keeron-gradient {
+  background: linear-gradient(120deg, #003366 0%, #00995c 100%);
+}
+
+.keeron-btn {
+  background-color: #00995c;
+  color: white;
+  transition: all 0.3s ease;
+}
+
+.keeron-btn:hover {
+  background-color: #007a49;
+}
+
+.otp-input {
+  width: 54px;
+  height: 54px;
+  border-radius: 8px;
+  border: 1px solid #E2E8F0;
+  text-align: center;
+  font-size: 20px;
+}
+
+.otp-input:focus {
+  border-color: #10B981;
+  outline: none;
+}
+
+.otp-input.filled {
+  border-color: #10B981;
+}
+
+#phone-input:focus {
+  border-color: #D1D5DB;
+  /* gray-300 in Tailwind */
+  outline: none;
+  box-shadow: none;
+}

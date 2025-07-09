@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+    {% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>login</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/alpinejs/3.12.0/cdn.min.js" defer></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center p-4">
+    <!-- Login Page -->
+    <div class="max-w-md w-full bg-white rounded-lg shadow-lg overflow-hidden">
+        <div class="bg-blue-600 px-6 py-8">
+            <h1 class="text-white text-center text-3xl font-bold">Welcome Back</h1>
+            <p class="text-blue-200 text-center mt-2">Please sign in to your account</p>
+        </div>
+        
+        <div class="p-6">
+            <form method="POST" action="{% url 'login_submit' %}">
+                {% csrf_token %}
+
+                <!-- Email Field -->
+                <div class="mb-4">
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="email">
+                        Email Address
+                    </label>
+                    <input name="email" id="email" type="email" required
+                           placeholder="email@example.com"
+                           class="appearance-none border rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-blue-500 transition duration-200">
+                </div>
+
+                <!-- Password Field -->
+                <div class="mb-6" x-data="passwordToggle">
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="password">
+                        Password
+                    </label>
+                    <div class="relative">
+                        <input name="password" id="password" :type="type()" required
+                               placeholder="••••••••"
+                               class="appearance-none border rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-blue-500 transition duration-200 pr-10">
+                        <button type="button" @click="toggle" class="absolute right-3 top-3 text-gray-500">
+                            <i :class="show ? 'fa fa-eye-slash' : 'fa fa-eye'"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Submit Button -->
+                <div class="mb-6">
+                    <button type="submit"
+                            class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg focus:outline-none focus:shadow-outline transition duration-200">
+                        Sign In
+                    </button>
+                </div>
+
+                <!-- Signup Link -->
+                <p class="text-center text-gray-600 text-sm">
+                    Don't have an account? 
+                    <a href="{% url 'register' %}" class="text-blue-600 hover:text-blue-800 font-medium">Sign up</a>
+                </p>
+
+                <!-- Messages -->
+                {% if messages %}
+                <div class="mt-4 text-center text-sm text-red-600">
+                    {% for message in messages %}
+                        <p>{{ message }}</p>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </form>
+        </div>
+    </div>
+
+    <!-- Alpine.js Password Toggle -->
+    <script>
+        document.addEventListener('alpine:init', () => {
+            Alpine.data('passwordToggle', () => ({
+                show: false,
+                type() {
+                    return this.show ? 'text' : 'password';
+                },
+                toggle() {
+                    this.show = !this.show;
+                }
+            }))
+        })
+    </script>
+</body>
+
+</html>
