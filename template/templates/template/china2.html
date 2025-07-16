@@ -30,11 +30,12 @@
                         
                         <div class="flex teacher">
                                 <!-- <span><img src="https://cdn.jsdelivr.net/gh/mdsibgatullah/keeron/assets/images/Elta-Karim.jpg" alt="EltaKarim"></span> -->
-                            <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
-                                <h4 style="font-size: 22px; font-weight: 700; margin-bottom: 6px; color: #000;">Md Anis Islam</h4>
-                                <p style="font-size: 16px; font-weight: 600; margin: 3px 0; color: #333;">Certified Chinese language Teacher,</p>
-                                <p style="font-size: 16px; font-weight: 500; margin: 3px 0; color: #555;">University of Dhaka</p>
+                            <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: white;">
+                                <h4 style="font-size: 22px; font-weight: 700; margin-bottom: 6px;">Md Anis Islam</h4>
+                                <p style="font-size: 16px; font-weight: 600; margin: 3px 0;">Certified Chinese language Teacher,</p>
+                                <p style="font-size: 16px; font-weight: 500; margin: 3px 0;">University of Dhaka</p>
                             </div>
+
 
                         </div>
                     </div>
@@ -498,11 +499,13 @@
                                     <i><img src="https://cdn.jsdelivr.net/gh/mdsibgatullah/keeron/assets/images/curriculmnDuration.svg" alt="images"></i>
                                     <small>3 Videos</small>
                                 </div>
-                                <div class="seeMore_btn" onclick="allVideo()">
-                                    <button>See More</button>
+                                <div class="seeMore_btn">
+                                    <button onclick="toggleVideo('all_video_3', this)">See More</button>
                                 </div>
                             </div>
-                            <ol id="all_video">
+
+                            <!-- Unique ID here -->
+                            <ol id="all_video_3" style="display: none;">
                                 <li class="video_wrapper">
                                     <div class="free_demo flex">
                                         <div>
@@ -521,6 +524,7 @@
                             </ol>
                         </div>
                     </li>
+
 
                     <li class="module_list">
                         <div class="modules">
@@ -921,3 +925,16 @@
             </div>
          </div>
     </main>
+<script>
+function toggleVideo(id, btn) {
+    const section = document.getElementById(id);
+    if (section.style.display === "none" || section.style.display === "") {
+        section.style.display = "block";
+        btn.textContent = "See Less";
+    } else {
+        section.style.display = "none";
+        btn.textContent = "See More";
+    }
+}
+</script>
+
