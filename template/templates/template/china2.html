@@ -900,33 +900,6 @@
             </section>
 
          
-         <div class="modal">
-            <div class="overlay" onclick="closePopup()"></div>
-            <div class="popup popup1">
-                <form action="https://skillbeeacademy.com/enroll/chinese-language-course/" method="post">
-                    <input type="text" placeholder="Full Name" required>
-                    <input type="email" placeholder="Email" required>
-                    <input type="tel" placeholder="Phone Number" required>
-                    <div class="free_demo flex">
-                        <button onclick="closePopup()">Close</button>
-                        <button type="submit" onclick="submitData()">Submite</button>
-                    </div>
-                </form>
-            </div>
-            <div class="popup popup2">
-                <form action="#" method="post">
-                    <input type="text" placeholder="MD. SIBGATULLAH" readonly>
-                    <input type="email" placeholder="sibgatullah667@gmail.com" readonly>
-                    <input type="number" placeholder="01601706606" readonly>
-                    <input type="text" placeholder="Price 999tk" readonly>
-                    <input type="number" placeholder="Quantity 1" readonly>
-                    <div class="free_demo flex" style="margin-top: 5px;">
-                        <button onclick="closePopup()">Close</button>
-                        <button type="submit">Confirm</button>
-                    </div>
-                </form>
-            </div>
-         </div>
          <div class="modal fade" id="courseModal" tabindex="-1" aria-labelledby="courseModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border: none; border-radius: 20px; color: white;">
@@ -977,7 +950,7 @@
                 
                 <!-- Total Price -->
                 <div class="text-center mt-3 p-3" style="background: rgba(255, 255, 255, 0.2); border-radius: 10px;">
-                  <div style="color: #f0f0f0; font-size: 16px; margin-bottom: 5px;">মোট কোর্স ফি</div>
+                  <div style="color: #f0f0f0; font-size: 16px; margin-bottom: 5px;">মোট কোর্সের মূল্য</div>
                   <div style="color: #00ff88; font-size: 28px; font-weight: bold;">
                     <i class="bi bi-currency-dollar"></i>৪৫০০ টাকা
                   </div>
@@ -989,7 +962,7 @@
             <div class="card mb-4" style="background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 15px; backdrop-filter: blur(10px);">
               <div class="card-header text-center" style="background: rgba(255, 255, 255, 0.1); border-bottom: 1px solid rgba(255, 255, 255, 0.2); border-radius: 15px 15px 0 0; padding: 15px;">
                 <h5 class="mb-0" style="color: #fff;">
-                  <i class="bi bi-bar-chart me-2"></i>Installment Payment Chart
+                  <i class="bi bi-bar-chart me-2"></i>Installment Chart
                 </h5>
               </div>
               <div class="card-body" style="padding: 25px;">
@@ -1032,7 +1005,7 @@
                 <!-- Progress Bar -->
                 <div class="mt-4">
                   <div style="color: #f0f0f0; font-size: 14px; margin-bottom: 10px; text-align: center;">
-                    <i class="bi bi-graph-up me-1"></i>Payment Progress
+                    <i class="bi bi-graph-up me-1"></i>Total Progress
                   </div>
                   <div class="progress" style="height: 25px; background: rgba(255, 255, 255, 0.1); border-radius: 15px;">
                     <div class="progress-bar" role="progressbar" style="width: 33.33%; background: linear-gradient(45deg, #28a745, #20c997); border-radius: 15px;">
@@ -1066,19 +1039,19 @@
               <div class="col-6">
                 <div class="d-flex align-items-center" style="color: #f0f0f0; font-size: 14px;">
                   <i class="bi bi-check-circle-fill me-2" style="color: #00ff88;"></i>
-                  সহজ কিস্তিতে পেমেন্ট
+                  সহজ Installment
                 </div>
               </div>
               <div class="col-6">
                 <div class="d-flex align-items-center" style="color: #f0f0f0; font-size: 14px;">
                   <i class="bi bi-check-circle-fill me-2" style="color: #00ff88;"></i>
-                  বিশেষ ছাড়ে কোর্স ফি
+                  বিশেষ ছাড়
                 </div>
               </div>
               <div class="col-6">
                 <div class="d-flex align-items-center" style="color: #f0f0f0; font-size: 14px;">
                   <i class="bi bi-check-circle-fill me-2" style="color: #00ff88;"></i>
-                  সীমিত সময়ের অফার
+                  সীমিত সময়ের ডিস্কাউন্ট
                 </div>
               </div>
             </div>
@@ -1116,6 +1089,11 @@ function toggleVideo(id, btn) {
       document.addEventListener('DOMContentLoaded', function() {
         const modal = new bootstrap.Modal(document.getElementById('courseModal'));
         modal.show();
+        
+        // Auto-close popup after 3 seconds
+        setTimeout(function() {
+          modal.hide();
+        }, 3000);
       });
 
       function enrollNow() {
