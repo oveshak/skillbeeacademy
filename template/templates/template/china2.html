@@ -927,6 +927,171 @@
                 </form>
             </div>
          </div>
+         <div class="modal fade" id="courseModal" tabindex="-1" aria-labelledby="courseModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border: none; border-radius: 20px; color: white;">
+          <div class="modal-header border-0" style="padding: 30px 30px 0 30px;">
+            <div class="w-100 text-center">
+              <h4 class="modal-title fw-bold" id="courseModalLabel" style="color: #fff; margin-bottom: 15px;">
+                <i class="bi bi-book me-2"></i>কোর্স প্রাইসিং
+              </h4>
+              <span class="badge" style="background: #ff6b35; color: white; padding: 8px 15px; border-radius: 20px; font-size: 14px; font-weight: 600;">
+                <i class="bi bi-clock me-1"></i>সীমিত সময়ের Discount
+              </span>
+            </div>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="position: absolute; top: 15px; right: 15px; background: rgba(255, 255, 255, 0.9); border-radius: 50%; padding: 8px; width: 35px; height: 35px; display: flex; align-items: center; justify-content: center; font-size: 18px; font-weight: bold; color: #333; border: none; box-shadow: 0 2px 10px rgba(0,0,0,0.2);">
+              <i class="bi bi-x-lg"></i>
+            </button>
+          </div>
+          
+          <div class="modal-body" style="padding: 20px 30px;">
+            <!-- Course Info Card -->
+            <div class="card mb-4" style="background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 15px; backdrop-filter: blur(10px);">
+              <div class="card-body" style="padding: 25px;">
+                <div class="row g-3">
+                  <div class="col-md-6">
+                    <div class="d-flex justify-content-between align-items-center py-2" style="border-bottom: 1px solid rgba(255, 255, 255, 0.2);">
+                      <span style="color: #f0f0f0; font-size: 16px;">
+                        <i class="bi bi-calendar3 me-2"></i>৩ মাসের কোর্স
+                      </span>
+                      <span style="color: #ffd700; font-size: 18px; font-weight: bold;">৪৫০০ টাকা</span>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="d-flex justify-content-between align-items-center py-2" style="border-bottom: 1px solid rgba(255, 255, 255, 0.2);">
+                      <span style="color: #f0f0f0; font-size: 16px;">
+                        <i class="bi bi-person-plus me-2"></i>রেজিস্ট্রেশন
+                      </span>
+                      <span style="color: #ffd700; font-size: 18px; font-weight: bold;">১৪৯৯ টাকা</span>
+                    </div>
+                  </div>
+                  <div class="col-12">
+                    <div class="d-flex justify-content-between align-items-center py-2">
+                      <span style="color: #f0f0f0; font-size: 16px;">
+                        <i class="bi bi-credit-card me-2"></i>প্রতি মাসে Installment
+                      </span>
+                      <span style="color: #ffd700; font-size: 18px; font-weight: bold;">১৪৯৯ টাকা</span>
+                    </div>
+                  </div>
+                </div>
+                
+                <!-- Total Price -->
+                <div class="text-center mt-3 p-3" style="background: rgba(255, 255, 255, 0.2); border-radius: 10px;">
+                  <div style="color: #f0f0f0; font-size: 16px; margin-bottom: 5px;">মোট কোর্স ফি</div>
+                  <div style="color: #00ff88; font-size: 28px; font-weight: bold;">
+                    <i class="bi bi-currency-dollar"></i>৪৫০০ টাকা
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Installment Payment Chart -->
+            <div class="card mb-4" style="background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 15px; backdrop-filter: blur(10px);">
+              <div class="card-header text-center" style="background: rgba(255, 255, 255, 0.1); border-bottom: 1px solid rgba(255, 255, 255, 0.2); border-radius: 15px 15px 0 0; padding: 15px;">
+                <h5 class="mb-0" style="color: #fff;">
+                  <i class="bi bi-bar-chart me-2"></i>Installment Payment Chart
+                </h5>
+              </div>
+              <div class="card-body" style="padding: 25px;">
+                <!-- Payment Timeline -->
+                <div class="row g-3">
+                  <!-- Registration -->
+                  <div class="col-md-4">
+                    <div class="text-center p-3" style="background: rgba(40, 167, 69, 0.2); border-radius: 10px; border: 2px solid #28a745;">
+                      <div style="color: #00ff88; font-size: 14px; font-weight: bold; margin-bottom: 8px;">
+                        <i class="bi bi-1-circle-fill me-1"></i>রেজিস্ট্রেশন
+                      </div>
+                      <div style="color: #fff; font-size: 20px; font-weight: bold;">১৪৯৯ টাকা</div>
+                      <div style="color: #f0f0f0; font-size: 12px; margin-top: 5px;">প্রথম দিন</div>
+                    </div>
+                  </div>
+                  
+                  <!-- Month 1 -->
+                  <div class="col-md-4">
+                    <div class="text-center p-3" style="background: rgba(255, 193, 7, 0.2); border-radius: 10px; border: 2px solid #ffc107;">
+                      <div style="color: #ffd700; font-size: 14px; font-weight: bold; margin-bottom: 8px;">
+                        <i class="bi bi-2-circle-fill me-1"></i>১ম মাস
+                      </div>
+                      <div style="color: #fff; font-size: 20px; font-weight: bold;">১৪৯৯ টাকা</div>
+                      <div style="color: #f0f0f0; font-size: 12px; margin-top: 5px;">৩০ দিন পর</div>
+                    </div>
+                  </div>
+                  
+                  <!-- Month 2 -->
+                  <div class="col-md-4">
+                    <div class="text-center p-3" style="background: rgba(220, 53, 69, 0.2); border-radius: 10px; border: 2px solid #dc3545;">
+                      <div style="color: #ff6b6b; font-size: 14px; font-weight: bold; margin-bottom: 8px;">
+                        <i class="bi bi-3-circle-fill me-1"></i>২য় মাস
+                      </div>
+                      <div style="color: #fff; font-size: 20px; font-weight: bold;">১৪৯৯ টাকা</div>
+                      <div style="color: #f0f0f0; font-size: 12px; margin-top: 5px;">৬০ দিন পর</div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Progress Bar -->
+                <div class="mt-4">
+                  <div style="color: #f0f0f0; font-size: 14px; margin-bottom: 10px; text-align: center;">
+                    <i class="bi bi-graph-up me-1"></i>Payment Progress
+                  </div>
+                  <div class="progress" style="height: 25px; background: rgba(255, 255, 255, 0.1); border-radius: 15px;">
+                    <div class="progress-bar" role="progressbar" style="width: 33.33%; background: linear-gradient(45deg, #28a745, #20c997); border-radius: 15px;">
+                      <span style="font-size: 12px; font-weight: bold;">33%</span>
+                    </div>
+                    <div class="progress-bar" role="progressbar" style="width: 33.33%; background: linear-gradient(45deg, #ffc107, #fd7e14); border-radius: 0;">
+                      <span style="font-size: 12px; font-weight: bold;">33%</span>
+                    </div>
+                    <div class="progress-bar" role="progressbar" style="width: 33.34%; background: linear-gradient(45deg, #dc3545, #e83e8c); border-radius: 15px;">
+                      <span style="font-size: 12px; font-weight: bold;">34%</span>
+                    </div>
+                  </div>
+                  <div class="d-flex justify-content-between mt-2" style="font-size: 12px; color: #f0f0f0;">
+                    <span>Start</span>
+                    <span>Month 1</span>
+                    <span>Month 2</span>
+                    <span>Complete</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Course Features -->
+            <div class="row g-2 mb-4">
+              <div class="col-6">
+                <div class="d-flex align-items-center" style="color: #f0f0f0; font-size: 14px;">
+                  <i class="bi bi-check-circle-fill me-2" style="color: #00ff88;"></i>
+                  ৩ মাসে Full কোর্স কমপ্লিট
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="d-flex align-items-center" style="color: #f0f0f0; font-size: 14px;">
+                  <i class="bi bi-check-circle-fill me-2" style="color: #00ff88;"></i>
+                  সহজ কিস্তিতে পেমেন্ট
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="d-flex align-items-center" style="color: #f0f0f0; font-size: 14px;">
+                  <i class="bi bi-check-circle-fill me-2" style="color: #00ff88;"></i>
+                  বিশেষ ছাড়ে কোর্স ফি
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="d-flex align-items-center" style="color: #f0f0f0; font-size: 14px;">
+                  <i class="bi bi-check-circle-fill me-2" style="color: #00ff88;"></i>
+                  সীমিত সময়ের অফার
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="modal-footer border-0" style="padding: 0 30px 30px 30px;">
+            <button type="button" class="btn btn-success btn-lg w-100" onclick="enrollNow()" style="background: linear-gradient(45deg, #28a745, #20c997); border: none; border-radius: 30px; padding: 15px 30px; font-weight: bold; font-size: 16px;">
+              <i class="bi bi-person-check me-2"></i>এখনই Enroll করুন
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
     </main>
 <script>
 function toggleVideo(id, btn) {
@@ -940,4 +1105,38 @@ function toggleVideo(id, btn) {
     }
 }
 </script>
+<script>
+      // Popup functionality
+      function showPopup() {
+        const modal = new bootstrap.Modal(document.getElementById('courseModal'));
+        modal.show();
+      }
+
+      // Auto-show popup when page loads
+      document.addEventListener('DOMContentLoaded', function() {
+        const modal = new bootstrap.Modal(document.getElementById('courseModal'));
+        modal.show();
+      });
+
+      function enrollNow() {
+        alert('Enrollment process started! Contact us for more details.');
+        const modal = bootstrap.Modal.getInstance(document.getElementById('courseModal'));
+        modal.hide();
+      }
+
+      // Add some animation effects
+      document.getElementById('courseModal').addEventListener('shown.bs.modal', function () {
+        // Add entrance animation to cards
+        const cards = this.querySelectorAll('.card');
+        cards.forEach((card, index) => {
+          card.style.opacity = '0';
+          card.style.transform = 'translateY(20px)';
+          setTimeout(() => {
+            card.style.transition = 'all 0.5s ease';
+            card.style.opacity = '1';
+            card.style.transform = 'translateY(0)';
+          }, index * 200);
+        });
+      });
+    </script>
 
