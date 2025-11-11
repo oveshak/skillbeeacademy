@@ -9,9 +9,21 @@ from django.shortcuts import get_object_or_404
 class LoginTemplateView(TemplateView):
     template_name = 'template1/login.html'
 
+    def dispatch(self, request, *args, **kwargs):
+        # If the user is already logged in, redirect to dashboard
+        if request.user.is_authenticated:
+            return redirect('dashboard')
+        return super().dispatch(request, *args, **kwargs)
+
 
 class RegisterTemplateView(TemplateView):
     template_name = 'template1/register.html'
+    
+    def dispatch(self, request, *args, **kwargs):
+        # If the user is already logged in, redirect to dashboard
+        if request.user.is_authenticated:
+            return redirect('dashboard')
+        return super().dispatch(request, *args, **kwargs)
 
 
 class UserLoginView(View):
@@ -90,7 +102,7 @@ class EnrollCourseView(LoginRequiredMixin, TemplateView):
         
         # Fetch all the courses the user is enrolled in, filtered by email
         enrolled_courses = EnrollCourse.objects.filter(user_id__email=user.email)
-        
+        print(enrolled_courses)
         # Serialize the courses data
         
         print(context)
@@ -106,6 +118,7 @@ class EnrollSingleCourseView(LoginRequiredMixin, TemplateView):
         slug = self.kwargs.get('slug')
         user = self.request.user
         context['enrolled_courses'] =EnrollCourse.objects.filter(user_id__email=user.email,course_id__slug=slug)
+        
         # Get course with all related objects pre-fetched for performance
         course = get_object_or_404(
             Courses.objects.prefetch_related(
@@ -128,7 +141,7 @@ class EnrollSingleCourseView(LoginRequiredMixin, TemplateView):
         context['completed_lessons_count'] = completed_lessons_count
         context['total_lessons'] = total_lessons
         context['progress_percentage'] = (completed_lessons_count / total_lessons * 100) if total_lessons > 0 else 0
-        
+        print(course)
         return context
     # def _convert_to_embed_url(self, url):
     #     if 'watch?v=' in url:
@@ -140,3 +153,5 @@ class EnrollSingleCourseView(LoginRequiredMixin, TemplateView):
     #         video_id = url.split('/shorts/')[-1]
     #         return f'https://www.youtube.com/embed/{video_id}'
     #     return url
+
+

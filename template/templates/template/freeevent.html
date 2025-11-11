@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+  {% load static %}
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,8 +9,8 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/alpinejs/3.12.0/cdn.min.js" defer></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="./assets/css/headerfooter.css">
-  
+  <link rel="stylesheet" href="{% static 'template/assets/css/headerfooter.css' %}">
+  <link rel="stylesheet" href="{% static 'template/assets/css/allcss.css' %}">
   
   
    
@@ -27,7 +28,9 @@
     </script>
 </head>
 <body>
-    <header class="w-full sticky top-0  bg-white lg:py-4 px-4 md:px-8 lg:px-12  z-40" x-data="{ 
+  {% include 'template/header.html' %}
+
+    {% comment %} <header class="w-full sticky top-0  bg-white lg:py-4 px-4 md:px-8 lg:px-12  z-40" x-data="{ 
         mobileMenuOpen: false,
         activeLink: 'all-courses',
         language: 'EN',
@@ -442,22 +445,22 @@
     
         
        
-        </header>
+        </header> {% endcomment %}
 
         <main>
             <div class="w-full ">
                 <!-- Navigation breadcrumb -->
                 <div class="hidden lg:block mx-auto px-4 py-4 border-b bg-[#fdfeff]">
-                  <div class="max-w-[110rem] mx-auto flex items-center text-gray-600 text-sm">
-                    <a href="#" class="hover:text-gray-800 text-[22px]">Home</a>
+                  <div class="max-w-[109rem] mx-auto flex items-center text-gray-600 text-sm lg:pl-[15px] xl:pl-[32px] 2xl:pl-[20px]">
+                    <a href="{% url 'index' %}"  class="hover:text-gray-800 text-[20px]">Home</a>
                     <span class="mx-2 text-[22px]">›</span>
-                    <span class="text-gray-800 text-[22px] font-medium">Free Events</span>
+                    <span class="text-gray-800 text-[20px] font-medium">Free Event</span>
                   </div>
                 </div>
 
 
                 <div class="hidden lg:block w-full">
-                    <img src="./assets/image/Leadership Webinar Head Banner.webp" alt="" class="w-full" />
+                    <img src="{% static 'template/assets/image/Leadership Webinar Head Banner.webp' %}" alt="" class="w-full" />
                 </div>
                   
                 <style>
@@ -492,16 +495,16 @@
                     }
                 </style>
                 <!-- Courses header -->
-                <div class="max-w-[110rem] mx-auto px-4 py-8 sm:py-16">
-                    <h1 class=" sm:text-[3rem] font-bold text-center mt-[3rem] mb-3 sm:mb-4">Upcoming Events</h1>
+                <div class="lg:max-w-[112rem] container mx-auto py-10  lg:px-6 lg:mt-[50px]">
+                    <h1 class=" text-center text-2xl lg:text-[30px] xl:text-[40px]  font-bold">Upcoming Events</h1>
                     
-                    <p class="text-center text-gray-700 mb-8 sm:mb-16 max-w-4xl mx-auto lg:text-lg text-base">
+                    <p class="text-center text-base text-center lg:text-lg xl:text-xl text-gray-600 font-samibold  max-w-4xl  mx-auto pt-4 lg:pt-6 pb-5" >
                         Why stick to online courses only? From LIVE Mentor workshops, free webinars to offline seminars - we have everything to take your skills to the next level.
                     </p>
                     
-                    <div class="grid sm:grid-cols-2 lg:grid-cols-3 lg:my-[7rem] gap-6 sm:gap-8">
+                    <div class="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 my-[2rem] lg:my-[3rem] gap-6 sm:gap-8">
                         <!-- Event Card -->
-                        <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+                        <div class="bg-white rounded-lg shadow hover:shadow-lg overflow-hidden">
                             <div class="relative">
                                 <!-- <div class="bg-blue-900 py-4 sm:py-6 px-3 sm:px-4 relative">
                                     <div class="absolute top-2 sm:top-4 left-3 sm:left-4 flex">
@@ -516,22 +519,22 @@
                                 
 
 
-                                <img class="transform transition-transform duration-500 hover:scale-110" src="./assets/image/Leadership Webinar Event Card.webp" alt="">
+                                <img class="transform transition-transform duration-500 hover:scale-110" src="{% static 'template/assets/image/Leadership Webinar Event Card.webp' %}" alt="">
                             </div>
                             
                             <div class="p-4 sm:p-6 mt-6 lg:mt-6">
-                                <h3 class="lg:text-3xl text-xl font-bold mb-3 sm:mb-4">The Phoenix Leadership: Adversity to Achievement</h3>
+                                <h3 class="lg:text-2xl text-xl font-bold mb-3 sm:mb-4">The Phoenix Leadership: Adversity to Achievement</h3>
                                 
                                 <div class="flex gap-4 items-center mb-2 mt-[40px] sm:mb-7">
-                                   <div class="p-4 rounded-full bg-[#edf2f7]">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class=" h-[2rem] w-[2rem] text-gray-500 " fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                   <div class="p-3 lg:p-4 rounded-full bg-[#edf2f7]">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="  h-[1.5rem] w-[1.5rem] lg:h-[2rem] lg:w-[2rem] text-gray-500 " fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                                     </svg>
                                    </div>
 
                                     <div class="flex flex-col">
-                                        <span class="text-gray-700 lg:text-[22px] font-mediuem">19 April, 2025</span>
-                                    <span class="text-gray-700 lg:text-[22px] font-mediuem">10:00 AM - 12:00 PM</span>
+                                        <span class="text-gray-700 lg:text-[20px] font-mediuem">19 April, 2025</span>
+                                    <span class="text-gray-700 lg:text-[20px] font-mediuem">10:00 AM - 12:00 PM</span>
                                     </div>
                                 </div>
                                 
@@ -543,15 +546,192 @@
                                 </div> -->
                                 
                                 <div class="flex gap-4 items-start mb-4 sm:mb-9 ">
-                                    <div class="p-4 rounded-full bg-[#edf2f7]">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class=" h-[2rem] w-[2rem] text-gray-500 " fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <div class="p-3 lg:p-4 rounded-full bg-[#edf2f7]">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class=" h-[1.5rem] w-[1.5rem] lg:h-[2rem] lg:w-[2rem] text-gray-500 " fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                                         </svg>
                                        </div>
                                     
                                     <div class="flex flex-col">
-                                        <span class="text-gray-700 lg:text-[22px] font-mediuem">Azimur Rahman Conference Hall, The Daily Star Centre</span>
+                                        <span class="text-gray-700 lg:text-[20px] font-mediuem">Azimur Rahman Conference Hall, The Daily Star Centre</span>
+                                    </div>
+                                </div>
+                                
+                                <button class="w-full py-3 sm:py-3 bg-white border-2 border-blue-900 text-blue-900 font-bold rounded-full hover:bg-blue-900 hover:text-white transition duration-300 text-sm sm:text-lg" id="registerBtn">
+                                    Register for ৳499
+                                </button>
+                            </div>
+                        </div>
+                        <div class="bg-white rounded-lg shadow hover:shadow-lg overflow-hidden">
+                            <div class="relative">
+                                <!-- <div class="bg-blue-900 py-4 sm:py-6 px-3 sm:px-4 relative">
+                                    <div class="absolute top-2 sm:top-4 left-3 sm:left-4 flex">
+                                        <span class="session-badge text-xs sm:text-sm">SESSION</span>
+                                        <span class="on-badge text-xs sm:text-sm">ON</span>
+                                    </div>
+                                    <h2 class="text-white text-2xl sm:text-3xl font-bold mt-6 sm:mt-8">THE PHOENIX <br>LEADERSHIP</h2>
+                                    <div class="mt-3 sm:mt-4 mb-10 sm:mb-12">
+                                        <span class="achievement-badge">From Adversity to Achievement</span>
+                                    </div>
+                                </div> -->
+                                
+
+
+                                <img class="transform transition-transform duration-500 hover:scale-110" src="{% static 'template/assets/image/Leadership Webinar Event Card.webp' %}" alt="">
+                            </div>
+                            
+                            <div class="p-4 sm:p-6 mt-6 lg:mt-6">
+                                <h3 class="lg:text-2xl text-xl font-bold mb-3 sm:mb-4">The Phoenix Leadership: Adversity to Achievement</h3>
+                                
+                                <div class="flex gap-4 items-center mb-2 mt-[40px] sm:mb-7">
+                                   <div class="p-3 lg:p-4 rounded-full bg-[#edf2f7]">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="  h-[1.5rem] w-[1.5rem] lg:h-[2rem] lg:w-[2rem] text-gray-500 " fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                    </svg>
+                                   </div>
+
+                                    <div class="flex flex-col">
+                                        <span class="text-gray-700 lg:text-[20px] font-mediuem">19 April, 2025</span>
+                                    <span class="text-gray-700 lg:text-[20px] font-mediuem">10:00 AM - 12:00 PM</span>
+                                    </div>
+                                </div>
+                                
+                                <!-- <div class="flex items-center mb-2 sm:mb-3">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 sm:h-5 sm:w-5 text-gray-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                    <span class="text-gray-700 text-sm sm:text-base">10:00 AM - 12:00 PM</span>
+                                </div> -->
+                                
+                                <div class="flex gap-4 items-start mb-4 sm:mb-9 ">
+                                    <div class="p-3 lg:p-4 rounded-full bg-[#edf2f7]">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class=" h-[1.5rem] w-[1.5rem] lg:h-[2rem] lg:w-[2rem] text-gray-500 " fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                                        </svg>
+                                       </div>
+                                    
+                                    <div class="flex flex-col">
+                                        <span class="text-gray-700 lg:text-[20px] font-mediuem">Azimur Rahman Conference Hall, The Daily Star Centre</span>
+                                    </div>
+                                </div>
+                                
+                                <button class="w-full py-3 sm:py-3 bg-white border-2 border-blue-900 text-blue-900 font-bold rounded-full hover:bg-blue-900 hover:text-white transition duration-300 text-sm sm:text-lg" id="registerBtn">
+                                    Register for ৳499
+                                </button>
+                            </div>
+                        </div>
+                        <div class="bg-white rounded-lg shadow hover:shadow-lg overflow-hidden">
+                            <div class="relative">
+                                <!-- <div class="bg-blue-900 py-4 sm:py-6 px-3 sm:px-4 relative">
+                                    <div class="absolute top-2 sm:top-4 left-3 sm:left-4 flex">
+                                        <span class="session-badge text-xs sm:text-sm">SESSION</span>
+                                        <span class="on-badge text-xs sm:text-sm">ON</span>
+                                    </div>
+                                    <h2 class="text-white text-2xl sm:text-3xl font-bold mt-6 sm:mt-8">THE PHOENIX <br>LEADERSHIP</h2>
+                                    <div class="mt-3 sm:mt-4 mb-10 sm:mb-12">
+                                        <span class="achievement-badge">From Adversity to Achievement</span>
+                                    </div>
+                                </div> -->
+                                
+
+
+                                <img class="transform transition-transform duration-500 hover:scale-110" src="{% static 'template/assets/image/Leadership Webinar Event Card.webp' %}" alt="">
+                            </div>
+                            
+                            <div class="p-4 sm:p-6 mt-6 lg:mt-6">
+                                <h3 class="lg:text-2xl text-xl font-bold mb-3 sm:mb-4">The Phoenix Leadership: Adversity to Achievement</h3>
+                                
+                                <div class="flex gap-4 items-center mb-2 mt-[40px] sm:mb-7">
+                                   <div class="p-3 lg:p-4 rounded-full bg-[#edf2f7]">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="  h-[1.5rem] w-[1.5rem] lg:h-[2rem] lg:w-[2rem] text-gray-500 " fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                    </svg>
+                                   </div>
+
+                                    <div class="flex flex-col">
+                                        <span class="text-gray-700 lg:text-[20px] font-mediuem">19 April, 2025</span>
+                                    <span class="text-gray-700 lg:text-[20px] font-mediuem">10:00 AM - 12:00 PM</span>
+                                    </div>
+                                </div>
+                                
+                                <!-- <div class="flex items-center mb-2 sm:mb-3">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 sm:h-5 sm:w-5 text-gray-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                    <span class="text-gray-700 text-sm sm:text-base">10:00 AM - 12:00 PM</span>
+                                </div> -->
+                                
+                                <div class="flex gap-4 items-start mb-4 sm:mb-9 ">
+                                    <div class="p-3 lg:p-4 rounded-full bg-[#edf2f7]">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class=" h-[1.5rem] w-[1.5rem] lg:h-[2rem] lg:w-[2rem] text-gray-500 " fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                                        </svg>
+                                       </div>
+                                    
+                                    <div class="flex flex-col">
+                                        <span class="text-gray-700 lg:text-[20px] font-mediuem">Azimur Rahman Conference Hall, The Daily Star Centre</span>
+                                    </div>
+                                </div>
+                                
+                                <button class="w-full py-3 sm:py-3 bg-white border-2 border-blue-900 text-blue-900 font-bold rounded-full hover:bg-blue-900 hover:text-white transition duration-300 text-sm sm:text-lg" id="registerBtn">
+                                    Register for ৳499
+                                </button>
+                            </div>
+                        </div>
+                        <div class="bg-white rounded-lg shadow hover:shadow-lg overflow-hidden">
+                            <div class="relative">
+                                <!-- <div class="bg-blue-900 py-4 sm:py-6 px-3 sm:px-4 relative">
+                                    <div class="absolute top-2 sm:top-4 left-3 sm:left-4 flex">
+                                        <span class="session-badge text-xs sm:text-sm">SESSION</span>
+                                        <span class="on-badge text-xs sm:text-sm">ON</span>
+                                    </div>
+                                    <h2 class="text-white text-2xl sm:text-3xl font-bold mt-6 sm:mt-8">THE PHOENIX <br>LEADERSHIP</h2>
+                                    <div class="mt-3 sm:mt-4 mb-10 sm:mb-12">
+                                        <span class="achievement-badge">From Adversity to Achievement</span>
+                                    </div>
+                                </div> -->
+                                
+
+
+                                <img class="transform transition-transform duration-500 hover:scale-110" src="{% static 'template/assets/image/Leadership Webinar Event Card.webp' %}" alt="">
+                            </div>
+                            
+                            <div class="p-4 sm:p-6 mt-6 lg:mt-6">
+                                <h3 class="lg:text-2xl text-xl font-bold mb-3 sm:mb-4">The Phoenix Leadership: Adversity to Achievement</h3>
+                                
+                                <div class="flex gap-4 items-center mb-2 mt-[40px] sm:mb-7">
+                                   <div class="p-3 lg:p-4 rounded-full bg-[#edf2f7]">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="  h-[1.5rem] w-[1.5rem] lg:h-[2rem] lg:w-[2rem] text-gray-500 " fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                    </svg>
+                                   </div>
+
+                                    <div class="flex flex-col">
+                                        <span class="text-gray-700 lg:text-[20px] font-mediuem">19 April, 2025</span>
+                                    <span class="text-gray-700 lg:text-[20px] font-mediuem">10:00 AM - 12:00 PM</span>
+                                    </div>
+                                </div>
+                                
+                                <!-- <div class="flex items-center mb-2 sm:mb-3">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 sm:h-5 sm:w-5 text-gray-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                    <span class="text-gray-700 text-sm sm:text-base">10:00 AM - 12:00 PM</span>
+                                </div> -->
+                                
+                                <div class="flex gap-4 items-start mb-4 sm:mb-9 ">
+                                    <div class="p-3 lg:p-4 rounded-full bg-[#edf2f7]">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class=" h-[1.5rem] w-[1.5rem] lg:h-[2rem] lg:w-[2rem] text-gray-500 " fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                                        </svg>
+                                       </div>
+                                    
+                                    <div class="flex flex-col">
+                                        <span class="text-gray-700 lg:text-[20px] font-mediuem">Azimur Rahman Conference Hall, The Daily Star Centre</span>
                                     </div>
                                 </div>
                                 
@@ -566,15 +746,15 @@
                 </div>
 
                 <div class="max-w-[110rem] mx-auto px-4 py-8 sm:py-16">
-                    <h1 class=" sm:text-[3rem] font-bold text-center mt-[3rem] mb-3 sm:mb-4">Previous Events</h1>
+                    <h1 class=" text-center text-2xl lg:text-[30px] xl:text-[40px]  font-bold">Previous Events</h1>
                     
-                    <p class="text-center text-gray-700 mb-8 sm:mb-16 max-w-4xl mx-auto lg:text-lg text-base">
+                    <p class="text-center text-base text-center lg:text-lg xl:text-xl text-gray-600 font-samibold  max-w-4xl  mx-auto pt-4 lg:pt-6 pb-5">
                         Why stick to online courses only? From LIVE Mentor workshops, 
                     </p>
                     
-                    <div class="grid sm:grid-cols-2 lg:grid-cols-3 lg:my-[7rem] gap-6 sm:gap-8">
+                    <div class="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 lg:my-[4rem] gap-6 sm:gap-8">
                         <!-- Event Card -->
-                        <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+                        <div class="bg-white rounded-lg shadow hover:shadow-lg overflow-hidden">
                             <div class="relative">
                                 <!-- <div class="bg-blue-900 py-4 sm:py-6 px-3 sm:px-4 relative">
                                     <div class="absolute top-2 sm:top-4 left-3 sm:left-4 flex">
@@ -589,22 +769,22 @@
                                 
 
 
-                                <img class="transform transition-transform duration-500 hover:scale-110" src="./assets/image/Leadership Webinar Event Card.webp" alt="">
+                                <img class="transform transition-transform duration-500 hover:scale-110" src="{% static 'template/assets/image/Leadership Webinar Event Card.webp' %}" alt="">
                             </div>
                             
                             <div class="p-4 sm:p-6 mt-6 lg:mt-6">
-                                <h3 class="lg:text-3xl text-xl font-bold mb-3 sm:mb-4">The Phoenix Leadership: Adversity to Achievement</h3>
+                                <h3 class="lg:text-2xl text-xl font-bold mb-3 sm:mb-4">The Phoenix Leadership: Adversity to Achievement</h3>
                                 
                                 <div class="flex gap-4 items-center mb-2 mt-[40px] sm:mb-7">
-                                   <div class="p-4 rounded-full bg-[#edf2f7]">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class=" h-[2rem] w-[2rem] text-gray-500 " fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                   <div class="p-3 lg:p-4 rounded-full bg-[#edf2f7]">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="  h-[1.5rem] w-[1.5rem] lg:h-[2rem] lg:w-[2rem] text-gray-500 " fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                                     </svg>
                                    </div>
 
                                     <div class="flex flex-col">
-                                        <span class="text-gray-700 lg:text-[22px] font-mediuem">19 April, 2025</span>
-                                    <span class="text-gray-700 lg:text-[22px] font-mediuem">10:00 AM - 12:00 PM</span>
+                                        <span class="text-gray-700 lg:text-[20px] font-mediuem">19 April, 2025</span>
+                                    <span class="text-gray-700 lg:text-[20px] font-mediuem">10:00 AM - 12:00 PM</span>
                                     </div>
                                 </div>
                                 
@@ -616,15 +796,15 @@
                                 </div> -->
                                 
                                 <div class="flex gap-4 items-start mb-4 sm:mb-9 ">
-                                    <div class="p-4 rounded-full bg-[#edf2f7]">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class=" h-[2rem] w-[2rem] text-gray-500 " fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <div class="p-3 lg:p-4 rounded-full bg-[#edf2f7]">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class=" h-[1.5rem] w-[1.5rem] lg:h-[2rem] lg:w-[2rem] text-gray-500 " fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                                         </svg>
                                        </div>
                                     
                                     <div class="flex flex-col">
-                                        <span class="text-gray-700 lg:text-[22px] font-mediuem">Azimur Rahman Conference Hall, The Daily Star Centre</span>
+                                        <span class="text-gray-700 lg:text-[20px] font-mediuem">Azimur Rahman Conference Hall, The Daily Star Centre</span>
                                     </div>
                                 </div>
                                 
@@ -650,8 +830,8 @@
 
         </main>
 
-
-        <footer class="bg-keeron-blue text-white py-12">
+ {% include 'template/footer.html' %}
+        {% comment %} <footer class="bg-keeron-blue text-white py-12">
             <div class="lg:max-w-[112rem] container mx-auto  lg:px-6 " style="padding: 0 25px;">
               <!-- Footer Main Content -->
               <!-- Footer Main Content -->
@@ -816,11 +996,11 @@
                 </div>
               </div>
       
-              <!-- WhatsApp Button (Fixed) -->
+             
               
             </div>
-          </footer>
-        <script src="./assets/js/headerfooter.js">
+          </footer> {% endcomment %}
+        <script src="{% static 'template/assets/js/headerfooter.js' %}">
           
         </script>
 </body>

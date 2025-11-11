@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+  {% load static %}
+
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Skillbee - Courses Platform</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/alpinejs/3.12.0/cdn.min.js"
+      defer
+    ></script>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="{% static 'template/assets/css/headerfooter.css' %}"
+    />
+    <link
+      rel="stylesheet"
+      href="{% static 'template/assets/css/allcss.css' %}"
+    />
+
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              "keeron-blue": "#0A2044",
+              "keeron-green": "#10B981",
+              "custom-green": "#00b246",
+              "custom-blue": "#0a2540",
+            },
+          },
+        },
+      };
+    </script>
+    <!-- Google Tag Manager -->
+    <script>
+      (function (w, d, s, l, i) {
+        w[l] = w[l] || [];
+        w[l].push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
+        var f = d.getElementsByTagName(s)[0],
+          j = d.createElement(s),
+          dl = l != "dataLayer" ? "&l=" + l : "";
+        j.async = true;
+        j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
+        f.parentNode.insertBefore(j, f);
+      })(window, document, "script", "dataLayer", "GTM-5VC56W76");
+    </script>
+    <!-- End Google Tag Manager -->
+  </head>
+
+  <body class="font-sans">
+    <!-- Google Tag Manager (noscript) -->
+    <noscript
+      ><iframe
+        src="https://www.googletagmanager.com/ns.html?id=GTM-5VC56W76"
+        height="0"
+        width="0"
+        style="display: none; visibility: hidden"
+      ></iframe
+    ></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+    <!-- Top border line -->
+    <div class="w-full h-px bg-gray-200"></div>
+
+    <!-- Navigation bar -->
+
+    {% include 'template/header.html' %}
+
+    <div class="w-full">
+      <div class="hidden lg:block mx-auto px-4 py-4 border-b bg-[#fdfeff]">
+        <div
+          class="max-w-[109rem] mx-auto flex items-center text-gray-600 text-sm lg:pl-[15px] xl:pl-[32px] 2xl:pl-[20px]"
+        >
+          <a href="{% url 'index' %}" class="hover:text-gray-800 text-[20px]"
+            >Home</a
+          >
+          <span class="mx-2 text-[22px]">›</span>
+          <a
+            href="{% url 'downloadresources' %}"
+            class="text-gray-800 text-[20px] font-medium"
+            >Download Resourse</a
+          >
+          <span class="mx-2 text-[20px]">›</span>
+          <span class="text-gray-800 text-[20px] font-medium"
+            >{{course.title}}</span
+          >
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="container mx-auto px-3 sm:px-4 md:px-6 lg:px-8 py-4 sm:py-6 md:py-8"
+    >
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
+        <!-- Main Content -->
+        <div class="lg:col-span-2 order-2 lg:order-1">
+          <h1 class="text-2xl sm:text-3xl md:text-4xl font-bold mb-3 sm:mb-4">
+            {{course.title}}
+          </h1>
+
+          <p
+            class="text-base sm:text-lg text-gray-700 mt-7 mb-4 sm:mb-6 leading-relaxed"
+          >
+             {{course.description|safe}}
+          </p>
+
+          <!-- এই টেস্ট আপনি যা যা পাবেন -->
+          <div class="mb-4 sm:mb-6">
+            <h2
+              class="text-xl sm:text-2xl font-bold mt-5 mb-6 sm:mb-5 text-gray-800"
+            >
+              এই টেস্ট আপনি যা যা পাবেন:
+            </h2>
+            <div class="space-y-3">
+                {% for topic in course.course_topics.all  %}
+              <div class="flex items-start items-center">
+                <span
+                  class="text-green-500 mr-3 flex-shrink-0 text-lg sm:text-xl"
+                  >✅</span
+                >
+                <p class="text-base sm:text-lg text-gray-700 leading-relaxed">
+                  <span class="font-semibold">{{topic.title}}
+                </p>
+              </div>
+               {% endfor %}
+              {% comment %} <div class="flex items-start items-center">
+                <span
+                  class="text-green-500 mr-3 flex-shrink-0 text-lg sm:text-xl"
+                  >✅</span
+                >
+                <p class="text-base sm:text-lg text-gray-700 leading-relaxed">
+                  <span class="font-semibold">Real-Test Format:</span> IELTS-এর
+                  মত শব্দ, প্রস্ন, সংরচনা আরো সব - এক্সাকটলি authentic
+                  experience!
+                </p>
+              </div>
+              <div class="flex items-start items-center">
+                <span
+                  class="text-green-500 mr-3 flex-shrink-0 text-lg sm:text-xl"
+                  >✅</span
+                >
+                <p class="text-base sm:text-lg text-gray-700 leading-relaxed">
+                  <span class="font-semibold"
+                    >Practice Test via Google Meet:</span
+                  >
+                  আপনার Google Calendar দিয়ে দেয়ার সুবিধাসহ ১/২ দিনের মধ্যে
+                  Speaking Slot নিজে ডিসাইড পাবেন। Interview মত live
+                  evaluation-এর মাধ্যমে Google Meet-এ!
+                </p>
+              </div>
+              <div class="flex items-start items-center">
+                <span
+                  class="text-green-500 mr-3 flex-shrink-0 text-lg sm:text-xl"
+                  >✅</span
+                >
+                <p class="text-base sm:text-lg text-gray-700 leading-relaxed">
+                  <span class="font-semibold">Website পোর্টাল!</span> Listening,
+                  Reading, Writing Test-এর সিস্টেম Module আমাদের সাথেই Main-এর
+                  Website-এর মধ্যে আপনার অনুশীলন!
+                </p>
+              </div>
+              <div class="flex items-start items-center">
+                <span
+                  class="text-green-500 mr-3 flex-shrink-0 text-lg sm:text-xl"
+                  >✅</span
+                >
+                <p class="text-base sm:text-lg text-gray-700 leading-relaxed">
+                  <span class="font-semibold"
+                    >Writing & Speaking Feedback:</span
+                  >
+                  আপনার Answer দেখে আমাদের Evaluator/ শিক্ষকেরা দিবে helpful
+                  Feedback & Improvement Tips!
+                </p>
+              </div> {% endcomment %}
+            </div>
+          </div>
+
+          <!-- কেন এই টেস্টটি দিবেন -->
+          <div class="mb-4 sm:mb-6">
+            <h2
+              class="text-xl sm:text-2xl font-bold mt-5 mb-6 sm:mb-5 text-gray-800"
+            >
+              কেন এই টেস্টটি দিবেন:
+            </h2>
+            <div class="space-y-2.5">
+
+            {% for audiences in course.course_audiences.all %}
+
+              <div class="flex items-start">
+                <span class="mr-3 flex-shrink-0 text-gray-600">✓</span>
+                <p class="text-base sm:text-lg text-gray-700 leading-relaxed">
+                  {{audiences.title}}
+                </p>
+              </div>
+              
+ {% endfor %}
+              {% comment %} <div class="flex items-start">
+                <span class="mr-3 flex-shrink-0 text-gray-600">✓</span>
+                <p class="text-base sm:text-lg text-gray-700 leading-relaxed">
+                  Final IELTS-এর আগে Preparation চেকে করে নিতে পারবেন
+                </p>
+              </div>
+              <div class="flex items-start">
+                <span class="mr-3 flex-shrink-0 text-gray-600">✓</span>
+                <p class="text-base sm:text-lg text-gray-700 leading-relaxed">
+                  পরীক্ষা-এর শতো Confidence build হবে
+                </p>
+              </div>
+              <div class="flex items-start">
+                <span class="mr-3 flex-shrink-0 text-gray-600">✓</span>
+                <p class="text-base sm:text-lg text-gray-700 leading-relaxed">
+                  Writing & Speaking-এর personalized Feedback পাবেন
+                </p>
+              </div> {% endcomment %}
+            </div>
+          </div>
+
+          <!-- টেস্ট দেয়ার Process -->
+          {% comment %} <div class="mb-4 sm:mb-6">
+            <h2
+              class="text-xl sm:text-2xl font-bold mt-5 mb-6 sm:mb-5 text-gray-800"
+            >
+              টেস্ট দেয়ার Process এক নজরে:
+            </h2>
+            <div class="space-y-2.5">
+              <div class="flex items-start items-center">
+                <span class="text-red-500 mr-3 flex-shrink-0 font-bold">✦</span>
+                <p class="text-base sm:text-lg text-gray-700 leading-relaxed">
+                  <span class="font-semibold">Listening:</span> Headphone দিয়ে
+                  শুনে, নির্দিষ্ট উত্তরে লিখবে দিতে হবে।
+                </p>
+              </div>
+              <div class="flex items-start items-center">
+                <span class="text-red-500 mr-3 flex-shrink-0 font-bold">✦</span>
+                <p class="text-base sm:text-lg text-gray-700 leading-relaxed">
+                  <span class="font-semibold">Reading:</span> গতি Passage পড়বেন
+                  – প্রত্যেক প্রশ্ন IELTS-এর মতোই, উত্তর নির্দিষ্ট হবে।
+                </p>
+              </div>
+              <div class="flex items-start items-center">
+                <span class="text-red-500 mr-3 flex-shrink-0 font-bold">✦</span>
+                <p class="text-base sm:text-lg text-gray-700 leading-relaxed">
+                  <span class="font-semibold">Writing:</span> Test 1 Test 2 –
+                  দুইটিই উত্তর লিখে submit করবেন হবে।
+                </p>
+              </div>
+              <div class="flex items-start items-center">
+                <span class="text-red-500 mr-3 flex-shrink-0 font-bold">✦</span>
+                <p class="text-base sm:text-lg text-gray-700 leading-relaxed">
+                  <span class="font-semibold">Speaking:</span> Google Calendar
+                  দিয়ে Slot নিজে করবেন — Google Meet-এ Live Interview —
+                  Feedback পাবেন।
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- মূল্য -->
+          <div class="mb-4 sm:mb-6">
+            <h2 class="text-xl sm:text-2xl font-bold mb-3 sm:mb-4">
+              <span class="text-gray-800">Price:</span>
+              <span class="text-green-600">মাত্র ৩৬১৯ টাকা</span>
+            </h2>
+            <p class="text-base sm:text-lg text-gray-700 mb-2 leading-relaxed">
+              ২টা Full Set = Writing & Speaking-এর উপর Expert Feedback!
+            </p>
+            <p class="text-base sm:text-lg text-gray-700 leading-relaxed">
+              আপনার IELTS Preparation আমাদো Complete হবে সম্পূর্ণ এখানে এই Mock
+              Test দিয়ে দেখার Position মুখে পরিয়ে এক্সামে অধিকাংশ প্রস্তু
+              এখনই! 🔥
+            </p>
+          </div>  {% endcomment %}
+
+          {{course.extra_description|safe}}
+
+          <div class="sticky lg:hidden bottom-[1rem]">
+            <button
+              class="w-full bg-gradient-to-r from-[#0a2540] via-[#0a2044] to-[#10B981] hover:bg-gradient-to-r hover:from-[#0a2044] hover:to-[#10B981] text-white font-semibold py-3 px-8 border border-transparent rounded-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
+            >
+            <a href="{% url 'enroll_form' course.slug %}">Enroll</a>
+              
+            </button>
+          </div>
+        </div>
+
+        <!-- Sticky Card -->
+        <div class="lg:col-span-1 order-1 lg:order-2">
+          <div class="lg:sticky lg:top-[12rem]">
+            {% comment %}
+            <div
+              class="bg-white rounded-lg shadow-lg p-4 sm:p-5 md:p-6 border border-gray-100"
+            >
+              <div
+                class="bg-gradient-to-r from-pink-500 to-purple-500 rounded-lg p-3 sm:p-4 mb-3 sm:mb-4"
+              >
+                <div class="flex items-center justify-between">
+                  <div>
+                    <h3 class="text-white font-bold text-base sm:text-lg">
+                      IELTS
+                    </h3>
+                    <p class="text-white text-xs sm:text-sm font-medium">
+                      FULL MOCK TEST
+                    </p>
+                  </div>
+                  <div class="bg-white rounded-lg p-2 sm:p-2.5">
+                    <svg
+                      class="w-10 h-10 sm:w-12 sm:h-12 text-blue-500"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                      ></path>
+                    </svg>
+                  </div>
+                </div>
+              </div>
+
+              <h4
+                class="font-bold text-base sm:text-lg mb-3 sm:mb-4 text-gray-800"
+              >
+                IELTS Full Mock Test - 2 Set
+              </h4>
+
+              <div class="mb-3 sm:mb-4">
+                <div class="flex items-center justify-between mb-2">
+                  <span
+                    class="text-xl sm:text-2xl md:text-3xl font-bold text-green-600"
+                    >৳399</span
+                  >
+                  <span class="text-base sm:text-lg text-gray-400 line-through"
+                    >৳999</span
+                  >
+                </div>
+              </div>
+
+              <button
+                class="w-full bg-green-500 hover:bg-green-600 active:bg-green-700 text-white font-bold py-2.5 sm:py-3 px-4 rounded-lg transition-all duration-300 text-sm sm:text-base shadow-md hover:shadow-lg transform hover:-translate-y-0.5"
+              >
+                PURCHASE
+              </button>
+            </div>
+            {% endcomment %}
+            <div class="bg-white rounded-lg shadow-md overflow-hidden w-full">
+              <!-- Card Header with Background Image -->
+              <div class="relative group">
+                <div
+                  class="flex items-end bg-opacity-90"
+                  style="
+                    background-image: url('https://cdnjs.cloudflare.com/ajax/libs/simple-icons/3.0.1/simple-icons.svg');
+                    background-size: cover;
+                    background-blend-mode: multiply;
+                  "
+                >
+                  <!-- Image with hover effect -->
+                  <div class="overflow-hidden w-full">
+                    <img
+                      src="{{course.course_thumbnail.url}}"
+                alt="{{course.title}}"
+                      class="transform transition-transform duration-500 hover:scale-110"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <!-- Tabs -->
+
+              <!-- Course Content -->
+              <div class="hidden lg:block p-4 lg:px-8">
+                <h2
+                  class="text-[18px] 2xl:text-[22px] font-bold mb-3 hover:text-[#21c35d]"
+                >
+                  {{course.title}}
+                </h2>
+                {% if course.offer_price != 0 and course.price != 0 %}
+            <div class="flex gap-1">
+
+              <h2 class="text-base lg:text-lg font-bold mb-3 hover:text-[#21c35d]">
+    ৳{{ course.offer_price }}
+</h2>
+<span class="text-base lg:text-lg font-bold mb-3 text-gray-400 line-through">
+    ৳{{ course.price }}
+</span>
+
+
+
+
+           </div>
+           {% endif %}
+
+<!-- Show "Free" if the offer price and course price are both 0 -->
+          {% if course.offer_price == 0 and course.price == 0 %}
+              <h2 class="text-base lg:text-lg font-bold mb-3 hover:text-[#21c35d]">Free</h2>
+          {% endif %}
+                <div class="w-full">
+                  <button
+                    class="w-full bg-white hover:bg-[#0a2849] text-gray-800 font-semibold py-2 px-8 border border-gray-400 rounded-lg hover:text-white text-[25px]"
+                  >
+                    <a href="{% url 'enroll_form' course.slug %}">Enroll</a>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {% include 'template/footer.html' %}
+    <script src="{% static 'template/assets/js/headerfooter.js' %}"></script>
+  </body>
+</html>

@@ -58,19 +58,131 @@ FACEBOOK_ACCESS_TOKEN = "EAAN1sTGQn7YBO1PD8qA0ehP8J1tdyH1Ap3zdp9XEBnVOIa7g8didOn
 
 class IndexView(TemplateView):
     template_name = "template/home.html"
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        
+        # Get the first banner with related items
         first_banner = Banner.objects.prefetch_related('items').first()
         context['banner'] = first_banner
-        context['courses']=Courses.objects.all()
+        
+        # Get all courses by type using the constants defined in the Courses model
+        context['test_exam_courses'] = Courses.objects.filter(course_content_type=Courses.TEST_EXAM)
+        context['live_course_courses'] = Courses.objects.filter(course_content_type=Courses.LIVE_COURSE)
+        context['recourse_courses'] = Courses.objects.filter(course_content_type=Courses.RECOURSE)
+        context['full_courses_courses'] = Courses.objects.filter(course_content_type=Courses.FULL_COURSES)
+        
         return context
     
+
+
+class LivecoursView(TemplateView):
+    template_name = "template/livecourse.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        
+        
+        
+        # Get all courses by type using the constants defined in the Courses model
+        # context['test_exam_courses'] = Courses.objects.filter(course_content_type=Courses.TEST_EXAM)
+        context['live_course_courses'] = Courses.objects.filter(course_content_type=Courses.LIVE_COURSE)
+        # context['recourse_courses'] = Courses.objects.filter(course_content_type=Courses.RECOURSE)
+        # context['full_courses_courses'] = Courses.objects.filter(course_content_type=Courses.FULL_COURSES)
+        
+        return context
+
+
+class FreetestView(TemplateView):
+    template_name = "template/freetest.html" 
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        
+        
+        
+        # Get all courses by type using the constants defined in the Courses model
+        context['test_exam_courses'] = Courses.objects.filter(course_content_type=Courses.TEST_EXAM)
+        # context['live_course_courses'] = Courses.objects.filter(course_content_type=Courses.LIVE_COURSE)
+        # context['recourse_courses'] = Courses.objects.filter(course_content_type=Courses.RECOURSE)
+        # context['full_courses_courses'] = Courses.objects.filter(course_content_type=Courses.FULL_COURSES)
+        
+        return context
+
+
+class DownloadresourcesView(TemplateView):
+    template_name = "template/downloadresourse.html"
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        
+        
+        
+        # Get all courses by type using the constants defined in the Courses model
+        # context['test_exam_courses'] = Courses.objects.filter(course_content_type=Courses.TEST_EXAM)
+        # context['live_course_courses'] = Courses.objects.filter(course_content_type=Courses.LIVE_COURSE)
+        context['recourse_courses'] = Courses.objects.filter(course_content_type=Courses.RECOURSE)
+        # context['full_courses_courses'] = Courses.objects.filter(course_content_type=Courses.FULL_COURSES)
+        
+        return context    
+
+class FreeeventView(TemplateView):
+    template_name = "template/freeevent.html"           
+    # def get_context_data(self, **kwargs):
+    #     context = super().get_context_data(**kwargs)
+    #     first_banner = Banner.objects.prefetch_related('items').first()
+    #     context['courses']=Courses.objects.all()
+    #     return context
+
+class SingleTestView(TemplateView):
+    template_name = "template/singletest.html" 
+
+
 class AllcoursView(TemplateView):
     template_name = "template/allcourse.html"
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        first_banner = Banner.objects.prefetch_related('items').first()
-        context['courses']=Courses.objects.all()
+        # first_banner = Banner.objects.prefetch_related('items').first()
+        context['full_courses_courses'] = Courses.objects.filter(course_content_type=Courses.FULL_COURSES)
+
+        return context
+
+class ResourseCourseDetailView(TemplateView):
+    template_name = "template/singledownloadresourse.html"
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        slug = self.kwargs.get("slug")
+        course = get_object_or_404(Courses, slug=slug)
+
+        context["course"] = course
+        context["topics"] = course.course_topics.all()
+        context["faqs"] = course.course_faqs.all()
+        context["audiences"] = course.course_audiences.all()
+        context["prerequisites"] = course.prerequisites.all()
+        context["milestones"] = course.milestones.all()
+        # Extract tracking parameters
+        last_purchase = Purchase.objects.last()
+        purchase_id = last_purchase.id if last_purchase else None
+        conversion_api(last_purchase, f"Page View - {slug}", browser_id=None, click_id=None)
+        return context
+      
+
+class TestCourseDetailView(TemplateView):
+    template_name = "template/singletest.html"
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        slug = self.kwargs.get("slug")
+        course = get_object_or_404(Courses, slug=slug)
+
+        context["course"] = course
+        context["topics"] = course.course_topics.all()
+        context["faqs"] = course.course_faqs.all()
+        context["audiences"] = course.course_audiences.all()
+        context["prerequisites"] = course.prerequisites.all()
+        context["milestones"] = course.milestones.all()
+        # Extract tracking parameters
+        last_purchase = Purchase.objects.last()
+        purchase_id = last_purchase.id if last_purchase else None
+        conversion_api(last_purchase, f"Page View - {slug}", browser_id=None, click_id=None)
         return context
     
 class CourseDetailView(TemplateView):

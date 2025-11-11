@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+  {% load static %}
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,8 +9,8 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/alpinejs/3.12.0/cdn.min.js" defer></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="./assets/css/headerfooter.css">
-  
+  <link rel="stylesheet" href="{% static 'template/assets/css/headerfooter.css' %}">
+  <link rel="stylesheet" href="{% static 'template/assets/css/allcss.css' %}">
   
   
    
@@ -27,7 +28,7 @@
     </script>
 </head>
 <body>
-    <header class="w-full sticky top-0  bg-white lg:py-4 px-4 md:px-8 lg:px-12  z-40" x-data="{ 
+    {% comment %} <header class="w-full sticky top-0  bg-white lg:py-4 px-4 md:px-8 lg:px-12  z-40" x-data="{ 
         mobileMenuOpen: false,
         activeLink: 'all-courses',
         language: 'EN',
@@ -442,8 +443,8 @@
     
         
        
-        </header>
-
+        </header> {% endcomment %}
+{% include 'template/header.html' %}
 
 
 
@@ -453,18 +454,23 @@
             <div class="w-full ">
                 <!-- Navigation breadcrumb -->
                 <div class="hidden lg:block mx-auto px-4 py-4 border-b bg-[#fdfeff]">
-                  <div class="max-w-[110rem] mx-auto flex items-center text-gray-600 text-sm">
-                    <a href="#" class="hover:text-gray-800 text-[22px]">Home</a>
+                  <div class="max-w-[109rem] mx-auto flex items-center text-gray-600 text-sm lg:pl-[15px] xl:pl-[32px] 2xl:pl-[20px]">
+                    <a href="{% url 'index' %}"  class="hover:text-gray-800 text-[20px]">Home</a>
                     <span class="mx-2 text-[22px]">›</span>
-                    <span class="text-gray-800 text-[22px] font-medium">Test Packages</span>
+                    <span class="text-gray-800 text-[20px] font-medium">Free Test</span>
                   </div>
                 </div>
+                
+              <div class="hidden lg:block w-full">
+                    <img src="{% static 'template/assets/image/banner.webp' %}" alt="" class="w-full" />
+                </div>
+                  
               
                 <!-- Courses header -->
                 <div class="max-w-[110rem] mx-auto px-4  pb-4">
-                  <div class="flex justify-end lg:flex-row flex-col gap-3 lg:items-center my-5">
-                    <!-- <h1 class="text-[40px] font-bold text-gray-800">All Courses</h1> -->
-                    <div class="block relative">
+                  <div class="flex justify-start lg:flex-row flex-col gap-3 lg:items-center my-5">
+                    <h1 class="text-center lg:text-left text-[23px] lg:text-[28px] font-bold text-gray-800">All Free Test</h1>
+                    <!-- <div class="block relative">
                         <input type="text" placeholder="Search for Courses" class="pl-10 pl-4 py-4 rounded-full border text-[20px] focus:outline-none w-[25rem] transition">
                         <div class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400">
                           <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -486,11 +492,10 @@
                           </svg>
                         </div>
                       </div>
-                    </div>
+                    </div> -->
                   </div>
-                  <!-- <div class="mt-2 border-b border-gray-200"></div> -->
+                 <div class="hidden lg:block mt-2 border-b border-gray-200"></div>
                 </div>
-              </div>
 
 
 
@@ -498,38 +503,247 @@
                 
           
           
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 py-12 lg:px-8 gap-6">
+                <div class="grid grid-cols-1 lg:grid-cols-3 lg:grid-cols-4 pb-12  lg:py-12 lg:px-8 gap-6">
                   <!-- Card 1 -->
-                  <div class="bg-white rounded-lg shadow-md overflow-hidden  w-full">
+{% for course in test_exam_courses %}
+          <div class="bg-white rounded-lg shadow-md overflow-hidden w-full">
+            <!-- Card Header with Background Image -->
+            <a href="{% url 'testcourse_detail' course.slug %}">
+              <div class="relative group">
+                <div
+                  class="flex items-end bg-opacity-90"
+                  style="
+                    background-image: url('https://cdnjs.cloudflare.com/ajax/libs/simple-icons/3.0.1/simple-icons.svg');
+                    background-size: cover;
+                    background-blend-mode: multiply;
+                  "
+                >
+                  <!-- Image with hover effect -->
+                  <div class="overflow-hidden w-full">
+                    <img
+                      src="{{course.course_thumbnail.url}}"
+                      alt="{{course.title}}"
+                      class="transform transition-transform duration-500 hover:scale-110"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <!-- Tabs -->
+
+              <!-- Course Content -->
+              <div class="p-4 lg:px-8">
+                <h2
+                  class="text-[18px] 2xl:text-[22px] font-bold mb-3 hover:text-[#21c35d]"
+                >
+                  {{course.title}}
+                </h2>
+                {% if course.offer_price != 0 and course.price != 0 %}
+                <div class="flex gap-1">
+                  <h2
+                    class="text-base lg:text-lg font-bold mb-3 hover:text-[#21c35d]"
+                  >
+                    ৳{{ course.offer_price }}
+                  </h2>
+                  <span
+                    class="text-base lg:text-lg font-bold mb-3 text-gray-400 line-through"
+                  >
+                    ৳{{ course.price }}
+                  </span>
+                </div>
+                {% endif %}
+
+                <!-- Show "Free" if the offer price and course price are both 0 -->
+                {% if course.offer_price == 0 and course.price == 0 %}
+                <h2
+                  class="text-base lg:text-lg font-bold mb-3 hover:text-[#21c35d]"
+                >
+                  Free
+                </h2>
+                {% endif %}
+                {% comment %} <div class="w-full">
+                  <button
+                    class="w-full bg-white hover:bg-[#0a2849] text-gray-800 font-semibold py-2 px-8 border border-gray-400 rounded-lg hover:text-white text-xl lg:text-[25px]"
+                  >
+                    <a href="{% url 'testcourse_detail' course.slug %}"
+                      >Enroll</a
+                    >
+                  </button>
+                </div> {% endcomment %}
+              </div>
+            </a>
+          </div>
+          {% endfor %}
+
+                  {% comment %} <div class="bg-white rounded-lg shadow-md overflow-hidden  w-full">
                     <!-- Card Header with Background Image -->
-                    <div class="relative group">
-                      <div
-                        class=" flex items-end bg-opacity-90"
-                        style="background-image: url('https://cdnjs.cloudflare.com/ajax/libs/simple-icons/3.0.1/simple-icons.svg'); background-size: cover; background-blend-mode: multiply;"
-                      >
-                        <!-- Image with hover effect -->
-                        <div class="overflow-hidden w-full">
-                          <img
-                            src="./assets/image/most-common-interview-questions.webp"
-                            alt=""
-                            class="transform transition-transform duration-500 hover:scale-110"
-                          />
+                    <a href="{% url 'singletest' %}">
+                        <div class="relative group">
+                        <div
+                          class=" flex items-end bg-opacity-90"
+                          style="background-image: url('https://cdnjs.cloudflare.com/ajax/libs/simple-icons/3.0.1/simple-icons.svg'); background-size: cover; background-blend-mode: multiply;"
+                        >
+                          <!-- Image with hover effect -->
+                          <div class="overflow-hidden w-full">
+                            <img
+                              src="{% static 'template/assets/image/most-common-interview-questions.webp' %}"
+                              alt=""
+                              class="transform transition-transform duration-500 hover:scale-110"
+                            />
+                          </div>
+                      
+                        
                         </div>
+                      </div>
+                      
+                      <!-- Tabs -->
+                      
+                      
+                      <!-- Course Content -->
+                      <div class="p-4 flex gap-4 flex-col lg:px-8 justify-between">
+                        <h2 class="text-[18px] 2xl:text-[22px] font-bold mb-3 hover:text-[#21c35d]">IELTS Synonyms Practice</h2>
+                      <h2 class="text-base lg:text-lg font-bold mb-3 hover:text-[#21c35d]">Free</h2>
                     
                       
                       </div>
-                    </div>
+                    </a>
+                  </div> {% endcomment %}
+
+                  {% comment %} <div class="bg-white rounded-lg shadow-md overflow-hidden  w-full">
+                    <!-- Card Header with Background Image -->
+                    <a href="{% url 'singletest' %}">
+                        <div class="relative group">
+                        <div
+                          class=" flex items-end bg-opacity-90"
+                          style="background-image: url('https://cdnjs.cloudflare.com/ajax/libs/simple-icons/3.0.1/simple-icons.svg'); background-size: cover; background-blend-mode: multiply;"
+                        >
+                          <!-- Image with hover effect -->
+                          <div class="overflow-hidden w-full">
+                            <img
+                              src="{% static 'template/assets/image/most-common-interview-questions.webp' %}"
+                              alt=""
+                              class="transform transition-transform duration-500 hover:scale-110"
+                            />
+                          </div>
+                      
+                        
+                        </div>
+                      </div>
+                      
+                      <!-- Tabs -->
+                      
+                      
+                      <!-- Course Content -->
+                      <div class="p-4 flex gap-4 flex-col lg:px-8 justify-between">
+                        <h2 class="text-[18px] 2xl:text-[22px] font-bold mb-3 hover:text-[#21c35d]">IELTS Synonyms Practice</h2>
+                      <h2 class="text-base lg:text-lg font-bold mb-3 hover:text-[#21c35d]">Free</h2>
                     
-                    <!-- Tabs -->
+                      
+                      </div>
+                    </a>
+                  </div>
+
+                  <div class="bg-white rounded-lg shadow-md overflow-hidden  w-full">
+                    <!-- Card Header with Background Image -->
+                    <a href="{% url 'singletest' %}">
+                        <div class="relative group">
+                        <div
+                          class=" flex items-end bg-opacity-90"
+                          style="background-image: url('https://cdnjs.cloudflare.com/ajax/libs/simple-icons/3.0.1/simple-icons.svg'); background-size: cover; background-blend-mode: multiply;"
+                        >
+                          <!-- Image with hover effect -->
+                          <div class="overflow-hidden w-full">
+                            <img
+                              src="{% static 'template/assets/image/most-common-interview-questions.webp' %}"
+                              alt=""
+                              class="transform transition-transform duration-500 hover:scale-110"
+                            />
+                          </div>
+                      
+                        
+                        </div>
+                      </div>
+                      
+                      <!-- Tabs -->
+                      
+                      
+                      <!-- Course Content -->
+                      <div class="p-4 flex gap-4 flex-col lg:px-8 justify-between">
+                        <h2 class="text-[18px] 2xl:text-[22px] font-bold mb-3 hover:text-[#21c35d]">IELTS Synonyms Practice</h2>
+                      <h2 class="text-base lg:text-lg font-bold mb-3 hover:text-[#21c35d]">Free</h2>
                     
+                      
+                      </div>
+                    </a>
+                  </div>
+
+                  <div class="bg-white rounded-lg shadow-md overflow-hidden  w-full">
+                    <!-- Card Header with Background Image -->
+                    <a href="{% url 'singletest' %}">
+                        <div class="relative group">
+                        <div
+                          class=" flex items-end bg-opacity-90"
+                          style="background-image: url('https://cdnjs.cloudflare.com/ajax/libs/simple-icons/3.0.1/simple-icons.svg'); background-size: cover; background-blend-mode: multiply;"
+                        >
+                          <!-- Image with hover effect -->
+                          <div class="overflow-hidden w-full">
+                            <img
+                              src="{% static 'template/assets/image/most-common-interview-questions.webp' %}"
+                              alt=""
+                              class="transform transition-transform duration-500 hover:scale-110"
+                            />
+                          </div>
+                      
+                        
+                        </div>
+                      </div>
+                      
+                      <!-- Tabs -->
+                      
+                      
+                      <!-- Course Content -->
+                      <div class="p-4 flex gap-4 flex-col lg:px-8 justify-between">
+                        <h2 class="text-[18px] 2xl:text-[22px] font-bold mb-3 hover:text-[#21c35d]">IELTS Synonyms Practice</h2>
+                      <h2 class="text-base lg:text-lg font-bold mb-3 hover:text-[#21c35d]">Free</h2>
                     
-                    <!-- Course Content -->
-                    <div class="p-4 flex gap-4 flex-col lg:px-8 justify-between">
-                      <h2 class="text-[18px] 2xl:text-[28px] font-bold mb-3 hover:text-[#21c35d]">IELTS Synonyms Practice</h2>
-                     <h2 class="text-[18px] lg:text-[25px] font-bold mb-3 ">Free</h2>
-                   
-                     
-                    </div>
+                      
+                      </div>
+                    </a>
+                  </div>
+
+
+                  <div class="bg-white rounded-lg shadow-md overflow-hidden  w-full">
+                    <!-- Card Header with Background Image -->
+                    <a href="{% url 'singletest' %}">
+                        <div class="relative group">
+                        <div
+                          class=" flex items-end bg-opacity-90"
+                          style="background-image: url('https://cdnjs.cloudflare.com/ajax/libs/simple-icons/3.0.1/simple-icons.svg'); background-size: cover; background-blend-mode: multiply;"
+                        >
+                          <!-- Image with hover effect -->
+                          <div class="overflow-hidden w-full">
+                            <img
+                              src="{% static 'template/assets/image/most-common-interview-questions.webp' %}"
+                              alt=""
+                              class="transform transition-transform duration-500 hover:scale-110"
+                            />
+                          </div>
+                      
+                        
+                        </div>
+                      </div>
+                      
+                      <!-- Tabs -->
+                      
+                      
+                      <!-- Course Content -->
+                      <div class="p-4 flex gap-4 flex-col lg:px-8 justify-between">
+                        <h2 class="text-[18px] 2xl:text-[22px] font-bold mb-3 hover:text-[#21c35d]">IELTS Synonyms Practice</h2>
+                      <h2 class="text-base lg:text-lg font-bold mb-3 hover:text-[#21c35d]">Free</h2>
+                    
+                      
+                      </div>
+                    </a>
                   </div>
               
                   <!-- Card 2 -->
@@ -543,7 +757,7 @@
                         <!-- Image with hover effect -->
                         <div class="overflow-hidden w-full">
                           <img
-                            src="./assets/image/most-common-interview-questions.webp"
+                            src="{% static 'template/assets/image/most-common-interview-questions.webp' %}"
                             alt=""
                             class="transform transition-transform duration-500 hover:scale-110"
                           />
@@ -558,8 +772,8 @@
                     
                     <!-- Course Content -->
                     <div class="p-4 flex gap-4 flex-col lg:px-8 justify-between">
-                        <h2 class="text-[18px] 2xl:text-[28px] font-bold mb-3 hover:text-[#21c35d]">IELTS Synonyms Practice</h2>
-                       <h2 class="text-[18px] lg:text-[25px] font-bold mb-3 ">Free</h2>
+                        <h2 class="text-[18px] 2xl:text-[22px] font-bold mb-3 hover:text-[#21c35d]">IELTS Synonyms Practice</h2>
+                       <h2 class="text-base lg:text-lg font-bold mb-3 hover:text-[#21c35d]">Free</h2>
                      
                        
                       </div>
@@ -576,7 +790,7 @@
                         <!-- Image with hover effect -->
                         <div class="overflow-hidden w-full">
                           <img
-                            src="./assets/image/most-common-interview-questions.webp"
+                            src="{% static 'template/assets/image/most-common-interview-questions.webp' %}"
                             alt=""
                             class="transform transition-transform duration-500 hover:scale-110"
                           />
@@ -591,8 +805,8 @@
                     
                     <!-- Course Content -->
                     <div class="p-4 flex gap-4 flex-col lg:px-8 justify-between">
-                        <h2 class="text-[18px] 2xl:text-[28px] font-bold mb-3 hover:text-[#21c35d]">IELTS Synonyms Practice</h2>
-                       <h2 class="text-[18px] lg:text-[25px] font-bold mb-3 ">Free</h2>
+                        <h2 class="text-[18px] 2xl:text-[22px] font-bold mb-3 hover:text-[#21c35d]">IELTS Synonyms Practice</h2>
+                       <h2 class="text-base lg:text-lg font-bold mb-3 hover:text-[#21c35d]">Free</h2>
                      
                        
                       </div>
@@ -610,7 +824,7 @@
                         <!-- Image with hover effect -->
                         <div class="overflow-hidden w-full">
                           <img
-                            src="./assets/image/most-common-interview-questions.webp"
+                            src="{% static 'template/assets/image/most-common-interview-questions.webp' %}"
                             alt=""
                             class="transform transition-transform duration-500 hover:scale-110"
                           />
@@ -625,12 +839,13 @@
                     
                     <!-- Course Content -->
                     <div class="p-4 flex gap-4 flex-col lg:px-8 justify-between">
-                        <h2 class="text-[18px] 2xl:text-[28px] font-bold mb-3 hover:text-[#21c35d]">IELTS Synonyms Practice</h2>
-                       <h2 class="text-[18px] lg:text-[25px] font-bold mb-3 ">Free</h2>
+                        <h2 class="text-[18px] 2xl:text-[22px] font-bold mb-3 hover:text-[#21c35d]">IELTS Synonyms Practice</h2>
+                       <h2 class="text-base lg:text-lg font-bold mb-3 hover:text-[#21c35d]">Free</h2>
                      
                        
                       </div>
-                  </div>
+                  </div> {% endcomment %}
+
                 </div>
                 
                 </div>
@@ -639,8 +854,8 @@
 
         </main>
 
-
-        <footer class="bg-keeron-blue text-white py-12">
+ {% include 'template/footer.html' %}
+        {% comment %} <footer class="bg-keeron-blue text-white py-12">
             <div class="lg:max-w-[112rem] container mx-auto  lg:px-6 " style="padding: 0 25px;">
               <!-- Footer Main Content -->
               <!-- Footer Main Content -->
@@ -808,8 +1023,8 @@
               <!-- WhatsApp Button (Fixed) -->
               
             </div>
-          </footer>
-        <script src="./assets/js/headerfooter.js">
+          </footer> {% endcomment %}
+        <script src="{% static 'template/assets/js/headerfooter.js' %}">
           
         </script>
 </body>

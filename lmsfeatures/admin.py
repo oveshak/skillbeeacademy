@@ -1,6 +1,6 @@
 from django.contrib import admin
 from solo.admin import SingletonModelAdmin
-from lmsfeatures.models import CourseAudience, CourseContents, CourseFaqs, CourseLevel, CourseMilestones, CourseModules, CoursePrerequisit, CourseTopics, CourseType, Courses, EnrollCourse, InstallationStatus, Payment, PaymentMethods, SSLcommerceSettings
+from lmsfeatures.models import CourseAudience, CourseContents, CourseFaqs, CourseLevel, CourseMilestones, CourseModules, CoursePrerequisit, CourseTopics, CourseType, Courses, EnrollCourse, InstallationStatus, MCQQuestion, Payment, PaymentMethods, SSLcommerceSettings
 
 # Register your models here.
 admin.site.register(CourseType)
@@ -9,6 +9,7 @@ admin.site.register(CourseTopics)
 admin.site.register(CourseFaqs)
 admin.site.register(CoursePrerequisit)
 admin.site.register(CourseAudience)
+admin.site.register(MCQQuestion)
 admin.site.register(CourseContents)
 admin.site.register(CourseModules)
 admin.site.register(CourseMilestones)

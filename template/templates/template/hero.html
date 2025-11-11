@@ -1,0 +1,151 @@
+{% load static %}
+
+<div class="slider-container ">
+  <div class="slider">
+    <div class="slides">
+      {% for item in banner.items.all %}
+        <div class="slide">
+          <img src="{{ item.image.url }}" alt="{{ item.title }}">
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <!-- Dots Navigation -->
+  <div class="dots">
+    {% for item in banner.items.all %}
+      <div class="dot {% if forloop.first %}active{% endif %}"></div>
+    {% endfor %}
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const slides = document.querySelector('.slides');
+    const slideElements = document.querySelectorAll('.slide');
+    const dots = document.querySelectorAll('.dot');
+    
+    let currentIndex = 0;
+    const totalSlides = slideElements.length;
+    
+    // Go to specific slide
+    function goToSlide(index) {
+      currentIndex = index;
+      updateSlider();
+    }
+
+    // Update slider position and active dot
+    function updateSlider() {
+      slides.style.transform = `translateX(-${currentIndex * 100}%)`;
+
+      // Update active dot
+      dots.forEach((dot, i) => {
+        if (i === currentIndex) {
+          dot.classList.add('active');
+        } else {
+          dot.classList.remove('active');
+        }
+      });
+    }
+
+    // Next slide
+    function nextSlide() {
+      currentIndex = (currentIndex + 1) % totalSlides;
+      updateSlider();
+    }
+
+    // Add click event to dots
+    dots.forEach((dot, index) => {
+      dot.addEventListener('click', () => goToSlide(index));
+    });
+    
+    // Set initial state
+    updateSlider();
+    
+    // Auto-sliding functionality
+    let interval = setInterval(nextSlide, 4000);
+
+    // Mouse drag support
+    let isDragging = false;
+    let startX = 0;
+    let currentX = 0;
+    let dragOffset = 0;
+
+    slides.addEventListener('mousedown', (e) => {
+      isDragging = true;
+      startX = e.pageX;
+      slides.style.cursor = 'grabbing';
+      clearInterval(interval);
+    });
+
+    slides.addEventListener('mousemove', (e) => {
+      if (!isDragging) return;
+      e.preventDefault();
+      currentX = e.pageX;
+      dragOffset = currentX - startX;
+      const translateX = -currentIndex * 100 + (dragOffset / slides.offsetWidth) * 100;
+      slides.style.transform = `translateX(${translateX}%)`;
+    });
+
+    slides.addEventListener('mouseup', (e) => {
+      if (!isDragging) return;
+      isDragging = false;
+      slides.style.cursor = 'grab';
+      
+      const threshold = slides.offsetWidth * 0.2;
+      
+      if (dragOffset > threshold) {
+        // Dragged right - go to previous
+        currentIndex = (currentIndex - 1 + totalSlides) % totalSlides;
+      } else if (dragOffset < -threshold) {
+        // Dragged left - go to next
+        currentIndex = (currentIndex + 1) % totalSlides;
+      }
+      
+      updateSlider();
+      interval = setInterval(nextSlide, 4000);
+    });
+
+    slides.addEventListener('mouseleave', () => {
+      if (isDragging) {
+        isDragging = false;
+        slides.style.cursor = 'grab';
+        updateSlider();
+        interval = setInterval(nextSlide, 4000);
+      }
+    });
+
+    // Touch support for mobile
+    let touchStartX = 0;
+    let touchEndX = 0;
+
+    slides.addEventListener('touchstart', (e) => {
+      touchStartX = e.changedTouches[0].screenX;
+      clearInterval(interval);
+    });
+
+    slides.addEventListener('touchmove', (e) => {
+      touchEndX = e.changedTouches[0].screenX;
+      const touchOffset = touchEndX - touchStartX;
+      const translateX = -currentIndex * 100 + (touchOffset / slides.offsetWidth) * 100;
+      slides.style.transform = `translateX(${translateX}%)`;
+    });
+
+    slides.addEventListener('touchend', (e) => {
+      const touchOffset = touchEndX - touchStartX;
+      const threshold = slides.offsetWidth * 0.2;
+      
+      if (touchOffset > threshold) {
+        currentIndex = (currentIndex - 1 + totalSlides) % totalSlides;
+      } else if (touchOffset < -threshold) {
+        currentIndex = (currentIndex + 1) % totalSlides;
+      }
+      
+      updateSlider();
+      interval = setInterval(nextSlide, 4000);
+    });
+
+    // Set cursor style
+    slides.style.cursor = 'grab';
+  });
+</script>

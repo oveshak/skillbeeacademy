@@ -232,6 +232,17 @@
       });
 
 
-
+  // Mobile dropdown functionality
+        document.querySelectorAll('.footer-dropdown-heading').forEach(heading => {
+            heading.addEventListener('click', function() {
+                if (window.innerWidth < 768) {
+                    const content = this.nextElementSibling;
+                    const arrow = this.querySelector('.dropdown-arrow');
+                    
+                    content.classList.toggle('active');
+                    arrow.classList.toggle('rotate-180');
+                }
+            });
+        });
 
   

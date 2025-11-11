@@ -5,7 +5,7 @@ from django.utils.text import slugify
 from globalapp.models import Common
 from ckeditor.fields import RichTextField
 from django.core.exceptions import ValidationError
-
+from django.core.validators import MinValueValidator
 from users.models import Users
 class CourseType(Common):
     type_name = models.CharField(max_length=200)
@@ -46,26 +46,62 @@ class InstallationStatus(Common):
     def __str__(self):
         return self.title
  
+class MCQQuestion(Common):
+    question = models.TextField()
+    option_a = models.CharField(max_length=255)
+    option_b = models.CharField(max_length=255)
+    option_c = models.CharField(max_length=255, blank=True, null=True)
+    option_d = models.CharField(max_length=255, blank=True, null=True)
+    right_answer = models.CharField(
+        max_length=1,
+        choices=[
+            ('A', 'Option A'),
+            ('B', 'Option B'),
+            ('C', 'Option C'),
+            ('D', 'Option D'),
+        ],
+        help_text="Select the correct option letter (A/B/C/D)"
+    )
+
+    def __str__(self):
+        return self.question[:80]
+
 class CourseContents(Common):
     VIDEO = 'video'
     QUIZ = 'quiz'
+    RESOURCES = 'resources'
 
     CONTENT_TYPE_CHOICES = [
         (VIDEO, 'Video'),
         (QUIZ, 'Quiz'),
+        (RESOURCES, 'Resources'),
     ]
+
     title = models.CharField(max_length=200)
-    thumbnail = models.ImageField(null=True,blank=True)
+    thumbnail = models.ImageField(null=True, blank=True)
     content_type = models.CharField(
         max_length=10,
         choices=CONTENT_TYPE_CHOICES,
         default=VIDEO,
     )
-    subtitle = models.CharField(max_length=200,null=True,blank=True)
-    description = RichTextField(null=True,blank=True)
+    subtitle = models.CharField(max_length=200, null=True, blank=True)
+    description = RichTextField(null=True, blank=True)
+
+    # If exam time is only for QUIZ, make it optional at DB level,
+    # and validate in form/clean().
+    examtime = models.IntegerField(
+        null=True, blank=True,
+        validators=[MinValueValidator(1)],
+        help_text="Minutes (only required for quiz contents)"
+    )
     preview = models.BooleanField(default=False)
+    # `source` might not exist for QUIZ/RESOURCES; make it optional
     source = models.URLField()
-    installment_status = models.ManyToManyField(InstallationStatus,default=None)
+
+    mcq = models.ManyToManyField(MCQQuestion, blank=True, related_name='course_contents')
+    # default has no effect on M2M; remove it
+    installment_status = models.ManyToManyField(InstallationStatus, blank=True)
+
     def __str__(self):
         return self.title
 
@@ -80,8 +116,32 @@ class CourseMilestones(Common):
     modules = models.ManyToManyField(CourseModules)
     def __str__(self):
         return self.title
-    
+
+
+
+
+
 class Courses(Common):
+
+    
+    # Define course types as choices
+    TEST_EXAM = 'test_exam'
+    LIVE_COURSE = 'live_course'
+    RECOURSE = 'recourse'
+    FULL_COURSES = 'full_courses'
+
+    COURSECONTENT_TYPE_CHOICES = [
+        (TEST_EXAM, 'Test Exam'),
+        (LIVE_COURSE, 'Live Course'),
+        (RECOURSE, 'Recourse'),
+        (FULL_COURSES, 'Full Courses'),
+    ]
+    course_content_type = models.CharField(
+        max_length=15,
+        choices=COURSECONTENT_TYPE_CHOICES,
+        default=FULL_COURSES,
+    )
+    extra_description = RichTextField(default=None,null=True,blank=True)
     title = models.CharField(max_length=200)
     course_type = models.ForeignKey(CourseType,on_delete=models.CASCADE)
     course_level = models.ForeignKey(CourseLevel,on_delete=models.CASCADE)
@@ -113,6 +173,8 @@ class Courses(Common):
     def __str__(self):
         return self.title
     
+
+
 ###### Course Enroll and payment ##############
 
 class PaymentMethods(Common):
