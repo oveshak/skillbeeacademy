@@ -4,7 +4,7 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.mixins import LoginRequiredMixin
 from users.models import Users  # Your custom user model
-from lmsfeatures.models import Courses, EnrollCourse
+from lmsfeatures.models import Courses, EnrollCourse, Payment
 from django.shortcuts import get_object_or_404
 class LoginTemplateView(TemplateView):
     template_name = 'template1/login.html'
@@ -155,3 +155,21 @@ class EnrollSingleCourseView(LoginRequiredMixin, TemplateView):
     #     return url
 
 
+class TransactionView(LoginRequiredMixin, TemplateView):
+    template_name = 'template1/transaction.html'
+    login_url = 'login'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Filter payments by the logged-in user
+        user_transactions = Payment.objects.filter(user_id=self.request.user)
+        context['transactions'] = user_transactions
+        return context
+
+class ProfileView(LoginRequiredMixin, TemplateView):
+    template_name = 'template1/profile.html'
+    login_url = 'login'
+
+class ResultView(LoginRequiredMixin, TemplateView):
+    template_name = 'template1/result.html'
+    login_url = 'login'
