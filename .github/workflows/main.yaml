@@ -26,3 +26,4 @@ jobs:
         run: |
           rsync -avz --exclude '.git' --delete ./ skillscraftadmin@skillscraftacademy.com:/home/skillscr/lms
 
+
