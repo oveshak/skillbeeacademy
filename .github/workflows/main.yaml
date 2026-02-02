@@ -73,6 +73,7 @@ jobs:
           server: ftp.skillscraftacademy.com  # আপনার FTP সার্ভারের ঠিকানা দিন।
           username: ${{ secrets.ftp_username }}  # GitHub Secrets থেকে FTP username ব্যবহার হবে।
           password: ${{ secrets.ftp_password }}  # GitHub Secrets থেকে FTP password ব্যবহার হবে।
+          passive: true  # Passive Mode Enable
       # Step 6: Collect static files (clear old ones and collect new ones)
       - name: Collect static files
         run: |
