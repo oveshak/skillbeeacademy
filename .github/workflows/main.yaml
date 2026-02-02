@@ -12,8 +12,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Setup SSH key for cPanel deployment
+      - name: Pull latest changes from main branch
         run: |
+          git fetch origin main
+          git merge --no-ff origin/main
           mkdir -p ~/.ssh
           echo "${{ secrets.CPANEL_SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
