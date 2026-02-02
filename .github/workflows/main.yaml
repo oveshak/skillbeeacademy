@@ -8,10 +8,13 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+
     steps:
+      # Checkout code
       - name: Checkout code
         uses: actions/checkout@v2
 
+      # Pull latest changes from main branch and prepare SSH key
       - name: Pull latest changes from main branch
         run: |
           git fetch origin main
@@ -22,8 +25,7 @@ jobs:
           echo "Host *" >> ~/.ssh/config
           echo "  StrictHostKeyChecking no" >> ~/.ssh/config
 
+      # Sync code to cPanel using rsync
       - name: Sync code to cPanel
         run: |
-          rsync -avz --exclude '.git' --delete ./  skillscr@skillscraftacademy.com:/home/skillscr/lms
-
-
+          rsync -avz --exclude '.git' --delete ./ skillscr@skillscraftacademy.com:/home/skillscr/lms
