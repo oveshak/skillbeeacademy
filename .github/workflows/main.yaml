@@ -62,7 +62,7 @@ jobs:
       # Step 5: Make migrations for any database changes
       - name: Django migrations
         run: |
-          python manage.py makemigrations  # মাইগ্রেশন ফাইল তৈরি করা হবে।
+          python manage.py makemigrations --noinput  # মাইগ্রেশন ফাইল তৈরি করা হবে।
           python manage.py migrate  # মাইগ্রেশন কমান্ড রান হবে।
 
       # Step 6: Collect static files (clear old ones and collect new ones)
