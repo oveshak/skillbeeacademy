@@ -47,10 +47,7 @@ jobs:
         run: |
           pip install -r requirements.txt  # Django প্রজেক্টের ডিপেনডেন্সি ইনস্টল করা হবে।
 
-      - name: Collect static files
-        run: |
-          python manage.py collectstatic --noinput  # Static ফাইল একত্রিত করা হবে।
-
+      
       - name: Django migrations
         run: |
           python manage.py makemigrations  # মাইগ্রেশন ফাইল তৈরি করা হবে।
@@ -62,3 +59,7 @@ jobs:
           server: ftp.skillscraftacademy.com  # আপনার FTP সার্ভারের ঠিকানা দিন।
           username: ${{ secrets.ftp_username }}  # GitHub Secrets থেকে FTP username ব্যবহার হবে।
           password: ${{ secrets.ftp_password }}  # GitHub Secrets থেকে FTP password ব্যবহার হবে।
+      
+      - name: Collect static files
+        run: |
+          python manage.py collectstatic --noinput  # Static ফাইল একত্রিত করা হবে।
