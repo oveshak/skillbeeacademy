@@ -23,4 +23,4 @@ jobs:
 
       - name: Sync code to cPanel
         run: |
-          rsync -avz --exclude '.git' --delete ./ username@your-cpanel-ip-or-domain:/home/skillscr/lms
+          rsync -avz --exclude '.git' --delete ./ username@skillscraftacademy.com:/home/skillscr/lms
