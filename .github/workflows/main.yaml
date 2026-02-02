@@ -35,14 +35,17 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # Step 1: Checkout the code from the GitHub repository
       - name: Checkout repository
         uses: actions/checkout@v2
 
+      # Step 2: Set up Python environment with version 3.12.11
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
           python-version: 3.12.11  # Django প্রজেক্টের জন্য Python version সেট করুন।
 
+      # Step 3: Cache Python dependencies to speed up future builds
       - name: Cache Python dependencies
         uses: actions/cache@v2
         with:
@@ -51,22 +54,26 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pip-
 
+      # Step 4: Install the required dependencies
       - name: Install dependencies
         run: |
           pip install -r requirements.txt  # Django প্রজেক্টের ডিপেনডেন্সি ইনস্টল করা হবে।
 
+      # Step 5: Make migrations for any database changes
       - name: Django migrations
         run: |
           python manage.py makemigrations  # মাইগ্রেশন ফাইল তৈরি করা হবে।
           python manage.py migrate  # মাইগ্রেশন কমান্ড রান হবে।
 
+      # Step 6: Collect static files (clear old ones and collect new ones)
       - name: Collect static files
         run: |
           python manage.py collectstatic --noinput --clear  # Static ফাইল একত্রিত করা হবে।
 
+      # Step 7: Deploy to FTP server using FTP Deploy Action
       - name: Deploy to FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
           server: ftp.skillscraftacademy.com  # আপনার FTP সার্ভারের ঠিকানা দিন।
           username: ${{ secrets.ftp_username }}  # GitHub Secrets থেকে FTP username ব্যবহার হবে।
-          password: ${{ secrets.ftp_password }}  # GitHub Secrets থেকে FTP password ব্যবহার হবে。
+          password: ${{ secrets.ftp_password }}  # GitHub Secrets থেকে FTP password ব্যবহার হবে।
