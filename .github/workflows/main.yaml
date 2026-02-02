@@ -15,14 +15,12 @@ jobs:
       - name: Setup SSH key for cPanel deployment
         run: |
           mkdir -p ~/.ssh
-          echo "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDAHnJtU38j0nGMbVT42j4WzsMWMSmaZwkMPcGee7FqQqDKFQIlPIzdfHX9e1SC+l0lx7xz7DWDdXXmi5KLcysnGZemLNBFux84Y+CN1tXjaL/cNqihMt+gvwDAGTe8rD1W+mXWgTKj6KZe/nreKLB/NBTfxJNch7GEFxe6TEtp5dMIH2sikG8PGJdRxr7pN4y+peu07XD3NoHPvw8hi+FwRhsJW9TGLAmmuK0TsVLnB2Val97d20cPHexntTdtGdhH1+ebvgciHglVJFMzhlkWSdNHKT8WunsUSCASh4TgO+sCwblYGkKLksPA2tTJCKDk3TY+3kZjVwdGD7MTqRjd" > ~/.ssh/id_rsa
+          echo "${{ secrets.CPANEL_SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
           echo "Host *" >> ~/.ssh/config
           echo "  StrictHostKeyChecking no" >> ~/.ssh/config
 
       - name: Sync code to cPanel
         run: |
-          rsync -avz --exclude '.git' --delete ./ id_rsa@skillscraftacademy.com:/home/skillscr/lms
+          rsync -avz --exclude '.git' --delete ./ skillscraftadmin@skillscraftacademy.com:/home/skillscr/lms
 
-
-          
