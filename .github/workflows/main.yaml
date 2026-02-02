@@ -65,11 +65,7 @@ jobs:
           python manage.py makemigrations --noinput  # মাইগ্রেশন ফাইল তৈরি করা হবে।
           python manage.py migrate  # মাইগ্রেশন কমান্ড রান হবে।
 
-      # Step 6: Collect static files (clear old ones and collect new ones)
-      - name: Collect static files
-        run: |
-          python manage.py collectstatic --noinput --clear  # Static ফাইল একত্রিত করা হবে।
-
+      
       # Step 7: Deploy to FTP server using FTP Deploy Action
       - name: Deploy to FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
@@ -77,3 +73,7 @@ jobs:
           server: ftp.skillscraftacademy.com  # আপনার FTP সার্ভারের ঠিকানা দিন।
           username: ${{ secrets.ftp_username }}  # GitHub Secrets থেকে FTP username ব্যবহার হবে।
           password: ${{ secrets.ftp_password }}  # GitHub Secrets থেকে FTP password ব্যবহার হবে।
+      # Step 6: Collect static files (clear old ones and collect new ones)
+      - name: Collect static files
+        run: |
+          python manage.py collectstatic --noinput --clear  # Static ফাইল একত্রিত করা হবে।
