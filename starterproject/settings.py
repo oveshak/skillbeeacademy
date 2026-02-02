@@ -29,6 +29,10 @@ DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
 
+CSRF_TRUSTED_ORIGINS = [
+    'https://skillbeeacademy.onrender.com',
+    # Add other trusted origins if needed
+]
 
 # Application definition
 
