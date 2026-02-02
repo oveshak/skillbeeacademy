@@ -1,81 +1,123 @@
-# name: Deploy to cPanel
+# # name: Deploy to cPanel
+
+# # on:
+# #   push:
+# #     branches:
+# #       - main
+
+# # jobs:
+# #   deploy:
+# #     runs-on: ubuntu-latest
+
+# #     steps:
+# #       - name: Checkout code
+# #         uses: actions/checkout@v2
+
+# #       - name: Setup SSH
+# #         run: |
+# #           mkdir -p ~/.ssh
+# #           echo "${{ secrets.CPANEL_SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+# #           chmod 600 ~/.ssh/id_rsa
+# #           ssh-keyscan skillscraftacademy.com >> ~/.ssh/known_hosts
+
+# #       - name: Upload code using SCP
+# #         run: |
+# #           scp -r * skillscr@skillscraftacademy.com:/home/skillscr/lms
+# name: Deploy website on push
 
 # on:
 #   push:
 #     branches:
-#       - main
+#       - main  # main ব্রাঞ্চে কোড পুশ করার পরে এই pipeline রান হবে।
 
 # jobs:
 #   deploy:
 #     runs-on: ubuntu-latest
 
 #     steps:
-#       - name: Checkout code
+#       # Step 1: Checkout the code from the GitHub repository
+#       - name: Checkout repository
 #         uses: actions/checkout@v2
 
-#       - name: Setup SSH
-#         run: |
-#           mkdir -p ~/.ssh
-#           echo "${{ secrets.CPANEL_SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
-#           chmod 600 ~/.ssh/id_rsa
-#           ssh-keyscan skillscraftacademy.com >> ~/.ssh/known_hosts
+#       # Step 2: Set up Python environment with version 3.12.11
+#       - name: Set up Python
+#         uses: actions/setup-python@v2
+#         with:
+#           python-version: 3.12.11  # Django প্রজেক্টের জন্য Python version সেট করুন।
 
-#       - name: Upload code using SCP
+#       # Step 3: Cache Python dependencies to speed up future builds
+#       - name: Cache Python dependencies
+#         uses: actions/cache@v3  # actions/cache version v3 (Updated from v2 to v3)
+#         with:
+#           path: ~/.cache/pip
+#           key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+#           restore-keys: |
+#             ${{ runner.os }}-pip-
+
+#       # Step 4: Install the required dependencies
+#       - name: Install dependencies
 #         run: |
-#           scp -r * skillscr@skillscraftacademy.com:/home/skillscr/lms
+#           pip install -r requirements.txt  # Django প্রজেক্টের ডিপেনডেন্সি ইনস্টল করা হবে।
+
+#       # Step 5: Make migrations for any database changes
+#       - name: Django migrations
+#         run: |
+#           python manage.py makemigrations --noinput  # মাইগ্রেশন ফাইল তৈরি করা হবে।
+#           python manage.py migrate  # মাইগ্রেশন কমান্ড রান হবে।
+
+      
+#       # Step 7: Deploy to FTP server using FTP Deploy Action
+#       - name: Deploy to FTP
+#         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+#         with:
+#           server: ftp.skillscraftacademy.com  # আপনার FTP সার্ভারের ঠিকানা দিন।
+#           username: ${{ secrets.ftp_username }}  # GitHub Secrets থেকে FTP username ব্যবহার হবে।
+#           password: ${{ secrets.ftp_password }}  # GitHub Secrets থেকে FTP password ব্যবহার হবে।
+#           passive: true  # Passive Mode Enable
+#           port: 22
+#       # Step 6: Collect static files (clear old ones and collect new ones)
+#       - name: Collect static files
+#         run: |
+#           python manage.py collectstatic --noinput --clear  # Static ফাইল একত্রিত করা হবে।
 name: Deploy website on push
 
 on:
   push:
     branches:
-      - main  # main ব্রাঞ্চে কোড পুশ করার পরে এই pipeline রান হবে।
+      - main
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
-      # Step 1: Checkout the code from the GitHub repository
-      - name: Checkout repository
-        uses: actions/checkout@v2
+    - name: Checkout repository
+      uses: actions/checkout@v2
 
-      # Step 2: Set up Python environment with version 3.12.11
-      - name: Set up Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: 3.12.11  # Django প্রজেক্টের জন্য Python version সেট করুন।
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.12.11
+        
+    
 
-      # Step 3: Cache Python dependencies to speed up future builds
-      - name: Cache Python dependencies
-        uses: actions/cache@v3  # actions/cache version v3 (Updated from v2 to v3)
-        with:
-          path: ~/.cache/pip
-          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
-          restore-keys: |
-            ${{ runner.os }}-pip-
+    
 
-      # Step 4: Install the required dependencies
-      - name: Install dependencies
-        run: |
-          pip install -r requirements.txt  # Django প্রজেক্টের ডিপেনডেন্সি ইনস্টল করা হবে।
+    # - name: Collect static files
+    #   run: |
+    #     python manage.py collectstatic --noinput
 
-      # Step 5: Make migrations for any database changes
-      - name: Django migrations
-        run: |
-          python manage.py makemigrations --noinput  # মাইগ্রেশন ফাইল তৈরি করা হবে।
-          python manage.py migrate  # মাইগ্রেশন কমান্ড রান হবে।
+    - name: Deploy to FTP
+      uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+      with:
+        server: ftp.skillscraftacademy.com
+        username: ${{ secrets.ftp_username }}
+        password: ${{ secrets.ftp_password }}
+    - name: Install dependencies
+      run: |
+        pip install -r requirements.txt
 
-      
-      # Step 7: Deploy to FTP server using FTP Deploy Action
-      - name: Deploy to FTP
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
-        with:
-          server: ftp.skillscraftacademy.com  # আপনার FTP সার্ভারের ঠিকানা দিন।
-          username: ${{ secrets.ftp_username }}  # GitHub Secrets থেকে FTP username ব্যবহার হবে।
-          password: ${{ secrets.ftp_password }}  # GitHub Secrets থেকে FTP password ব্যবহার হবে।
-          passive: true  # Passive Mode Enable
-          port: 22
-      # Step 6: Collect static files (clear old ones and collect new ones)
-      - name: Collect static files
-        run: |
-          python manage.py collectstatic --noinput --clear  # Static ফাইল একত্রিত করা হবে।
+    - name: Django migrations
+      run: |
+        python manage.py makemigrations
+        python manage.py migrate
